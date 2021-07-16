@@ -1,0 +1,39 @@
+# Hashtable
+This class implements a hash table, which maps keys to values. !Any non-null object can be used as a key or as a value(see example)!
+All the methods of Hashtable are synchronized , so only one thread can execute any of them at a time.
+
+
+# The Map Interface
+A Map is an object that maps keys to values. 
+1. No duplicate key allowed in map:
+2. Each key can map to at most one value:
+3. It models the mathematical function abstraction:
+!? what is mathematical function?
+In mathematics, a function is a binary relation between two sets that associates each element of the first set to exactly one element of the second set.
+
+!? what is mathematical 
+The Map interface includes methods for basic operations (such as put, get, remove, containsKey, containsValue, size, and empty), bulk operations 
+(such as putAll and clear), and collection views (such as keySet, entrySet, and values).
+
+The Java platform contains three general-purpose Map implementations: #HashMap, TreeMap, and LinkedHashMap#. Their behavior and performance are precisely analogous 
+to HashSet, TreeSet, and LinkedHashSet, as described in The Set Interface section.
+
+# The Set interface
+1. A Set is a Collection that !cannot contain duplicate elements! 
+2. It models the mathematical set abstraction. 
+3. The Set interface contains only methods inherited from Collection and adds the restriction that duplicate elements are prohibited. 
+4. Set also adds a stronger contract on the behavior of the equals and hashCode operations, allowing Set instances to be compared 
+meaningfully even if their implementation types differ. Two Set instances are equal if they contain the same elements.
+
+!? what is mathematical set?
+In mathematics a set is a collection of distinct elements. The elements that make up a set can be any kind of things: people, letters of the alphabet, numbers, points in space, 
+lines, other geometrical shapes, variables, or even other sets. Two sets are equal if and only if they have precisely the same elements.
+
+The Java platform contains three general-purpose Set implementations: #HashSet, TreeSet, and LinkedHashSet#. 
+1. HashSet, which stores its elements in a hash table, is the best-performing implementation; however it makes no guarantees concerning the order of iteration. 
+2. TreeSet, which stores its elements in a red-black tree, orders its elements based on their values; it is substantially slower than HashSet. 
+3. LinkedHashSet, which is implemented as a hash table with a linked list running through it, orders its elements based on the order in which they were inserted into the set (insertion-order). 
+LinkedHashSet spares its clients from the unspecified, generally chaotic ordering provided by HashSet at a cost that is only slightly higher.
+
+
+

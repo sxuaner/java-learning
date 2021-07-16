@@ -1,0 +1,8 @@
+#Java synchronized keyword
+The Java programming language provides two basic synchronization idioms: #synchronized methods# and #synchronized statements#. 
+The synchronized keyword prevents concurrent access to a block of code or object by multiple threads.
+
+
+Types of locks
+
+
