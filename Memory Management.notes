@@ -2,3 +2,5 @@
 Memory management is the process of allocating new objects and removing unused objects to make space for those new object allocations.
 # Heap 
 Java objects reside in an area called the heap. 
+# Link to docs of HotSpot
+# https://docs.oracle.com/javase/8/docs/technotes/guides/vm/index.html 
