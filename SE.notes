@@ -1,0 +1,62 @@
+
+## How are java classes allocated and loaded into JVM?
+
+##Load sequence of java class
+
+##Check and unchecked exceptions, errors
+
+# 1. Stackoverflow Error
+
+# print() and println() difference
+The print() and println() methods are essentially the same; they both write their String argument to the stream. The one difference between
+ the two methods is that println() appends a newline character to the end of its output while print() does not. In other words, this
+    [java]
+    System.out.print("Duke is not a penguin!\n");
+    // is equivalent to this
+    System.out.println("Duke is not a penguin!");
+    [end]
+
+! ArrayList is not an array but a list!!!
+
+# toString() in Object class
+    [java]
+    public String toString() {
+            return getClass().getName() + "@" + Integer.toHexString(hashCode());
+        }
+    [end]
+
+# Anonymous class
+    [java]
+    Runnable myRunnable = new Runnable(){
+                                public void run(){
+                                    System.out.println("Runnable running");
+                                            }
+                                        };
+    [end]
+http://tutorials.jenkov.com/java-concurrency/creating-and-starting-threads.html
+
+
+# How hashtable works
+HashMap in Java works on hashing principles. It is a data structure which allows us to store object and retrieve it in constant time !O(1)! provided we know the key. 
+In hashing, hash functions are used to link key and value in HashMap. 
+Objects are stored by calling put(key, value) method of HashMap and retrieved by calling get(key) method. 
+!When we call put method, the hashcode() method of the key object is called so that the hash function of the map can find a bucket location to store value object, 
+which is actually an index of the internal array, known as the table.
+
+! What does O(1) mean?
+
+
+Read more: https://javarevisited.blogspot.com/2011/02/how-hashmap-works-in-java.html#ixzz717vg30l1
+
+
+# HashTable and Ha]shMap
+
+
+
+
+
+# StringBuffer
+# StringBUilder
+# String
+
+

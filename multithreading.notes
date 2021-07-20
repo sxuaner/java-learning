@@ -1,8 +1,210 @@
-#Java synchronized keyword
-The Java programming language provides two basic synchronization idioms: #synchronized methods# and #synchronized statements#. 
-The synchronized keyword prevents concurrent access to a block of code or object by multiple threads.
+# Thread class is in java.lang package
+
+# Definition of Thread
+In computer science, a thread of execution is the smallest sequence of programmed instructions that can be managed independently by a scheduler, which is typically a part of the operating system.
+ 
+#Thread and process 
+The implementation of threads and processes differs between operating systems, but in most cases a thread is a component of a process. The multiple threads of a given process may be executed 
+concurrently (via multithreading capabilities), sharing resources such as memory, while different processes do not share these resources. In particular, the threads of a process share its 
+executable code and the values of its dynamically allocated variables and non-thread-local global variables at any given time.
+
+## Multitasking
+By definition, multitasking is when multiple processes share common processing resources such as a CPU.
+##Multithreading
+Multi-threading extends the idea of multitasking into applications where you can subdivide specific operations within a single application 
+into individual threads. Each of the threads can run in parallel. The OS divides processing time not only among different applications, but also among each thread within an application.
+
+#Thread Priorities
+Every Java thread has a priority that helps the operating system determine the order in which threads are scheduled.Java thread priorities are in the range between MIN_PRIORITY (a constant of 1) and MAX_PRIORITY (a constant of 10). By default, every thread is given priority NORM_PRIORITY (a constant of 5).
+When code running in some thread creates a new Thread object, the new thread has its priority initially set #equal to the priority of the creating thread#.
+
+#How to implement Multithreading
+1. implement the Runnable interface.
+2. create a new class that extends #Thread class#
+
+#Signature of the Thread Class: 
+    [java]
+        public class Thread extends Object implements Runnable{}
+    [end]    
+# Methods in thread class:
+    [java]
+
+        public final void setPriority(int priority){}
+        public final void setDaemon(boolean on) {}          //A parameter of true denotes this Thread as a daemon thread.
+    [end]
+        
+        ! The newly created object is a daemon thread if and only if the creating thread is a daemon
+        !? what is daemon
+        ! Components of some Linux desktop environments that are daemons include D-Bus, NetworkManager (here called unetwork), PulseAudio (usound), and Avahi. 
+        ! In multitasking computer operating systems, a daemon (/ˈdiːmən/ or /ˈdeɪmən/) is a computer program that runs as a background process, rather than being under the direct control 
+        ! of an interactive user. Traditionally, the process names of a daemon end with the letter d, for clarification that the process is in fact a daemon, and for differentiation between 
+        ! a daemon and a normal computer program. For example, syslogd is a daemon that implements system logging facility, and sshd is a daemon that serves incoming SSH connections.
+
+    [java]
+        public final void join(long millisec) throws InterruptedException {} // The current thread invokes this method on a second thread, causing the current thread to block until the second thread terminates or the 
+                                                                                // specified number of milliseconds passes.
+    [end]
+
+    [java]
+        public void start(){}
+        public void run(){}
+    [end]
+        !? Different between start() and run() method
+        The difference is that Thread.start() starts a new thread that calls the run() method, while Runnable.run() just calls the run() method on the calling thread.
+        See in link: https://stackoverflow.com/questions/8579657/whats-the-difference-between-thread-start-and-runnable-run
+
+        !? If run() method is executed on the same thread, why is the interface Runnable needed? What is the purpose of this interface.
+        // Runnable is a functional interface, which has only 1 method to implement: public void run()
+        This interface Runnable is designed to provide a common protocol for objects that #wish to execute code while they are active#. For example, Runnable is implemented by class Thread. 
+        Being active simply means that a thread has been started and has not yet been stopped.
+        If a class implements Runnable interface, the objects of this class should not execute any code when they are not active according to the above protocol.
+        In addition, Runnable provides the means for a class to be active while not subclassing Thread. 
+        A class that implements Runnable can run without subclassing Thread by instantiating a Thread instance and passing itself in as the target. 
+        // ?? see howto in thread project
+        [java]
+             class PrimeRun implements Runnable {
+                 //...
+                }
+            // The following code would then create a new thread and start it running:
+             PrimeRun p = new PrimeRun(143);
+             new Thread(p).start();
+        [end]
+        
+        // This means run() is executed on the thread itself
+        In most cases, the Runnable interface should be used if you are only planning to override the run() method and no other Thread methods. 
+        // This means if the program does not need multiple threads, the class should implement Runnable instead of subclassing the thread class. Reason why subclassing is not  recommended are 
+        // as follows
+        This is important because classes should not be subclassed unless the programmer intends on modifying or enhancing the fundamental behavior of the class.
+    [java]
+    public void checkAccess()     // What is Security Manager???
+    [end]
+
+    [java]
+    protected Object clone()  //Throws CloneNotSupportedException as a Thread can not be meaningfully cloned.
+    [end]
+
+    [java]
+    public static Thread currentThread()     //Returns a reference to the currently executing thread object.
+    [end]
+    Example:
+
+    [java]
+    public static void dumpStack()  // Prints a stack trace of the current thread to the standard error stream. Example in thread project
+    [end]
+
+    [java]
+    public final void join() throws InterruptedException
+    [end]
+    Thread class provides the join() method which allows one thread to wait until another thread completes its execution. If t is a Thread object whose thread is currently executing, then t. 
+    join() will make sure that t is terminated before the next instruction is executed by the program.
+
+    The join method allows one thread to wait for the completion of another. If t is a Thread object whose thread is currently executing,
+    causes the current thread to pause execution until t's thread terminates. Overloads of join allow the programmer to specify a waiting period. However, as with sleep, 
+    join is dependent on the OS for timing, so you should not assume that join will wait exactly as long as you specify.
+    Like sleep, join responds to an interrupt by exiting with an InterruptedException.
 
 
+// join()
+//Solutions using Join() do not answer the question - they ensure that the termination of the threads is ordered, not the running of them. 
+//If the interviewr does not get that, you need to find another job anyway.
+
+
+# ConcurrentHashMap    
+When a Java Virtual Machine starts up, there is usually a single non-daemon thread (which typically calls the method named main of some designated class). 
+The Java Virtual Machine continues to execute threads until either of the following occurs
+1. The exit method of class Runtime has been called and the security manager has permitted the exit operation to take place.
+2. All threads that are not daemon threads have died, either by returning from the call to the run method or by throwing an exception that propagates beyond the run method.
 Types of locks
 
+##Java synchronized keyword
+The Java programming language provides two basic synchronization idioms: #synchronized methods# and #synchronized statements#. 
+The synchronized keyword prevents concurrent access to a block of code or object by multiple threads.
+    [java]
+        synchronized(objectToBeLocked){
+            // do smt while other threads have no access to the resource
+        }
+        // locked object is now released.
+    [end]
 
+# How to use wait() and notify()
+
+#Intrinsic(/ɪnˈtrɪn.zɪk/ being an extremely important and basic characteristic of a person or thing) Locks(monitor lock mechanism) and Synchronization
+// Refactor the synchronisation mechanism to not use a Thread instance as a monitor
+// What is a monitor? https://stackoverflow.com/questions/3362303/whats-a-monitor-in-java
+
+Synchronization is built around an internal entity known as the #intrinsic lock or monitor lock#. (The API specification often refers to this entity simply as a "monitor.") Intrinsic locks 
+play a role in both aspects of synchronization: enforcing exclusive access to an object's state and establishing happens-before relationships that are essential to visibility.
+
+!Every object has an intrinsic lock associated with it. By convention, a thread that needs exclusive and consistent access to an object's fields has to acquire the object's intrinsic lock
+!before accessing them, and then release the intrinsic lock when it's done with them. A thread is said to own the intrinsic lock between the time it has acquired the lock and released the lock.
+!As long as a thread owns an intrinsic lock, no other thread can acquire the same lock. The other thread will block when it attempts to acquire the lock.
+
+ When a thread releases an intrinsic lock, a happens-before relationship is established between that action(i.e releasing the lock) and any subsequent acquisition of the same lock.
+
+!synchronized method
+ When a thread invokes a synchronized method, it automatically acquires the intrinsic lock for that method's object and releases it when the method returns. The lock release occurs even if 
+ the return was caused by an uncaught exception.
+!synchronized statements
+ Another way to create synchronized code is with synchronized statements. Unlike synchronized methods, synchronized statements must specify the object that provides the intrinsic lock:
+
+# Reentrant Synchronization
+Recall that a thread cannot acquire a lock owned by another thread. But a thread can acquire a lock that it already owns. Allowing a thread to acquire the same lock more than once enables
+reentrant synchronization. This describes a situation where synchronized code, directly or indirectly, invokes a method that also contains synchronized code, and both sets of code use the 
+same lock. Without reentrant synchronization, synchronized code would have to take many additional precautions to avoid having a thread cause itself to block.
+
+ # What is Liveness in java
+ # Definition : A concurrent application's ability to execute in a timely manner is known as its liveness. The most common kind of liveness problem, deadlock, and two other liveness problems, 
+ # starvation and livelock.
+
+# What is deadlock: 
+Deadlock describes a situation where two or more threads are blocked forever, waiting for each other.
+!Cause: The fact that, while thread1 who has lock of A is asking for lock of B, thread2 who owns lock of B is also asking for the lock of A, caused the deadlock. 
+
+
+# ???
+Good or bad practice? Link: https://docs.oracle.com/javase/tutorial/essential/concurrency/locksync.html
+    [java]
+    public class MsLunch {
+        private long c1 = 0;
+        private long c2 = 0;
+        private Object lock1 = new Object();
+        private Object lock2 = new Object();
+
+        public void inc1() {
+            synchronized(lock1) {
+                c1++;
+            }
+        }
+
+        public void inc2() {
+            synchronized(lock2) {
+                c2++;
+            }
+        }
+    }
+    [end]
+
+
+[java]
+[end]
+
+
+
+# ----------  Interview questions -------------
+# 1. How to have three threads run after another? See thread-sequential example
+// t1,t2,t3 all implement Runnable and as normal objects instead of being threads, they can be executed one after another in sequential order
+t1.run();
+t2.run();
+t3.run();
+
+# 1. Assuming they want the threads to run in parallel, one solution would be to have each thread start the next one, since the JMM guarantees that:
+! A call to start() on a thread happens-before any actions in the started thread.
+
+# ----------
+
+# Problem with starting a new thread in a JEE container
+https://stackoverflow.com/questions/11713944/java-run-a-runnable-on-an-existing-thread
+
+
+# How to validate that Thread.start() actually creates a new thread and runs it?
+By putting a breakpoint inside the overriden run() method and run either start() or run() method to see the difference.

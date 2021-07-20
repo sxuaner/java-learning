@@ -2,7 +2,6 @@
 This class implements a hash table, which maps keys to values. !Any non-null object can be used as a key or as a value(see example)!
 All the methods of Hashtable are synchronized , so only one thread can execute any of them at a time.
 
-
 # The Map Interface
 A Map is an object that maps keys to values. 
 1. No duplicate key allowed in map:

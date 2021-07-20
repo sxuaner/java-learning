@@ -1,0 +1,22 @@
+
+# What does flush() in Stream classes do?
+Flushes the output stream and forces any buffered output bytes to be written out. The general contract of flush is that calling it is an 
+indication that, if any bytes previously written have been buffered by the implementation ofthe output stream, such bytes should immediately 
+be written to their intendeddestination.
+[java]        
+System.err.flush();
+[end]
+
+Java performs I/O through Streams. A Stream is linked to a physical layer by java I/O system to make input and output operation in java. 
+In general, a stream means continuous flow of data. Streams are clean way to deal with input/output without having every part of your code 
+understand the physical.
+
+Java encapsulates Stream under java.io package. Java defines two types of streams. They are,
+
+Byte Stream : It provides a convenient means for handling input and output of byte.
+Character Stream : It provides a convenient means for handling input and output of characters. Character stream uses Unicode and therefore can be internationalized.
+
+Byte stream is defined by using two abstract class at the top of hierarchy, they are InputStream and OutputStream.
+These two abstract classes have several concrete classes that handle various devices such as disk files, network connection etc.
+
+# What does buffer exactly mean? How does it enhance the performance of java stream classes?
