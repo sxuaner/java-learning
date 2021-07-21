@@ -201,10 +201,8 @@ t3.run();
 ! A call to start() on a thread happens-before any actions in the started thread.
 
 # ----------
-
 # Problem with starting a new thread in a JEE container
 https://stackoverflow.com/questions/11713944/java-run-a-runnable-on-an-existing-thread
-
 
 # How to validate that Thread.start() actually creates a new thread and runs it?
 By putting a breakpoint inside the overriden run() method and run either start() or run() method to see the difference.

@@ -1,4 +1,9 @@
+# Which JVM is used now since java SE 9 
 In Oracle Java Runtime Environment (JRE) 8 and earlier, different implementations of the JVM, 
 (the client VM, server VM, and minimal VM) were supported for configurations commonly used as clients,
 as servers, and for embedded systems. Because most systems can now take advantage of the server VM, 
-the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation
+the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation.
+
+
+
+
