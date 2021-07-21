@@ -1,0 +1,168 @@
+// differences between heap and stack
+// https://docs.oracle.com/en/java/javase
+// https://javarevisited.blogspot.com/2012/07/when-class-loading-initialization-java-example.html#axzz717pzj7Kj
+
+# What is Java 
+Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. 
+It is a general-purpose programming language intended to let application developers write once, run anywhere (WORA),[16] meaning that compiled Java 
+code can run on all platforms that support Java without the need for recompilation.[17] Java applications are typically compiled to bytecode that can
+run on any Java virtual machine (JVM) regardless of the underlying computer architecture. The syntax of Java is similar to C and C++, but has fewer 
+low-level facilities than either of them. The Java runtime provides dynamic capabilities (such as reflection and runtime code modification) 
+that are typically not available in traditional compiled languages. As of 2019, Java was one of the most popular programming languages in use
+according to GitHub,[18][19] particularly for client-server web applications, with a reported 9 million developers.[20]
+Java was originally developed by James Gosling at Sun Microsystems (which has since been acquired by Oracle) and released in 1995 as a core 
+component of Sun Microsystems' Java platform. The original and reference implementation Java compilers, virtual machines, and class libraries were 
+originally released by Sun under proprietary licenses. As of May 2007, in compliance with the specifications of the Java Community Process, Sun had 
+relicensed most of its Java technologies under the GPL-2.0-only license. Oracle offers its own HotSpot Java Virtual Machine, however the official 
+reference implementation is the OpenJDK JVM which is free open source software and used by most developers and is the default JVM for almost all 
+Linux distributions.
+
+Sun announced in JavaOne 2006 that Java would become open-source software,[59][60] and on October 25, 2006, at the Oracle OpenWorld conference, Jonathan Schwartz 
+said that the company intended to announce the open-sourcing of the core Java Platform within 30 to 60 days.[61]
+
+Sun released the Java HotSpot virtual machine and compiler as free software under the GNU General Public License on November 13, 2006, with a promise 
+that the rest of the JDK (which includes the Java Runtime Environment) would be placed under the GPL by March 2007,
+ "except for a few components that Sun does not have the right to publish in source form under the GPL".[62] According to free-software advocate 
+ Richard Stallman, this would end the "Java trap", the vendor lock-in that he argues applied to Java and programs written in Java.
+
+ # vendor lock-in or customer lock-in
+ In economics, vendor lock-in, also known as proprietary lock-in or customer lock-in, makes a customer dependent on a vendor for products and 
+ services, unable to use another vendor without substantial switching costs. Lock-in costs that create barriers to market entry may result in 
+ antitrust action against a monopoly.
+
+https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html
+
+# Vendor lock-in in cloud-computing
+
+# 
+$ java -version
+java version "1.8.0_191"            // Java 8
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12) 
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode) // JVM being used is from Oralce
+
+# How many different kinds of JVMs are there?
+Quite some. The most popular is HotSpot( maintained by oracle?)
+https://en.wikipedia.org/wiki/List_of_Java_virtual_machines
+
+
+# (Oracle) JDK(Java Development Kit)
+(Java Development Kit) A Java software development environment from Oracle. It includes the JVM, compiler, debugger and other tools for 
+developing Java applets and applications. Each new version of the JDK adds features and enhancements to the language.
+
+The Java Development Kit (JDK) is an implementation of either one of the Java Platform, Standard Edition, Java Platform, Enterprise Edition, or Java 
+Platform, Micro Edition platforms[1] released by Oracle Corporation in the form of a binary product aimed at Java developers on Solaris, Linux, macOS 
+or Windows. The JDK includes a private JVM and a few other resources to finish the development of a Java application. Since the introduction of the 
+Java platform, it has been by far the most widely used Software Development Kit.
+
+# What is OPENJDK??
+OpenJDK (Open Java Development Kit) is a free and open-source implementation of the Java Platform, Standard Edition (Java SE).
+It is the result of an effort #Sun Microsystems# began in 2006. OpenJDK is the official reference implementation of Java SE since version 7
+
+The OpenJDK project produces a number of components: 
+1. most importantly the virtual machine (HotSpot)
+2. the Java Class Library 
+3. the Java compiler (javac).
+
+# Oracle JDK and OpenJDK key differences 
+The biggest difference between OpenJDK and Oracle JDK is licensing. OpenJDK is completely open source Java with a GNU General Public License. Oracle 
+JDK requires a commercial license under Oracle Binary Code License Agreement. But there are many other differences within support and cost, too
+
+# JIT 
+just-in-time compiler
+
+# JRE (originally from Sun, now from Oracle) features two virtual machines, one called Client and the other Server. 
+
+# Hotspot provides:
+A Java Classloader
+A Java bytecode interpreter
+Client and Server virtual machines, optimized for their respective uses
+Several garbage collectors (including a very-low-pause-time ZGC)( ZGS means the Z garbage collector)
+A set of supporting runtime libraries
+
+# Oracle Corporation, Sun Microsystems, Oralce Solaris relation
+Larry Ellison co-founded Oracle Corporation in 1977 with Bob Miner and Ed Oates under the name Software Development Laboratories (SDL)
+SDL changed its name to Relational Software, Inc (RSI) in 1979, then again to Oracle Systems Corporation in 1983.
+
+On February 24, 1982, Scott McNealy, Andy Bechtolsheim, and Vinod Khosla, all Stanford graduate students, founded Sun Microsystems.
+On April 20, 2009, it was announced that Oracle Corporation would acquire Sun for US$7.4 billion. The deal was completed on January 27, 2010.
+
+Oracle Solaris (formerly known as Solaris) is a proprietary Unix operating system originally developed by Sun Microsystems.
+
+# Dot-com bubble
+The dot-com bubble (also known as the dot-com boom, the tech bubble, and the Internet bubble) was a stock market bubble caused by excessive 
+speculation of Internet-related companies in the late 1990s, a period of massive growth in the use and adoption of the Internet.
+
+# Speculation
+Speculation is the purchase of an asset (a commodity, goods, or real estate) with the hope that it will become more valuable in the near future.
+
+# What is Java SE
+Java Platform, Standard Edition (Java SE) is a computing platform for development and deployment of portable code for desktop and server environments
+
+# What is Java EE
+Jakarta EE, formerly Java Platform, Enterprise Edition (Java EE) and Java 2 Platform, Enterprise Edition (J2EE) is a set of specifications, extending
+Java SE[1] with specifications for enterprise features such as distributed computing and web services.
+
+Jakarta EE includes several specifications that serve different purposes, like generating web pages, reading and writing from a database in a 
+transactional way, managing distributed queues. The Jakarta EE APIs include several technologies that extend the functionality of the base Java SE 
+APIs, such as Jakarta Enterprise Beans, connectors, servlets, Jakarta Server Pages and several web service technologies.
+
+# Reference implementation
+In the software development process, a reference implementation (or, less frequently, sample implementation or model implementation) is a program 
+that implements all requirements from a corresponding specification. The reference implementation often accompanies a technical standards, and 
+demonstrates what should be considered the "correct" behavior of any other implementation of it.
+
+# What is public domain
+The public domain consists of all the creative work to which no exclusive intellectual property rights apply. Those rights may have expired,
+been forfeited,[2] expressly waived, or may be inapplicable. As examples, the works of William Shakespeare, Ludwig van Beethoven, Leonardo da Vinci 
+and Georges Méliès are in the public domain either by virtue of their having been created before copyright existed, or by their copyright term having 
+expired.[1] Some works are not covered by a country's copyright laws, and are therefore in the public domain; for example, in the United States, items 
+excluded from copyright include the formulae of Newtonian physics, cooking recipes,[4] and all computer software created before 1974. 
+
+# What is GNU  All-permissive licence
+he following is the full text of the simple GNU All-permissive License:
+
+Copyright <YEAR>, <AUTHORS>
+
+Copying and distribution of this file, with or without modification, are permitted in any medium without royalty, provided the copyright notice and 
+this notice are preserved. This file is offered as-is, without any warranty.
+
+— GNU All-permissive License
+
+! provide: (of a law or contract) to state that something must happen or be done
+
+! as-is: in the state that something is in at the present time
+
+! warranty: a written promise from a company to repair or replace a product that develops a fault within a particular period of time, or to do a piece
+! of work again if it is not satisfactory:
+
+# WHat is manifest
+A manifest file in computing is a file containing metadata for a group of accompanying files that are part of a set or coherent unit. For example, 
+the files of a computer program may have a manifest describing the name, version number, license and the constituent files of the program.
+The term is borrowed from a cargo shipping procedure, where a ship manifest would list the crew and/or cargo of a vessel.
+
+# What is permisive SW licence
+A permissive software license, sometimes also called BSD-like or BSD-style license,[1] is a free-software license with only minimal restrictions on 
+how the software can be used, modified, and redistributed, usually including a warranty disclaimer.
+
+# What is free-software? 
+Free software (or libre software) is computer software distributed under terms that allow users to run the software for any purpose as well as 
+to study, change, and distribute it and any adapted versions. Free software is a matter of liberty, not price; all users are legally free 
+to do what they want with their copies of a free software (including profiting from them) regardless of how much is paid to obtain the program. 
+Computer programs are deemed "free" if they give end-users (not just the developer) ultimate control over the software and, subsequently, over their
+devices.
+
+# Oracle Java SE Support Roadmap
+https://www.oracle.com/java/technologies/java-se-support-roadmap.html
+
+# How Red Hat integrated OpenJDK
+In order to bundle OpenJDK in Fedora and other free Linux distributions, OpenJDK needed to be buildable using only free software components. 
+Due to the #encumbered components (Proprietary components)# in the class library and implicit assumptions within the build system that the JDK 
+being used to build OpenJDK was a Sun JDK, this was not possible. To achieve openness, Red Hat started the IcedTea project in June 2007. It began 
+life as an OpenJDK/GNU Classpath hybrid that could be used to bootstrap OpenJDK, replacing the encumbrances with code from GNU Classpath.
+
+!GNU Classpath is a free software implementation of the standard class library for the Java programming language. 
+
+# JVM flags
+HotSpot supports many command-line arguments for options of the virtual machine execution. Some are standard and must be found in any conforming 
+Java virtual machine; others are specific to HotSpot and may not be found in other JVMs (options that begin with -X or -XX are non-standard)
+

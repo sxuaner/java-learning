@@ -1,3 +1,4 @@
-// differences between heap and stack
-
-https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html
+In Oracle Java Runtime Environment (JRE) 8 and earlier, different implementations of the JVM, 
+(the client VM, server VM, and minimal VM) were supported for configurations commonly used as clients,
+as servers, and for embedded systems. Because most systems can now take advantage of the server VM, 
+the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation
