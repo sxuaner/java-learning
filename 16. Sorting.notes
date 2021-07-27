@@ -1,7 +1,7 @@
-# WHen to implement comparable and when to implement Comparator
+# When to implement comparable and when to implement Comparator
 Both are interfaces. 
 1.Comparable.compareTo(anotherObject)
 2.Comparator.compare(a,b)
 
 From the method names, we can see Comparable is used by the object being compared itself and Comparator is used by
-3rd party such as an array who is comparing its elements
+3rd party, such as an array who is comparing its elements

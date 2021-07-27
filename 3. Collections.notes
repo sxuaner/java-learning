@@ -48,3 +48,8 @@ LinkedHashSet spares its clients from the unspecified, generally chaotic orderin
             }
         }
 [end]
+
+
+ // Returns a hash code based on the contents of the specified array. For any two char arrays a and b such that 
+        // Arrays.equals(a, b), it is also the case that Arrays.hashCode(a) == Arrays.hashCode(b).
+        int hashOfCharArray=Arrays.hashCode(charArray);

@@ -3,11 +3,14 @@
 
 ## How are java classes allocated and loaded into JVM?
 
+
 ##Load sequence of java class
 
 ##Check and unchecked exceptions, errors
+Checked exceptions are the ones by compilor. 
+unchecked exceptions are the ones determined by JVM. Arithmetic Exception (zero is divided)
+Errors are the ones returned by OS for instance OutOfMemeoryError, StackOverFlowError
 
-# 1. Stackoverflow Error
 
 # print() and println() difference
 The print() and println() methods are essentially the same; they both write their String argument to the stream. The one difference between
@@ -50,15 +53,6 @@ which is actually an index of the internal array, known as the table.
 
 Read more: https://javarevisited.blogspot.com/2011/02/how-hashmap-works-in-java.html#ixzz717vg30l1
 
-
 # HashTable and Ha]shMap
 
-
-
-
-
-# StringBuffer
-# StringBUilder
-# String
-
-
+# dot notation( It's not an operator)
