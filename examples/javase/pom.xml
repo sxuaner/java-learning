@@ -87,7 +87,7 @@
               </execution>
             </executions>
             <configuration>
-                <mainClass>com.java.learning.javase.App</mainClass>
+                <mainClass>com.java.learning.javase.MyString</mainClass>
             </configuration>
         </plugin>
     </plugins>

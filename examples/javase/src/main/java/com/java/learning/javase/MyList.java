@@ -70,8 +70,8 @@ public class MyList {
             }
         }
         */
-
-        Collections.sort(testList);
+        MyComparator mc = new MyComparator();
+        Collections.sort(testList, mc);
         testList.size();
     
         // what is serializable interface?
