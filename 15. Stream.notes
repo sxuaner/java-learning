@@ -5,7 +5,6 @@ https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#
 # The key abstraction introduced in this package is stream. The classes Stream, IntStream, LongStream, and DoubleStream 
 # are streams over objects and the primitive int, long and double types. Streams differ from collections in several ways:
 
-
 1. No storage. A stream is not a data structure that stores elements; instead, it conveys elements from a source such as a data structure, an array, 
 a generator function, or an I/O channel, through a pipeline of computational operations.
 
@@ -20,7 +19,6 @@ into intermediate (Stream-producing) operations and terminal (value- or side-eff
 computations on infinite streams to complete in finite time. Consumable. The elements of a stream are only visited once during the life of a stream. 
 Like an Iterator, a new stream must be generated to revisit the same elements of the source.
 
-
 #Streams can be obtained in a number of ways. Some examples include:
 From a Collection via the stream() and parallelStream() methods;
 From an array via Arrays.stream(Object[]);
@@ -30,3 +28,36 @@ Streams of file paths can be obtained from methods in Files;
 Streams of random numbers can be obtained from Random.ints();
 Numerous other stream-bearing methods in the JDK, including BitSet.stream(), Pattern.splitAsStream(java.lang.CharSequence), and JarFile.stream().
 Additional stream sources can be provided by third-party libraries using these techniques.
+
+# public interface BaseStream<T,S extends BaseStream<T,S>> extends AutoCloseable
+
+# public interface AutoCloseable
+An object that may hold resources (such as file or socket handles) until it is closed. The close() method 
+of an AutoCloseable object is called automatically when exiting a try-with-resources block for which the 
+object has been declared in the resource specification header. This construction ensures prompt release, 
+avoiding resource exhaustion exceptions and errors that may otherwise occur.
+API Note:
+It is possible, and in fact common, for a base class to implement AutoCloseable even though not all of its
+subclasses or instances will hold releasable resources. For code that must operate in complete generality, 
+or when it is known that the AutoCloseable instance requires resource release, it is recommended to use 
+try-with-resources constructions. However, when using facilities such as Stream that support both I/O-based 
+and non-I/O-based forms, try-with-resources blocks are in general unnecessary when using non-I/O-based forms.
+
+# StreamBuilder
+
+# What is a predicate?
+Predicate functions are functions that return a single TRUE or FALSE.
+
+In Dictionary:  to say that something is true. 
+"It would be unwise to predicate that the disease is caused by a virus before further tests have been carried out."
+
+[java]
+@FunctionalInterface
+public interface Predicate<T>{
+    // There are other default methods
+    boolean	test(T t)  {}         // Evaluates this predicate on the given argument.
+}
+[end]
+
+# lambda and predicate
+

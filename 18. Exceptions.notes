@@ -1,0 +1,12 @@
+# Checked exception?
+The ones that do not extend the java.lang.RuntimeException. 
+
+The class Exception and any subclasses that are !not! also subclasses of RuntimeException are checked 
+exceptions. Checked exceptions need to be declared in a method or constructor's throws clause if they 
+can be thrown by the execution of the method or constructor and propagate outside the method or 
+constructor boundary.
+
+#Unchecked exceptions extend the java.lang.RuntimeException
+RuntimeException and its subclasses are unchecked exceptions. Unchecked exceptions do not need to be 
+declared in a method or constructor's throws clause if they can be thrown by the execution of the method 
+or constructor and propagate outside the method or constructor boundary.

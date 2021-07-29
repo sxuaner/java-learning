@@ -70,6 +70,7 @@ public class MyList {
             }
         }
         */
+
         MyComparator mc = new MyComparator();
         Collections.sort(testList, mc);
         testList.size();

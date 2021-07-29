@@ -1,0 +1,26 @@
+Usually, one would call the reduce method using Math.max(int, int) as follows:
+[java]
+    reduce(new IntBinaryOperator() {
+        int applyAsInt(int left, int right) {
+            return Math.max(left, right);
+        }
+    });
+[end]
+That requires a lot of syntax for just calling Math.max. That's where lambda expressions come into play. 
+Since Java 8 it is allowed to do the same thing in a much shorter way
+[java]
+    reduce((int left, int right) -> Math.max(left, right));
+[end]
+How does this work? The java compiler "detects", that you want to implement a method that accepts two 
+ints and returns one int. This is equivalent to the formal parameters of the one and only method of 
+interface #IntBinaryOperator# (the parameter of method reduce you want to call). So the compiler does the 
+rest for you - it just assumes you want to implement IntBinaryOperator.
+
+# 
+[java]
+    @FunctionalInterface
+    public interface BiFunction<T,U,R>{}
+[end]
+T - the type of the first argument to the function
+U - the type of the second argument to the function
+R - the type of the result of the function

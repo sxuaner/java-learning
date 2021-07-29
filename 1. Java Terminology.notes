@@ -1,6 +1,3 @@
-// differences between heap and stack
-// https://docs.oracle.com/en/java/javase
-// https://javarevisited.blogspot.com/2012/07/when-class-loading-initialization-java-example.html#axzz717pzj7Kj
 
 # What is Java 
 Java is a high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible. 
@@ -165,4 +162,15 @@ life as an OpenJDK/GNU Classpath hybrid that could be used to bootstrap OpenJDK,
 # JVM flags
 HotSpot supports many command-line arguments for options of the virtual machine execution. Some are standard and must be found in any conforming 
 Java virtual machine; others are specific to HotSpot and may not be found in other JVMs (options that begin with -X or -XX are non-standard)
+
+# SE 7 
+With Java 7, Java applications run as desktop applications from the operating system, as a desktop application but 
+installed from the Web using Java Web Start, or as a Web Embedded application in a browser (using JavaFX).
+
+# What is Java API 
+he Java API is a collection of prepackaged libraries developers use to create Java applications.
+
+# Object allocation and aging process in the JVM.
+
+
 

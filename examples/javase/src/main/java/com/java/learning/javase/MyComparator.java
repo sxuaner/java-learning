@@ -7,6 +7,7 @@ public class MyComparator  implements Comparator<Character>{
     @Override
     public int compare(Character o1, Character o2) {
         // What's the logic behind this? If the hashCode of o2 is greater than that of o1.
+        // TimSort() will be called using the comparator.
         //     public static <T> void sort(T[] a, Comparator<? super T> c) {
         //          if (c == null) {
         //              sort(a);

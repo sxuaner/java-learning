@@ -1,5 +1,4 @@
 package com.java.learning.javase;
-import java.util.Arrays;
 
 /*
     Arrays class contains various methods for manipulating arrays (such as sorting and searching) whereas this 
@@ -7,7 +6,10 @@ import java.util.Arrays;
 */
 
 public class MyArray {
-    // Arrays.asList() 
+
+    public static void main(String[] args) {
+
+    }
 
     
 }
