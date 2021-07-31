@@ -25,15 +25,12 @@ package com.java.learning.javase;
  * or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the 
  * terminal operation is initiated, and source elements are consumed only as needed.
  * 
- * 
- * 
 */
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MyStream {
-
     public static void main(String[] args) {
         List<Integer> mylist = Arrays.asList(1,2,3,4,5,6);
 
@@ -47,8 +44,14 @@ public class MyStream {
                                 //  .filter(new MyPredicate())
                                 .filter(x -> x>3)
                                 .toArray(Integer[]::new);
+
+        List<Integer> resultArrayList =   Arrays.asList(result);
         // .toArray(Integer[]::new) is a function?
+        // No, it's called method reference
+        
+        // See why .toArray(Integer[]::new) is legitimate in 23. Functional Programming.notes
+
         result.getClass();
+        resultArrayList.size();
     }
-    
 }

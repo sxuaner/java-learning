@@ -153,3 +153,49 @@ Java Garbage Collectors
  
 Summary
 Help OLL About Oracle Contact Us Terms of Use
+
+# Definition 
+Memory management is the process of allocating new objects and removing unused objects to make space for those new object allocations.
+# Heap 
+Java objects reside in an area called the heap. 
+# Link to docs of HotSpot
+Java 8:
+https://docs.oracle.com/javase/8/docs/technotes/guides/vm/index.html 
+https://docs.oracle.com/javase/8/
+
+Java 11:
+https://docs.oracle.com/en/java/javase/11/gctuning/garbage-collector-implementation.html
+
+!? wha does this mean?
+"At startup, the Java HotSpot VM reserves the entire Java heap in the address space, but doesn't allocate"
+"any physical memory for it unless needed"
+
+# Young Generation:
+The young generation consists of eden and two survivor spaces
+
+! Amdahl's law (parallel speedup in a given problem is limited by the sequential portion of the problem)
+
+$ Serial Collector
+
+One situation where the serial collector is not expected to be the best choice is a large, heavily threaded application that runs on a machine with 
+a large amount of memory and two or more processor
+
+This document was developed using Java SE 8 on the Solaris operating system (SPARC Platform Edition) as the reference. However, the concepts and 
+recommendations presented here apply to all supported platforms, including Linux, Microsoft Windows, the Solaris operating system (x64 Platform 
+Edition), and OS X. In addition, the command line options mentioned are available on all supported platforms, although the default values of some options may be different on each platform.
+
+# What is Memeroy Footprint and what does it mean in java
+
+Memory footprint refers to the amount of main memory that a program uses or references while running.
+The word footprint generally refers to the extent of physical dimensions that an object occupies, giving 
+a sense of its size. In computing, the memory footprint of a software application indicates its runtime 
+memory requirements, while the program executes. 
+
+Footprint is the working set of a process, measured in pages and cache lines.
+
+# Memeory Categories of JVM
+The JVM divides its memory into two main categories: heap memory and non-heap memory.
+
+# Native Memeory Areas
+https://spring.io/blog/2019/03/11/memory-footprint-of-the-jvm
+

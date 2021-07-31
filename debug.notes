@@ -1,0 +1,8 @@
+#what is watch in the debugger
+type in any meaningful expression to check the current value, such as variable names, class names and so on.
+maybe even local variable names( not yet confirmed)
+
+# Pre-conditions of debugging
+A class must have main method to be debugged.
+
+# How to use a launch file?

@@ -1,8 +1,9 @@
 
+# As you know, a class provides the blueprint for objects;
+
 # What is a StringBuffer
 
 ## How are java classes allocated and loaded into JVM?
-
 
 ##Load sequence of java class
 
@@ -10,7 +11,6 @@
 Checked exceptions are the ones by compilor. 
 unchecked exceptions are the ones determined by JVM. Arithmetic Exception (zero is divided)
 Errors are the ones returned by OS for instance OutOfMemeoryError, StackOverFlowError
-
 
 # print() and println() difference
 The print() and println() methods are essentially the same; they both write their String argument to the stream. The one difference between
@@ -56,3 +56,26 @@ Read more: https://javarevisited.blogspot.com/2011/02/how-hashmap-works-in-java.
 # HashTable and Ha]shMap
 
 # dot notation( It's not an operator)
+"".value
+
+# Method reference
+You use lambda expressions to create anonymous methods. Sometimes, however, a lambda expression does 
+nothing but call an existing method. In those cases, it's often clearer to refer to the existing method 
+by name. Method references enable you to do this; they are compact, easy-to-read lambda expressions for 
+methods that already have a name.
+
+Kind	                                Syntax	                                                    Examples
+Reference to a static method	        ContainingClass::staticMethodName	                        Person::compareByAge
+                                                                                                    MethodReferencesExamples::appendStrings 
+
+Reference to an instance method         containingObject::instanceMethodName                        myComparisonProvider::compareByName
+of a particular object		                                                                        myApp::appendStrings2
+                    
+Reference to an instance method of an   ContainingType::methodName                                  String::compareToIgnoreCase
+arbitrary object of a particular type		                                                        String::concat
+
+Reference to a constructor	            ClassName::new	                                            HashSet::new
+
+# new keyword
+The new operator instantiates a class by allocating memory for a new object and returning a reference to that memory. The new operator also invokes 
+the object constructor.

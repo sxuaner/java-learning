@@ -1,4 +1,21 @@
-Usually, one would call the reduce method using Math.max(int, int) as follows:
+#Functional Interface:
+This is a functional interface and can therefore be used as the assignment target for a lambda expression 
+or method reference
+! it means whenever a funcitonal interface is required as parameter or anything else, a lambda expression
+! or a method reference can be provided instead
+[java]
+Integer[] result = mylist.stream()
+                        //  .filter(new MyPredicate())
+                        .filter(x -> x>3)
+                        .toArray(Integer[]::new);
+
+//Signature of toArray():
+<Integer> Integer[] java.util.stream.Stream.toArray(IntFunction<Integer[]> generator)
+[end]
+toArry() method requires that a generator of IntFunction type. Rather than providing such a reference, 
+a lambda or a method reference can be used.
+
+# Usually, one would call the reduce method using Math.max(int, int) as follows:
 [java]
     reduce(new IntBinaryOperator() {
         int applyAsInt(int left, int right) {
@@ -24,3 +41,45 @@ rest for you - it just assumes you want to implement IntBinaryOperator.
 T - the type of the first argument to the function
 U - the type of the second argument to the function
 R - the type of the result of the function
+
+
+# Lambda expression = class definition + instantiation + method call for functional interfaces
+As notice that the interface Comparator is a functional interface, you could use a lambda expression 
+instead of defining and then creating a new instance of a class that implements Comparator
+
+# Because this lambda expression invokes an existing method, you can use a method reference instead of a 
+# lambda expression 
+[java]
+    Arrays.sort(rosterAsArray, Person::compareByAge);
+[end]
+
+The method reference Person::compareByAge is semantically the same as the lambda expression 
+[java] (a, b) -> Person.compareByAge(a, b)[end]
+Each has the following characteristics:
+
+Its formal parameter list is copied from Comparator<Person>.compare, which is (Person, Person).
+Its body calls the method Person.compareByAge.
+
+# What is function interface in java?
+[java]
+@FunctionalInterface
+public interface Function<T,R>{}
+
+@FunctionalInterface 
+public interface IntFunction<R>{
+    /* 
+    Applies this function to the given argument.
+    @param value the function argument
+    @return R the function result
+    */
+    R apply(int value);}
+[end]
+Represents a function that accepts one argument and produces a result.
+This is a functional interface whose functional method is apply(Object).
+
+Type Parameters:
+    T - the type of the input to the function
+    R - the type of the result of the function
+
+       
+
