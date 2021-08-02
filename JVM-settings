@@ -1,0 +1,258 @@
+VM settings:
+    Max. Heap Size (Estimated): 2.00G
+    Using VM: Java HotSpot(TM) 64-Bit Server VM
+
+Property settings:
+    awt.toolkit = sun.lwawt.macosx.LWCToolkit
+    file.encoding = UTF-8
+    file.separator = /
+    ftp.nonProxyHosts = local|*.local|169.254/16|*.169.254/16
+    gopherProxySet = false
+    http.nonProxyHosts = local|*.local|169.254/16|*.169.254/16
+    java.awt.graphicsenv = sun.awt.CGraphicsEnvironment
+    java.awt.printerjob = sun.lwawt.macosx.CPrinterJob
+    java.class.path = 
+    java.class.version = 55.0
+    java.home = /Library/Java/JavaVirtualMachines/jdk-11.0.12.jdk/Contents/Home
+    java.io.tmpdir = /var/folders/pz/18_yfkdj5q54bt6k97m199qc0000gn/T/
+    java.library.path = /Users/xuansong/Library/Java/Extensions
+        /Library/Java/Extensions
+        /Network/Library/Java/Extensions
+        /System/Library/Java/Extensions
+        /usr/lib/java
+        .
+    java.runtime.name = Java(TM) SE Runtime Environment
+    java.runtime.version = 11.0.12+8-LTS-237
+    java.specification.name = Java Platform API Specification
+    java.specification.vendor = Oracle Corporation
+    java.specification.version = 11
+    java.vendor = Oracle Corporation
+    java.vendor.url = https://openjdk.java.net/
+    java.vendor.url.bug = https://bugreport.java.com/bugreport/
+    java.vendor.version = 18.9
+    java.version = 11.0.12
+    java.version.date = 2021-07-20
+    java.vm.compressedOopsMode = Zero based
+    java.vm.info = mixed mode
+    java.vm.name = Java HotSpot(TM) 64-Bit Server VM
+    java.vm.specification.name = Java Virtual Machine Specification
+    java.vm.specification.vendor = Oracle Corporation
+    java.vm.specification.version = 11
+    java.vm.vendor = Oracle Corporation
+    java.vm.version = 11.0.12+8-LTS-237
+    jdk.debug = release
+    line.separator = \n 
+    os.arch = x86_64
+    os.name = Mac OS X
+    os.version = 11.5
+    path.separator = :
+    socksNonProxyHosts = local|*.local|169.254/16|*.169.254/16
+    sun.arch.data.model = 64
+    sun.boot.library.path = /Library/Java/JavaVirtualMachines/jdk-11.0.12.jdk/Contents/Home/lib
+    sun.cpu.endian = little
+    sun.cpu.isalist = 
+    sun.io.unicode.encoding = UnicodeBig
+    sun.java.launcher = SUN_STANDARD
+    sun.jnu.encoding = UTF-8
+    sun.management.compiler = HotSpot 64-Bit Tiered Compilers
+    sun.os.patch.level = unknown
+    user.country = CN
+    user.dir = /Users/xuansong/projects/java/java-learning
+    user.home = /Users/xuansong
+    user.language = en
+    user.name = xuansong
+    user.timezone = 
+
+Locale settings:
+    default locale = English (China)
+    default display locale = English (China)
+    default format locale = English (China)
+    available locales = , af, af_NA, af_ZA, agq, agq_CM, ak, ak_GH, 
+        am, am_ET, ar, ar_001, ar_AE, ar_BH, ar_DJ, ar_DZ, 
+        ar_EG, ar_EH, ar_ER, ar_IL, ar_IQ, ar_JO, ar_KM, ar_KW, 
+        ar_LB, ar_LY, ar_MA, ar_MR, ar_OM, ar_PS, ar_QA, ar_SA, 
+        ar_SD, ar_SO, ar_SS, ar_SY, ar_TD, ar_TN, ar_YE, as, 
+        as_IN, asa, asa_TZ, ast, ast_ES, az, az_AZ_#Cyrl, az_AZ_#Latn, 
+        az__#Cyrl, az__#Latn, bas, bas_CM, be, be_BY, bem, bem_ZM, 
+        bez, bez_TZ, bg, bg_BG, bm, bm_ML, bn, bn_BD, 
+        bn_IN, bo, bo_CN, bo_IN, br, br_FR, brx, brx_IN, 
+        bs, bs_BA_#Cyrl, bs_BA_#Latn, bs__#Cyrl, bs__#Latn, ca, ca_AD, ca_ES, 
+        ca_ES_VALENCIA, ca_FR, ca_IT, ccp, ccp_BD, ccp_IN, ce, ce_RU, 
+        cgg, cgg_UG, chr, chr_US, ckb, ckb_IQ, ckb_IR, cs, 
+        cs_CZ, cu, cu_RU, cy, cy_GB, da, da_DK, da_GL, 
+        dav, dav_KE, de, de_AT, de_BE, de_CH, de_DE, de_IT, 
+        de_LI, de_LU, dje, dje_NE, dsb, dsb_DE, dua, dua_CM, 
+        dyo, dyo_SN, dz, dz_BT, ebu, ebu_KE, ee, ee_GH, 
+        ee_TG, el, el_CY, el_GR, en, en_001, en_150, en_AG, 
+        en_AI, en_AS, en_AT, en_AU, en_BB, en_BE, en_BI, en_BM, 
+        en_BS, en_BW, en_BZ, en_CA, en_CC, en_CH, en_CK, en_CM, 
+        en_CX, en_CY, en_DE, en_DG, en_DK, en_DM, en_ER, en_FI, 
+        en_FJ, en_FK, en_FM, en_GB, en_GD, en_GG, en_GH, en_GI, 
+        en_GM, en_GU, en_GY, en_HK, en_IE, en_IL, en_IM, en_IN, 
+        en_IO, en_JE, en_JM, en_KE, en_KI, en_KN, en_KY, en_LC, 
+        en_LR, en_LS, en_MG, en_MH, en_MO, en_MP, en_MS, en_MT, 
+        en_MU, en_MW, en_MY, en_NA, en_NF, en_NG, en_NL, en_NR, 
+        en_NU, en_NZ, en_PG, en_PH, en_PK, en_PN, en_PR, en_PW, 
+        en_RW, en_SB, en_SC, en_SD, en_SE, en_SG, en_SH, en_SI, 
+        en_SL, en_SS, en_SX, en_SZ, en_TC, en_TK, en_TO, en_TT, 
+        en_TV, en_TZ, en_UG, en_UM, en_US, en_US_POSIX, en_VC, en_VG, 
+        en_VI, en_VU, en_WS, en_ZA, en_ZM, en_ZW, eo, eo_001, 
+        es, es_419, es_AR, es_BO, es_BR, es_BZ, es_CL, es_CO, 
+        es_CR, es_CU, es_DO, es_EA, es_EC, es_ES, es_GQ, es_GT, 
+        es_HN, es_IC, es_MX, es_NI, es_PA, es_PE, es_PH, es_PR, 
+        es_PY, es_SV, es_US, es_UY, es_VE, et, et_EE, eu, 
+        eu_ES, ewo, ewo_CM, fa, fa_AF, fa_IR, ff, ff_CM, 
+        ff_GN, ff_MR, ff_SN, fi, fi_FI, fil, fil_PH, fo, 
+        fo_DK, fo_FO, fr, fr_BE, fr_BF, fr_BI, fr_BJ, fr_BL, 
+        fr_CA, fr_CD, fr_CF, fr_CG, fr_CH, fr_CI, fr_CM, fr_DJ, 
+        fr_DZ, fr_FR, fr_GA, fr_GF, fr_GN, fr_GP, fr_GQ, fr_HT, 
+        fr_KM, fr_LU, fr_MA, fr_MC, fr_MF, fr_MG, fr_ML, fr_MQ, 
+        fr_MR, fr_MU, fr_NC, fr_NE, fr_PF, fr_PM, fr_RE, fr_RW, 
+        fr_SC, fr_SN, fr_SY, fr_TD, fr_TG, fr_TN, fr_VU, fr_WF, 
+        fr_YT, fur, fur_IT, fy, fy_NL, ga, ga_IE, gd, 
+        gd_GB, gl, gl_ES, gsw, gsw_CH, gsw_FR, gsw_LI, gu, 
+        gu_IN, guz, guz_KE, gv, gv_IM, ha, ha_GH, ha_NE, 
+        ha_NG, haw, haw_US, hi, hi_IN, hr, hr_BA, hr_HR, 
+        hsb, hsb_DE, hu, hu_HU, hy, hy_AM, ig, ig_NG, 
+        ii, ii_CN, in, in_ID, is, is_IS, it, it_CH, 
+        it_IT, it_SM, it_VA, iw, iw_IL, ja, ja_JP, ja_JP_JP_#u-ca-japanese, 
+        jgo, jgo_CM, ji, ji_001, jmc, jmc_TZ, ka, ka_GE, 
+        kab, kab_DZ, kam, kam_KE, kde, kde_TZ, kea, kea_CV, 
+        khq, khq_ML, ki, ki_KE, kk, kk_KZ, kkj, kkj_CM, 
+        kl, kl_GL, kln, kln_KE, km, km_KH, kn, kn_IN, 
+        ko, ko_KP, ko_KR, kok, kok_IN, ks, ks_IN, ksb, 
+        ksb_TZ, ksf, ksf_CM, ksh, ksh_DE, kw, kw_GB, ky, 
+        ky_KG, lag, lag_TZ, lb, lb_LU, lg, lg_UG, lkt, 
+        lkt_US, ln, ln_AO, ln_CD, ln_CF, ln_CG, lo, lo_LA, 
+        lrc, lrc_IQ, lrc_IR, lt, lt_LT, lu, lu_CD, luo, 
+        luo_KE, luy, luy_KE, lv, lv_LV, mas, mas_KE, mas_TZ, 
+        mer, mer_KE, mfe, mfe_MU, mg, mg_MG, mgh, mgh_MZ, 
+        mgo, mgo_CM, mk, mk_MK, ml, ml_IN, mn, mn_MN, 
+        mr, mr_IN, ms, ms_BN, ms_MY, ms_SG, mt, mt_MT, 
+        mua, mua_CM, my, my_MM, mzn, mzn_IR, naq, naq_NA, 
+        nb, nb_NO, nb_SJ, nd, nd_ZW, nds, nds_DE, nds_NL, 
+        ne, ne_IN, ne_NP, nl, nl_AW, nl_BE, nl_BQ, nl_CW, 
+        nl_NL, nl_SR, nl_SX, nmg, nmg_CM, nn, nn_NO, nnh, 
+        nnh_CM, no, no_NO, no_NO_NY, nus, nus_SS, nyn, nyn_UG, 
+        om, om_ET, om_KE, or, or_IN, os, os_GE, os_RU, 
+        pa, pa_IN_#Guru, pa_PK_#Arab, pa__#Arab, pa__#Guru, pl, pl_PL, prg, 
+        prg_001, ps, ps_AF, pt, pt_AO, pt_BR, pt_CH, pt_CV, 
+        pt_GQ, pt_GW, pt_LU, pt_MO, pt_MZ, pt_PT, pt_ST, pt_TL, 
+        qu, qu_BO, qu_EC, qu_PE, rm, rm_CH, rn, rn_BI, 
+        ro, ro_MD, ro_RO, rof, rof_TZ, ru, ru_BY, ru_KG, 
+        ru_KZ, ru_MD, ru_RU, ru_UA, rw, rw_RW, rwk, rwk_TZ, 
+        sah, sah_RU, saq, saq_KE, sbp, sbp_TZ, sd, sd_PK, 
+        se, se_FI, se_NO, se_SE, seh, seh_MZ, ses, ses_ML, 
+        sg, sg_CF, shi, shi_MA_#Latn, shi_MA_#Tfng, shi__#Latn, shi__#Tfng, si, 
+        si_LK, sk, sk_SK, sl, sl_SI, smn, smn_FI, sn, 
+        sn_ZW, so, so_DJ, so_ET, so_KE, so_SO, sq, sq_AL, 
+        sq_MK, sq_XK, sr, sr_BA, sr_BA_#Cyrl, sr_BA_#Latn, sr_CS, sr_ME, 
+        sr_ME_#Cyrl, sr_ME_#Latn, sr_RS, sr_RS_#Cyrl, sr_RS_#Latn, sr_XK_#Cyrl, sr_XK_#Latn, sr__#Cyrl, 
+        sr__#Latn, sv, sv_AX, sv_FI, sv_SE, sw, sw_CD, sw_KE, 
+        sw_TZ, sw_UG, ta, ta_IN, ta_LK, ta_MY, ta_SG, te, 
+        te_IN, teo, teo_KE, teo_UG, tg, tg_TJ, th, th_TH, 
+        th_TH_TH_#u-nu-thai, ti, ti_ER, ti_ET, tk, tk_TM, to, to_TO, 
+        tr, tr_CY, tr_TR, tt, tt_RU, twq, twq_NE, tzm, 
+        tzm_MA, ug, ug_CN, uk, uk_UA, ur, ur_IN, ur_PK, 
+        uz, uz_AF_#Arab, uz_UZ_#Cyrl, uz_UZ_#Latn, uz__#Arab, uz__#Cyrl, uz__#Latn, vai, 
+        vai_LR_#Latn, vai_LR_#Vaii, vai__#Latn, vai__#Vaii, vi, vi_VN, vo, vo_001, 
+        vun, vun_TZ, wae, wae_CH, wo, wo_SN, xog, xog_UG, 
+        yav, yav_CM, yo, yo_BJ, yo_NG, yue, yue_CN_#Hans, yue_HK_#Hant, 
+        yue__#Hans, yue__#Hant, zgh, zgh_MA, zh, zh_CN, zh_CN_#Hans, zh_HK, 
+        zh_HK_#Hans, zh_HK_#Hant, zh_MO_#Hans, zh_MO_#Hant, zh_SG, zh_SG_#Hans, zh_TW, zh_TW_#Hant, 
+        zh__#Hans, zh__#Hant, zu, zu_ZA
+Usage: java [options] <mainclass> [args...]
+           (to execute a class)
+   or  java [options] -jar <jarfile> [args...]
+           (to execute a jar file)
+   or  java [options] -m <module>[/<mainclass>] [args...]
+       java [options] --module <module>[/<mainclass>] [args...]
+           (to execute the main class in a module)
+   or  java [options] <sourcefile> [args]
+           (to execute a single source-file program)
+
+ Arguments following the main class, source file, -jar <jarfile>,
+ -m or --module <module>/<mainclass> are passed as the arguments to
+ main class.
+
+ where options include:
+
+    -cp <class search path of directories and zip/jar files>
+    -classpath <class search path of directories and zip/jar files>
+    --class-path <class search path of directories and zip/jar files>
+                  A : separated list of directories, JAR archives,
+                  and ZIP archives to search for class files.
+    -p <module path>
+    --module-path <module path>...
+                  A : separated list of directories, each directory
+                  is a directory of modules.
+    --upgrade-module-path <module path>...
+                  A : separated list of directories, each directory
+                  is a directory of modules that replace upgradeable
+                  modules in the runtime image
+    --add-modules <module name>[,<module name>...]
+                  root modules to resolve in addition to the initial module.
+                  <module name> can also be ALL-DEFAULT, ALL-SYSTEM,
+                  ALL-MODULE-PATH.
+    --list-modules
+                  list observable modules and exit
+    -d <module name>
+    --describe-module <module name>
+                  describe a module and exit
+    --dry-run     create VM and load main class but do not execute main method.
+                  The --dry-run option may be useful for validating the
+                  command-line options such as the module system configuration.
+    --validate-modules
+                  validate all modules and exit
+                  The --validate-modules option may be useful for finding
+                  conflicts and other errors with modules on the module path.
+    -D<name>=<value>
+                  set a system property
+    -verbose:[class|module|gc|jni]
+                  enable verbose output
+    -version      print product version to the error stream and exit
+    --version     print product version to the output stream and exit
+    -showversion  print product version to the error stream and continue
+    --show-version
+                  print product version to the output stream and continue
+    --show-module-resolution
+                  show module resolution output during startup
+    -? -h -help
+                  print this help message to the error stream
+    --help        print this help message to the output stream
+    -X            print help on extra options to the error stream
+    --help-extra  print help on extra options to the output stream
+    -ea[:<packagename>...|:<classname>]
+    -enableassertions[:<packagename>...|:<classname>]
+                  enable assertions with specified granularity
+    -da[:<packagename>...|:<classname>]
+    -disableassertions[:<packagename>...|:<classname>]
+                  disable assertions with specified granularity
+    -esa | -enablesystemassertions
+                  enable system assertions
+    -dsa | -disablesystemassertions
+                  disable system assertions
+    -agentlib:<libname>[=<options>]
+                  load native agent library <libname>, e.g. -agentlib:jdwp
+                  see also -agentlib:jdwp=help
+    -agentpath:<pathname>[=<options>]
+                  load native agent library by full pathname
+    -javaagent:<jarpath>[=<options>]
+                  load Java programming language agent, see java.lang.instrument
+    -splash:<imagepath>
+                  show splash screen with specified image
+                  HiDPI scaled images are automatically supported and used
+                  if available. The unscaled image filename, e.g. image.ext,
+                  should always be passed as the argument to the -splash option.
+                  The most appropriate scaled image provided will be picked up
+                  automatically.
+                  See the SplashScreen API documentation for more information
+    @argument files
+                  one or more argument files containing options
+    -disable-@files
+                  prevent further argument file expansion
+    --enable-preview
+                  allow classes to depend on preview features of this release
+To specify an argument for a long option, you can use --<name>=<value> or
+--<name> <value>.
+

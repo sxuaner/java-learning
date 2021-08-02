@@ -4,8 +4,6 @@ In Oracle Java Runtime Environment (JRE) 8 and earlier, different implementation
 as servers, and for embedded systems. Because most systems can now take advantage of the server VM, 
 the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation.
 
-
-
 // differences between heap and stack
 // https://docs.oracle.com/en/java/javase
 // https://javarevisited.blogspot.com/2012/07/when-class-loading-initialization-java-example.html#axzz717pzj7Kj
@@ -15,15 +13,11 @@ the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation
 GC for SE7:
 https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html
 
-
 # JVM concepts
 https://javapapers.com/core-java/java-jvm-memory-types/
 
+# Java is platform-independent through Java Virtual Machine
 
-# Java is platform-independent
-Java Virtual Machine
-
-#
 The Java Virtual Machine (JVM) is an abstract computing machine. The JVM is a program that looks like a machine to 
 the programs written to execute in it. This way, Java programs are written to the same set of interfaces and libraries. 
 Each JVM implementation for a specific operating system, translates the Java programming instructions into instructions 
@@ -36,14 +30,14 @@ contains Java virtual machine instructions (or bytecodes) and a symbol table, as
 # Performance Basics
 Typically, when tuning a Java application, the focus is on one of two main goals: responsiveness or throughput.
 
-Responsiveness
+# Responsiveness
 Responsiveness refers to how quickly an application or system responds with a requested piece of data. Examples include:
 How quickly a desktop UI responds to an event
 How fast a website returns a page
 How fast a database query is returned
 For applications that focus on responsiveness, large pause times are not acceptable. The focus is on responding in short periods of time.
 
-Throughput
+# Throughput
 Throughput focuses on maximizing the amount of work by an application in a specific period of time. 
 Examples of how throughput might be measured include
 The number of transactions completed in a given time.
@@ -52,11 +46,26 @@ The number of database queries that can be completed in an hour.
 High pause times are acceptable for applications that focus on throughput. Since high throughput applications focus 
 on benchmarks over longer periods of time, quick response time is not a consideration.
 
+Throughput is inversely proportional to the amount of memory available.
+
+# Performance Considerations
+The primary measures of garbage collection are throughput and latency.
+
+Some users are sensitive to other considerations. 
+
+## Footprint 
+Footprint is the working set of a process, measured in pages and cache lines. On systems with limited physical 
+memory or many processes, footprint may dictate scalability. 
+## Promptness 
+Promptness is the time between when an object becomes dead and when the memory becomes available, an important 
+consideration for distributed systems, including Remote Method Invocation (RMI).
+! Invoking a method on a remote object is known as remote method invocation (RMI) or remote invocation, 
+
 # What is Automatic Garbage Collection?
 Automatic garbage collection is the process of looking at heap memory, identifying which objects are in use and 
 which are not, and deleting the unused objects. An in use object, or a referenced object, means that some part of your
- program still maintains a pointer to that object. An unused object, or unreferenced object, is no longer referenced 
- by any part of your program. So the memory used by an unreferenced object can be reclaimed.
+program still maintains a pointer to that object. An unused object, or unreferenced object, is no longer referenced 
+by any part of your program. So the memory used by an unreferenced object can be reclaimed.
 
  # 
  In a programming language like C, allocating and deallocating memory is a manual process. In Java, process of 
@@ -79,7 +88,7 @@ referenced objects. By moving referenced object together, this makes new memory 
 ! little space
 ! verb: to press something together in a tight and solid way
 
-# Why Generational Garbage Collection?
+# Why are Generational Garbage Collections necessary?
 
 As stated earlier, having to mark and compact all the objects in a JVM is inefficient. As more and more objects 
 are allocated, the list of objects grows and grows leading to longer and longer garbage collection time. 
@@ -130,29 +139,20 @@ First, any new objects are allocated to the eden space. Both survivor spaces sta
 When the eden space fills up, a minor garbage collection is triggered.
 ! Eden /i:den/ in the Bible, the garden where the first humans, Adam and Eve, lived in perfect happiness before they 
 ! did not obey God and were ordered by him to leave
+! Diagrams are in JVM diagrams subfolder
 Referenced objects are moved to the first survivor space. Unreferenced objects are deleted when the eden space is cleared.
 At the next minor GC, the same thing happens for the eden space. Unreferenced objects are deleted and referenced objects are moved to a survivor space. However, in this case, they are moved to the second survivor space (S1). In addition, objects from the last minor GC on the first survivor space (S0) have their age incremented and get moved to S1. Once all surviving objects have been moved to S1, both S0 and eden are cleared. Notice we now have differently aged object in the survivor space.
 
-images/gcslides/Slide8.png
-At the next minor GC, the same process repeats. However this time the survivor spaces switch. Referenced objects are moved to S0. Surviving objects are aged. Eden and S1 are cleared.
+At the next minor GC, the same process repeats. However this time the survivor spaces switch. Referenced objects 
+are moved to S0. Surviving objects are aged. Eden and S1 are cleared.
 
-images/gcslides/Slide9.png
-This slide demonstrates promotion. After a minor GC, when aged objects reach a certain age threshold (8 in this example) they are promoted from young generation to old generation.
+This slide demonstrates promotion. After a minor GC, when aged objects reach a certain age threshold (8 in this 
+example) they are promoted from young generation to old generation.
 
-images/gcslides/Slide7.png
 As minor GCs continue to occure objects will continue to be promoted to the old generation space.
 
-images/gcslides/Slide10.png
-So that pretty much covers the entire process with the young generation. Eventually, a major GC will be performed on the old generation which cleans up and compacts that space.
-
-images/gcslides/Slide11.png
- 
-Performing Your Own Observations
- 
-Java Garbage Collectors
- 
-Summary
-Help OLL About Oracle Contact Us Terms of Use
+So that pretty much covers the entire process with the young generation. Eventually, a major GC will be performed
+on the old generation which cleans up and compacts that space.
 
 # Definition 
 Memory management is the process of allocating new objects and removing unused objects to make space for those new object allocations.
@@ -175,27 +175,179 @@ The young generation consists of eden and two survivor spaces
 
 ! Amdahl's law (parallel speedup in a given problem is limited by the sequential portion of the problem)
 
-$ Serial Collector
-
-One situation where the serial collector is not expected to be the best choice is a large, heavily threaded application that runs on a machine with 
-a large amount of memory and two or more processor
+# Serial Collector
+One situation where the serial collector is not expected to be the best choice is a large, heavily threaded 
+application that runs on a machine with a large amount of memory and two or more processor
 
 This document was developed using Java SE 8 on the Solaris operating system (SPARC Platform Edition) as the reference. However, the concepts and 
 recommendations presented here apply to all supported platforms, including Linux, Microsoft Windows, the Solaris operating system (x64 Platform 
 Edition), and OS X. In addition, the command line options mentioned are available on all supported platforms, although the default values of some options may be different on each platform.
 
 # What is Memeroy Footprint and what does it mean in java
-
 Memory footprint refers to the amount of main memory that a program uses or references while running.
 The word footprint generally refers to the extent of physical dimensions that an object occupies, giving 
 a sense of its size. In computing, the memory footprint of a software application indicates its runtime 
 memory requirements, while the program executes. 
 
+footprint (heap size).
+
 Footprint is the working set of a process, measured in pages and cache lines.
+
+The maximum heap footprint is specified using the option -Xmx<N>
 
 # Memeory Categories of JVM
 The JVM divides its memory into two main categories: heap memory and non-heap memory.
 
 # Native Memeory Areas
 https://spring.io/blog/2019/03/11/memory-footprint-of-the-jvm
+
+# -verbose:gc 
+The command-line option -verbose:gc prints information about the heap and garbage collection at each collection. Here is an example:
+[java]
+15,651s][info ][gc] GC(36) Pause Young (G1 Evacuation Pause) 239M->57M(307M) (15,646s, 15,651s) 5,048ms
+[16,162s][info ][gc] GC(37) Pause Young (G1 Evacuation Pause) 238M->57M(307M) (16,146s, 16,162s) 16,565ms
+[16,367s][info ][gc] GC(38) Pause Full (System.gc()) 69M->31M(104M) (16,202s, 16,367s) 164,581ms
+[end]
+1. The output shows two young collections followed by a full collection that was initiated by the application with a 
+call to System.gc(). 
+2. The lines start with a time stamp indicating the time from when the application was started. 
+3. Next comes information about the #log level (info) and tag (gc) #for this line. This is followed by a GC 
+identification number. In this case, there are three GCs with the numbers 36, 37, and 38. 
+4. Then the type of GC and the cause for stating the GC is logged. After this, some information about the memory 
+consumption is logged. That log uses the format "used before GC" -> "used after GC" ("heap size").
+
+In the first line of the example this is 239M->57M(307M), which means that 239 MB were used before the GC and the 
+GC cleared up most of that memory, but 57 MB survived
+
+The -verbose:gc command is an alias for -Xlog:gc. -Xlog is the general logging configuration option for logging in 
+the HotSpot JVM. It's a tag-based system where gc is one of the tags. To get more information about what a GC is
+doing, you can configure logging to print any message that has the gc tag and any other tag. The command line 
+option for this is -Xlog:gc*.
+
+# 2 most important factors that affect GC performance
+The two most important factors affecting garbage collection performance are 
+1. total available memory
+2. proportion of the heap dedicated to the young generation.
+
+
+# -Xmx size of the heap
+Specifies the maximum size, in bytes, of the memory allocation pool. 
+e.g  -Xmx 80m
+
+!-Xms(inital) <-Xmx(max)
+!?How to find out the ration between young and old generations
+# -Xms
+Specifies the initial size, in bytes, of the memory allocation pool. This value must be a multiple of 1024 greater 
+than 1 MB. Append the letter k or K to indicate kilobytes, or m or M to indicate megabytes. The default value is 
+chosen at runtime based on system configuration.
+
+# $java -X : Displays information about nonstandard options and exits.
+
+# The java command:
+https://docs.oracle.com/en/java/javase/13/docs/specs/man/java.html
+
+# What is PermGen
+It was part of heap util SE8. 
+https://docs.oracle.com/en/java/javase/11/gctuning/garbage-collector-implementation.html
+
+# Serial Collector
+The Java HotSpot VM includes three different types of collectors, each with different performance characteristics.
+1. Single thread, therefore no communication overhead
+2. It's best-suited to single processor machines 
+!-XX:+UseSerialGC.
+
+############## Parallel Collector, aka throughput collector
+has multiple threads that are used to speed up garbage collection both in minor and major collections.
+Refer to https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/parallel.html
+
+#Parallel compaction# is a feature that enables the parallel collector to perform major collections in parallel. 
+Without parallel compaction, major collections are performed using a single thread, which can significantly limit 
+scalability. Parallel compaction is enabled by default if the option -XX:+UseParallelGC has been specified. 
+You can disable it by using the -XX:-UseParallelOldGC option.
+
+generational collector similar to the serial collector
+
+# How many threads are used based on the number of physical threads.
+> 8, the parallel collector uses a fixed fraction of <N> as the number of garbage collector threads.
+The fraction is approximately 5/8 for large values of <N>. 
+
+<= 8, the number used is <N>. 
+
+# What this memeory fragmentation and how does it impact JVM performance
+Whenever we create a new object in Java, the JVM automatically allocates a block of memory large enough to fit the new object on the heap. 
+Repeated allocation and reclamation leads to memory fragmentation, which is similar to disk fragmentation. Memory fragmentation leads to two problems
+
+First:
+Reduced allocation speed: The JVM tracks free memory in lists organized by block size. To create a new object, Java searches through the lists 
+to select and allocate an optimally sized block. Fragmentation slows the allocation process, effectively slowing the application execution.
+Second:
+Allocation Errors: Allocation errors happen when fragmentation becomes so great that the JVM is unable to allocate a sufficiently large block of 
+memory for a new object.
+
+Java does not rely on the operating system to solve these problems and must deal with these itself. Java avoids memory fragmentation by executing 
+compaction (Figure 2.5) at the end of a successful GC cycle. The process is very similar to hard-disk defragmentation.
+
+When the heap becomes fragmented due to repeated allocations and garbage collections, the JVM executes a compaction step, which alligns all objects 
+neatly and closes all holes.
+
+Figure 2.5: When the heap becomes fragmented due to repeated allocations and garbage collections, the JVM executes a compaction step, which aligns
+all objects neatly and closes all holes.
+
+Compacting simply moves all live objects to one end of the heap, which effectively closes all holes. Objects can be allocated at full speed (no free 
+lists are needed anymore), and problems creating large objects are avoided.
+
+The downside is an even longer GC cycle, and since most JVMs suspend the application execution during compaction, the performance impact can be
+considerable.
+
+# Tuning Strategy
+When the parallel collector is selected by using -XX:+UseParallelGC, it enables a method of automatic tuning that
+allows you to specify behaviors instead of generation sizes and other low-level tuning details.
+
+# Priority of 3 goals
+Maximum pause time goal > Throughput goal > minimum heap footprint
+
+# Default heap size(if not spedicifed by commandline)
+Default maximum heap size is 1/4 the physical memory 
+the initial heap size is 1/64th of physical memory. 
+The maximum amount of space allocated to the young generation is 1/3 of the total heap size. !? how to set ratio?
+
+# how to find the most suitable heap size:
+If you know how much heap your application needs to work well, then you can set -Xms and -Xmx to the same value. 
+If you don't know, then the JVM will start by using the initial heap size and then growing the Java heap until it 
+finds a balance between heap usage and performance.
+
+# Excessive Parallel Collector Time and OutOfMemoryError
+The parallel collector throws an OutOfMemoryError if too much time is being spent in garbage collection (GC).
+
+If more than 98% of the total time is spent in garbage collection and less than 2% of the heap is recovered, 
+then an OutOfMemoryError, is thrown. This feature is designed to prevent applications from running for an extended 
+period of time while making little or no progress because the heap is too small. If necessary, this feature can be 
+disabled by adding the option -XX:-UseGCOverheadLimit to the command line.
+
+
+! Explicit gabage collection such as System.gc() are ignored by jvm when keeping GC statistics and resizing the 
+! genertions.
+
+
+! The number of garbage collector threads can be controlled with the command-line option -XX:ParallelGCThreads=<N>.
+! Enabled by using -XX:+UseParallelGC
+
+! outperform : to do well in a particular job or activity compared to others of a similar type
+
+https://docs.oracle.com/en/java/javase/11/gctuning/parallel-collector1.html
+
+############# the two mostly concurrent collectors
+Concurrent Mark Sweep (CMS) collector(Deprecated/ˈdep.rə.keɪt/ since SE9)
+Garbage-First (G1) garbage collector 
+
+# The Z Garbage Collector
+The Z Garbage Collector (ZGC) is a scalable low latency garbage collector. ZGC performs all expensive work 
+concurrently, without stopping the execution of application threads.
+ZGC is intended for applications which require low latency (less than 10 ms pauses) and/or use a very large heap 
+(multi-terabytes). You can enable is by using the -XX:+UseZGC option.
+!ZGC is available as an experimental feature, starting with JDK 11.
+
+# To find out which GC is being used
+java -XX:+PrintCommandLineFlags -version
+java -XX:+PrintFlagsFinal <GC options> -version | grep MaxHeapSize
 
