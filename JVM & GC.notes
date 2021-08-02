@@ -256,6 +256,27 @@ The Java HotSpot VM includes three different types of collectors, each with diff
 2. It's best-suited to single processor machines 
 !-XX:+UseSerialGC.
 
+!Definition of concurrency and parallel and differences in computer science:
+Quoting Sun's Multithreaded Programming Guide:
+Concurrency: A condition that exists when at least two threads are making progress. A more generalized form of 
+parallelism that can include time-slicing as a form of virtual parallelism.
+
+Parallelism: A condition that arises when at least two threads are executing simultaneously.
+!parallelism (in the sense of multithreading) is not possible with single core processors.
+
+https://wiki.haskell.org/Parallelism_vs._Concurrency
+
+From wikipedia:
+In computer science, concurrency is the ability of different parts or units of a program, algorithm, or problem to 
+be executed out-of-order or at the same time simultaneously partial order, without affecting the final outcome.
+!out-of-order meaning: not in the correct sequence
+
+This allows for parallel execution of the concurrent units, which can significantly improve overall speed of the 
+execution in multi-processor and multi-core systems. In more technical terms, concurrency refers to the 
+decomposability of a program, algorithm, or problem into order-independent or partially-ordered components or units 
+of computation.
+
+
 ############## Parallel Collector, aka throughput collector
 has multiple threads that are used to speed up garbage collection both in minor and major collections.
 Refer to https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/parallel.html
@@ -324,10 +345,8 @@ then an OutOfMemoryError, is thrown. This feature is designed to prevent applica
 period of time while making little or no progress because the heap is too small. If necessary, this feature can be 
 disabled by adding the option -XX:-UseGCOverheadLimit to the command line.
 
-
 ! Explicit gabage collection such as System.gc() are ignored by jvm when keeping GC statistics and resizing the 
 ! genertions.
-
 
 ! The number of garbage collector threads can be controlled with the command-line option -XX:ParallelGCThreads=<N>.
 ! Enabled by using -XX:+UseParallelGC
@@ -336,9 +355,118 @@ disabled by adding the option -XX:-UseGCOverheadLimit to the command line.
 
 https://docs.oracle.com/en/java/javase/11/gctuning/parallel-collector1.html
 
-############# the two mostly concurrent collectors
-Concurrent Mark Sweep (CMS) collector(Deprecated/ˈdep.rə.keɪt/ since SE9)
-Garbage-First (G1) garbage collector 
+############# the two mostly concurrent collectors #########################
+!? What does high probability mean here?
+# What does the word "mostly" mean in the name?
+Mostly refers to a probability. GC not 100% concurrent to the application. 
+
+# How do the mostly concurrent GC differ from parallel GC?
+The mostly concurrent collectors perform parts of their work concurrently to the application, whereas parallel GC 
+has STW time
+
+# Concurrent Mark Sweep (CMS)
+Concurrent Mark Sweep (CMS) collector: This collector is for applications that prefer shorter garbage collection 
+pauses and #can afford to share processor resources with the garbage collection.#
+
+# G1 
+Garbage-First (G1) garbage collector: This server-style collector is for multiprocessor machines with a large 
+amount of memory. It meets garbage collection pause-time goals with #high probability# while achieving high throughput.
+
+# Overhead of Mostly Concurrent Collectors
+The mostly concurrent collector trades processor resources (which would otherwise be available to the application) 
+for shorter major collection pause time.
+
+The most visible overhead is the use of one or more processors during the concurrent parts of the collection. On an 
+N processor system, the concurrent part of the collection uses K/N of the available processors, 
+where 1 <= K <= ceiling{N/4}. In addition to the use of processors during concurrent phases, additional overhead 
+is incurred to enable concurrency. Thus, while garbage collection pauses are typically much shorter with the 
+concurrent collector, application throughput also tends to be slightly lower than with the other collectors.
+
+On a machine with more than one processing core, processors are available for application threads during the 
+concurrent part of the collection, so the concurrent garbage collector thread doesn't pause the application. 
+This usually results in shorter pauses, but again fewer processor resources are available to the application and 
+some slowdown should be expected, especially if the application uses all of the processing cores maximally. 
+As N increases, the reduction in processor resources due to concurrent garbage collection becomes smaller,
+ and the benefit from concurrent collection increases. See Concurrent Mode Failure, which discusses potential 
+ limits to such scaling.
+
+Because at least one processor is used for garbage collection during the concurrent phases, the concurrent 
+collectors don't normally provide any benefit on a uniprocessor (single-core) machine.
+
+
+https://www.dynatrace.com/news/blog/understanding-g1-garbage-collector-java-9/
+! One article concerning CMS
+https://tech.meituan.com/2020/11/12/java-9-cms-gc.html
+
+https://www.dynatrace.com/news/blog/understanding-g1-garbage-collector-java-9/
+
+!##########################  G1 GC, the default GC for SE11 ########################
+#G1 is a 
+generational: yound and old generaions
+incremental: 
+parallel, 
+mostly concurrent, 
+stop-the-world evacuating garbage collector which monitors pause-time goals in each of the stop-the-world pauses. 
+
+The Garbage-First collector is not a real-time collector. It tries to meet set pause-time targets with high 
+probability over a longer time, but not always with absolute certainty for a given pause.
+! G1GC is not real-time
+! What does real-time mean here?
+It means that for a given pause goal（The Deadline), the GC must ensure that the actual pause time is always equal or
+less than the goal. 
+
+
+#Real-time computing (RTC)#, or #reactive computing# 
+is the computer science term for hardware and software systems subject to a "real-time constraint", for example 
+from event to system response. 
+!!!Real-time programs must guarantee response within specified time constraints, often referred to as "deadlines".
+
+A system not specified as operating in real time cannot usually guarantee a response within any timeframe, although
+typical or expected response times may be given. Real-time processing fails if not completed within a specified 
+deadline relative to an event; 
+!deadlines must always be met, regardless of system load.
+
+# G1GC Heap layout
+G1 partitions the heap into a set of equally sized heap regions, each a contiguous range of virtual memory as shown
+in Figure "G1 heap layout". A region is the unit of memory allocation and memory reclamation. At any given time,
+each of these regions can be empty (light gray), or assigned to a particular generation, young or old. As requests 
+for memory comes in, the memory manager hands out free regions. #The memory manager# assigns them to a generation and 
+then returns them to the application as free space into which it can allocate itself.
+
+# 2 Phases:
+1. Young-only
+This phase starts with several NORMAL young collections that promotes surviving objects into old gens until the old gen 
+occupancy reaches #Initiating Heap Occupancy threshold#. Then a CONCURRENT young collection is started.
+
+
+! G1GC tuning:
+https://docs.oracle.com/en/java/javase/11/gctuning/garbage-first-garbage-collector-tuning.html
+
+#Defragmentation: 
+The verb: defragment
+(of software) reduce the fragmentation of (a file) by concatenating parts stored in separate locations on a disk.
+
+The term defragment refers to rearranging file segments on a storage device in contiguous order so the file is no 
+longer fragmented. 
+! Deframentation can casue Solid-state-drive(SSD hard driver, not memeory) to wear out more quickly.
+# Read defragmentation of memeory
+http://www.qnx.com/developers/docs/qnxcar2/index.jsp?topic=%2Fcom.qnx.doc.neutrino.sys_arch%2Ftopic%2Fproc_Defragmenting.html
+
+########################### Memory Fragmentation #######################
+!? How is memory organized? How is file system implemented.
+
+https://en.wikipedia.org/wiki/Fragmentation_(computing)
+
+
+
+# Is defragmentation good or bad?
+The process of defragmentation moves the data blocks on the hard drive around to bring all the parts of a file 
+together. Defragmentation reduces file system fragmentation, increasing the efficiency of data retrieval and 
+thereby improving the overall performance of the computer
+
+
+
+
 
 # The Z Garbage Collector
 The Z Garbage Collector (ZGC) is a scalable low latency garbage collector. ZGC performs all expensive work 
