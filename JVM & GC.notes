@@ -8,6 +8,9 @@ the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation
 // https://docs.oracle.com/en/java/javase
 // https://javarevisited.blogspot.com/2012/07/when-class-loading-initialization-java-example.html#axzz717pzj7Kj
 
+# What is an unused object? 
+An unused object, or unreferenced object, is no longer referenced by any part of your program. So the memory used by an unreferenced object can
+be reclaimed.
 
 # Gabage Collector Basics
 GC for SE7:
@@ -229,7 +232,6 @@ The two most important factors affecting garbage collection performance are
 1. total available memory
 2. proportion of the heap dedicated to the young generation.
 
-
 # -Xmx size of the heap
 Specifies the maximum size, in bytes, of the memory allocation pool. 
 e.g  -Xmx 80m
@@ -358,7 +360,23 @@ https://docs.oracle.com/en/java/javase/11/gctuning/parallel-collector1.html
 ############# the two mostly concurrent collectors #########################
 !? What does high probability mean here?
 # What does the word "mostly" mean in the name?
-Mostly refers to a probability. GC not 100% concurrent to the application. 
+Mostly refers to the fact that a large part of work done by GC is concurrent to the app. It's not 100% concurrent.
+
+! Quote from oracle 
+The mostly concurrent collectors perform #parts#(quite some parts) of their work concurrently to the application, hence their name.
+
+As I understand it, stop-the-world GC refers to an algorithm that suspends all mutator threads for the entire 
+duration of a GC cycle, e.g. when marking the entire heap. For example, the .NET Server GC does this and incurs 
+huge 300ms pause times as a consequence. Incremental GCs perform a little bit of major GC work at each minor GC 
+cycle, e.g. "major slices" in OCaml's GC. Parallel means the GC uses multiple threads to speedup the process of 
+collecting garbage. Concurrent GC means the GC runs at the same time as the mutators, e.g. .NET workstation GC. 
+Real-time is difficult to define, originally meant bounded maximum pause times but now also means minimum mutator 
+utilization (MMU), to avoid the pathological problem of a GC that never pauses a mutator for long by never allowing
+it to run! According to Richard Jones' new book, an on-the-fly GC never suspends more than one mutator at a time (i.e. there is no stop-the-world phase) although I suspect he meant that mutators are suspended independently of each other. Finally, a mostly-concurrent GC is one that does suspend all mutator threads simultaneously but only for a short period of time and not for an arbitrarily-long GC cycle. Therefore, the mutators are allowed to run freely most of the time while the GC is running and, hence, it is called "mostly concurrent" GC.
+
+The classification of "mostly concurrent" is important because most (all?) major GCs fall into this category 
+because it provides a good trade-off between pause times and throughput. For example, the .NET workstation GC 
+suspends all mutator threads when taking a snapshot of the global roots but resumes them while it marks and sweeps.
 
 # How do the mostly concurrent GC differ from parallel GC?
 The mostly concurrent collectors perform parts of their work concurrently to the application, whereas parallel GC 
@@ -466,8 +484,6 @@ thereby improving the overall performance of the computer
 
 
 
-
-
 # The Z Garbage Collector
 The Z Garbage Collector (ZGC) is a scalable low latency garbage collector. ZGC performs all expensive work 
 concurrently, without stopping the execution of application threads.
@@ -478,4 +494,7 @@ ZGC is intended for applications which require low latency (less than 10 ms paus
 # To find out which GC is being used
 java -XX:+PrintCommandLineFlags -version
 java -XX:+PrintFlagsFinal <GC options> -version | grep MaxHeapSize
+
+
+# What are a mutator thread and mutator method.
 

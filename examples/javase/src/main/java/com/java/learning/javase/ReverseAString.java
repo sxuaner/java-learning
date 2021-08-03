@@ -32,7 +32,6 @@ public class ReverseAString {
          * with caution. In many implementations they will perform costly linear
          * searches. O(n)
          * 
-         * 
          * Interface ListIterator<E> A ListIterator has no current element; its cursor
          * position always lies between the element that would be returned by a call to
          * previous() and the element that would be returned by a call to next(). An
@@ -41,7 +40,6 @@ public class ReverseAString {
          * Element(n-1) cursor positions: ^ ^ ^ ^ ^
          * 
          * What is Character?
-         * 
          * What is charSequence?
          */
         List<Character> listStringToReverse = new ArrayList<>();
