@@ -64,20 +64,18 @@ public class MyList {
         }
 
 
-        // SingletonList
+        // ######SingletonList#########
         // singletonList() : Returns an immutable list containing only the specified object(Only 1 object). The returned list is serializable.
-        // And it's a 
+        // And it's thread-safe.
         List<Character> singletonList = Collections.singletonList('e');
 
         // Use of singletonlist
         // removeAll(): Removes from this list all of its elements that are contained in the specified collection (optional operation).
         charList.removeAll(singletonList);
 
-
         // Character... elements means that some values of element type must be provided
         Collections.addAll(charList, '1','2','3');
         
-
 
         // Returns a hash code based on the contents of the specified array. For any two char arrays a and b such that 
         // Arrays.equals(a, b), it is also the case that Arrays.hashCode(a) == Arrays.hashCode(b).
