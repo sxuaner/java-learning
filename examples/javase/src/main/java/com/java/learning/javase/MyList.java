@@ -1,6 +1,7 @@
 package com.java.learning.javase;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -8,16 +9,83 @@ import java.util.Collections;
     public interface List<E> extends Collection<E>
 
     Collection is an interface while Collections is a concrete class extending Object.
-*/
+
+    There are immutable list and mutable list. How to test if an object is immutable.
+
+    Characteristics of List:
+    1. Index-based
+    2. Allow duplicates( Set does not)
+    3. Generic programming with type infered later when an object of such class is instantiated.
+    4. AKA sequence
+    5. Iterable. An iterator can be obtained by calling .iterator();
+    6. Is an interface that extends Collection( which extends iterable)
+    7. Offers fine control over where in the list each element is inserted.
+    */
 
 public class MyList {
     public static void main(String[] args) {
         // Here is how to create an array of chars.
         char[] charArray = { 'a', 'b', 'c', 'd', 'e' };
 
+        // A mutable list
+        List<Character> charList = new ArrayList<>();
+
+        
+        // Loop though the array
+        for( Character c : charArray){
+            charList.add(c);
+        }
+
+        
+        // Create a immutable list. Is this backed by the original list?? yes
+        List< Character> immutableList = Collections.unmodifiableList(charList);
+        charList.add('f');
+        /* two lists are defined to be
+        * equal if they contain the same elements in the same order.  This
+        * definition ensures that the equals method works properly across
+        * different implementations of the <tt>List</tt> interface. */
+        Boolean equalResult = charList.equals(immutableList);
+
+
+        // When adding elements to an immutable list, UnsupportedOperationException will be thrown
+        try{
+            immutableList.add('g');
+        }catch(Exception e){
+            // java.lang.UnsupportedOperationException
+            System.out.println(e.getClass().getName());            
+        }
+
+        // Does List allow null value in Java? yes 
+        try {
+            charList.add(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+
+        // SingletonList
+        // singletonList() : Returns an immutable list containing only the specified object(Only 1 object). The returned list is serializable.
+        // And it's a 
+        List<Character> singletonList = Collections.singletonList('e');
+
+        // Use of singletonlist
+        // removeAll(): Removes from this list all of its elements that are contained in the specified collection (optional operation).
+        charList.removeAll(singletonList);
+
+
+        // Character... elements means that some values of element type must be provided
+        Collections.addAll(charList, '1','2','3');
+        
+
+
         // Returns a hash code based on the contents of the specified array. For any two char arrays a and b such that 
         // Arrays.equals(a, b), it is also the case that Arrays.hashCode(a) == Arrays.hashCode(b).
+        // immutableList is backed by charList
         int hashOfCharArray=Arrays.hashCode(charArray);
+
+
+
 
         // Following code creates a List of char array, which is not what we want. We need a list of Characters
         List<char[]> charArrayList = Arrays.asList(charArray);
