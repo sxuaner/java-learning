@@ -53,5 +53,8 @@ public class MyStream {
 
         result.getClass();
         resultArrayList.size();
+
+        // How to create Streams? How many approaches are there?
+
     }
 }
