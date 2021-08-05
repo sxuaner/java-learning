@@ -1,0 +1,9 @@
+Our immutability checker is rather strict and doesn't allow classes to have any non-private, non-final properties
+in order to be called truly immutable
+
+
+
+in Java, a final array can change its elements, we assume that private and final arrays are immutable.
+
+
+https://aspects.jcabi.com/example-weaving.html

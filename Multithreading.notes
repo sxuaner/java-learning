@@ -14,6 +14,10 @@ By definition, multitasking is when multiple processes share common processing r
 Multi-threading extends the idea of multitasking into applications where you can subdivide specific operations within a single application 
 into individual threads. Each of the threads can run in parallel. The OS divides processing time not only among different applications, but also among each thread within an application.
 
+#Parallelism and concurrency
+http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html    (controversial)
+
+
 #Thread Priorities
 Every Java thread has a priority that helps the operating system determine the order in which threads are scheduled.Java thread priorities are in the range between MIN_PRIORITY (a constant of 1) and MAX_PRIORITY (a constant of 10). By default, every thread is given priority NORM_PRIORITY (a constant of 5).
 When code running in some thread creates a new Thread object, the new thread has its priority initially set #equal to the priority of the creating thread#.
@@ -116,89 +120,17 @@ The Java Virtual Machine continues to execute threads until either of the follow
 2. All threads that are not daemon threads have died, either by returning from the call to the run method or by throwing an exception that propagates beyond the run method.
 Types of locks
 
-##Java synchronized keyword
-The Java programming language provides two basic synchronization idioms: #synchronized methods# and #synchronized statements#. 
-The synchronized keyword prevents concurrent access to a block of code or object by multiple threads.
-    [java]
-        synchronized(objectToBeLocked){
-            // do smt while other threads have no access to the resource
-        }
-        // locked object is now released.
-    [end]
-
-# How to use wait() and notify()
-
-#Intrinsic(/ɪnˈtrɪn.zɪk/ being an extremely important and basic characteristic of a person or thing) Locks(monitor lock mechanism) and Synchronization
-// Refactor the synchronisation mechanism to not use a Thread instance as a monitor
-// What is a monitor? https://stackoverflow.com/questions/3362303/whats-a-monitor-in-java
-
-Synchronization is built around an internal entity known as the #intrinsic lock or monitor lock#. (The API specification often refers to this entity simply as a "monitor.") Intrinsic locks 
-play a role in both aspects of synchronization: enforcing exclusive access to an object's state and establishing happens-before relationships that are essential to visibility.
-
-!Every object has an intrinsic lock associated with it. By convention, a thread that needs exclusive and consistent access to an object's fields has to acquire the object's intrinsic lock
-!before accessing them, and then release the intrinsic lock when it's done with them. A thread is said to own the intrinsic lock between the time it has acquired the lock and released the lock.
-!As long as a thread owns an intrinsic lock, no other thread can acquire the same lock. The other thread will block when it attempts to acquire the lock.
-
- When a thread releases an intrinsic lock, a happens-before relationship is established between that action(i.e releasing the lock) and any subsequent acquisition of the same lock.
-
-!synchronized method
- When a thread invokes a synchronized method, it automatically acquires the intrinsic lock for that method's object and releases it when the method returns. The lock release occurs even if 
- the return was caused by an uncaught exception.
-!synchronized statements
- Another way to create synchronized code is with synchronized statements. Unlike synchronized methods, synchronized statements must specify the object that provides the intrinsic lock:
-
-# Reentrant Synchronization
-Recall that a thread cannot acquire a lock owned by another thread. But a thread can acquire a lock that it already owns. Allowing a thread to acquire the same lock more than once enables
-reentrant synchronization. This describes a situation where synchronized code, directly or indirectly, invokes a method that also contains synchronized code, and both sets of code use the 
-same lock. Without reentrant synchronization, synchronized code would have to take many additional precautions to avoid having a thread cause itself to block.
-
- # What is Liveness in java
- # Definition : A concurrent application's ability to execute in a timely manner is known as its liveness. The most common kind of liveness problem, deadlock, and two other liveness problems, 
- # starvation and livelock.
-
-# What is deadlock: 
-Deadlock describes a situation where two or more threads are blocked forever, waiting for each other.
-!Cause: The fact that, while thread1 who has lock of A is asking for lock of B, thread2 who owns lock of B is also asking for the lock of A, caused the deadlock. 
-
-
-# ???
-Good or bad practice? Link: https://docs.oracle.com/javase/tutorial/essential/concurrency/locksync.html
-    [java]
-    public class MsLunch {
-        private long c1 = 0;
-        private long c2 = 0;
-        private Object lock1 = new Object();
-        private Object lock2 = new Object();
-
-        public void inc1() {
-            synchronized(lock1) {
-                c1++;
-            }
-        }
-
-        public void inc2() {
-            synchronized(lock2) {
-                c2++;
-            }
-        }
-    }
-    [end]
-
-
-[java]
-[end]
-
-
 
 # ----------  Interview questions -------------
 # 1. How to have three threads run after another? See thread-sequential example
+// Happen after order
 // t1,t2,t3 all implement Runnable and as normal objects instead of being threads, they can be executed one after another in sequential order
 t1.run();
 t2.run();
 t3.run();
 
-# 1. Assuming they want the threads to run in parallel, one solution would be to have each thread start the next one, since the JMM guarantees that:
-! A call to start() on a thread happens-before any actions in the started thread.
+# 1. Assuming two threads should run in parallel, one solution would be to have each thread start the next one, since the JMM guarantees that:
+! A call to start() on a thread happens-before any actions in the started thread. ???????????
 
 # ----------
 # Problem with starting a new thread in a JEE container

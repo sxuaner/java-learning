@@ -1,0 +1,211 @@
+http://tutorials.jenkov.com/java-concurrency/locks.html
+
+# What is lock in java and the differences between lock and synchronized keyword.
+[java]
+public interface Lock{}
+[end]
+A lock is a tool for controlling access to a shared resource by multiple threads. Commonly, a lock provides 
+exclusive access to a shared resource: only one thread at a time can acquire the lock and all access to the shared
+resource requires that the lock be acquired first. However, some locks may allow concurrent access to a shared 
+resource, such as the read lock of a ReadWriteLock.
+
+The use of synchronized methods or statements provides access to the implicit monitor lock associated with every 
+object, but forces all lock acquisition and release to occur in a block-structured way: when multiple locks are 
+acquired they must be released in the opposite order, and all locks must be released in the same lexical scope in 
+which they were acquired.
+
+While the scoping mechanism for synchronized methods and statements makes it much easier to program with monitor 
+locks, and helps avoid many common programming errors involving locks, there are occasions where you need to work 
+with locks in a more flexible way. For example, some algorithms for traversing concurrently accessed data structures 
+require the use of "hand-over-hand" or "chain locking": you acquire the lock of node A, then node B, then release A 
+and acquire C, then release B and acquire D and so on. Implementations of the Lock interface enable the use of such 
+techniques by allowing a lock to be acquired and released in different scopes, and allowing multiple locks to be 
+acquired and released in any order.
+
+With this increased flexibility comes additional responsibility. 
+The absence of block-structured locking removes the automatic release of locks that occurs with synchronized 
+methods and statements. In most cases, the following idiom should be used
+[java] 
+ Lock l = ...;
+ l.lock();
+ try {
+   // access the resource protected by this lock
+ } finally {
+   l.unlock();
+ }
+[end]
+
+
+When locking and unlocking occur in different scopes, care must be taken to ensure that all code that is executed 
+while the lock is held is protected by try-finally or try-catch to ensure that the lock is released when necessary.
+Lock implementations provide additional functionality over the use of synchronized methods and statements by 
+providing a non-blocking attempt to acquire a lock (tryLock()), an attempt to acquire the lock that can be 
+interrupted (lockInterruptibly(), and an attempt to acquire the lock that can timeout (tryLock(long, TimeUnit)).
+
+A Lock class can also provide behavior and semantics that is quite different from that of the implicit monitor lock, 
+such as guaranteed ordering, non-reentrant usage, or deadlock detection. If an implementation provides such 
+specialized semantics then the implementation must document those semantics.
+
+Note that Lock instances are just normal objects and can themselves be used as the target in a synchronized 
+statement. Acquiring the monitor lock of a Lock instance has no specified relationship with invoking any of the 
+lock() methods of that instance. It is recommended that to avoid confusion you never use Lock instances in this way, 
+except within their own implementation.
+
+Except where noted, passing a null value for any parameter will result in a NullPointerException being thrown.
+
+Memory Synchronization
+All Lock implementations must enforce the same memory synchronization semantics as provided by the built-in monitor 
+lock, as described in Chapter 17 of The Java™ Language Specification
+
+A successful lock operation has the same memory synchronization effects as a successful Lock action.
+A successful unlock operation has the same memory synchronization effects as a successful Unlock action.
+Unsuccessful locking and unlocking operations, and reentrant locking/unlocking operations, do not require 
+any memory synchronization effects.
+
+
+Implementation Considerations
+The three forms of lock acquisition (interruptible, non-interruptible, and timed) may differ in their performance 
+characteristics, ordering guarantees, or other implementation qualities. Further, the ability to interrupt the 
+ongoing acquisition of a lock may not be available in a given Lock class. Consequently, an implementation is not 
+required to define exactly the same guarantees or semantics for all three forms of lock acquisition, nor is it 
+required to support interruption of an ongoing lock acquisition. An implementation is required to clearly document 
+the semantics and guarantees provided by each of the locking methods. It must also obey the interruption semantics 
+as defined in this interface, to the extent that interruption of lock acquisition is supported: which is either 
+totally, or only on method entry.
+As interruption generally implies cancellation, and checks for interruption are often infrequent, an implementation
+ can favor responding to an interrupt over normal method return. This is true even if it can be shown that the interrupt occurred after another 
+ action may have unblocked the thread. An implementation should document this behavior.
+
+Locks support various methods for finer grained lock control, which are more expressive than implicit monitors 
+(synchronized locks)
+
+with locks, you can release and acquire the locks in any order.
+with synchronized, you can release the locks only in the order it was acquired.
+
+! All known implementing classes:
+! ReentrantLock, Condition, ReadWriteLock, ReentrantLock, ReentrantReadWriteLock.ReadLock, ReentrantReadWriteLock.WriteLock
+
+##Java synchronized keyword
+The Java programming language provides two basic synchronization idioms: #synchronized methods# and #synchronized statements#. 
+The synchronized keyword prevents concurrent access to a block of code or object by multiple threads.
+    [java]
+        synchronized(objectToBeLocked){
+            // do smt while other threads have no access to the resource
+        }
+        // locked object is now released.
+    [end]
+
+# How to use wait() and notify()
+
+#Intrinsic(/ɪnˈtrɪn.zɪk/ being an extremely important and basic characteristic of a person or thing) Locks(monitor lock mechanism) and Synchronization
+// Refactor the synchronisation mechanism to not use a Thread instance as a monitor
+// What is a monitor? https://stackoverflow.com/questions/3362303/whats-a-monitor-in-java
+
+Synchronization is built around an internal entity known as the #intrinsic lock or monitor lock#. (The API specification often refers to this entity 
+simply as a "monitor.") Intrinsic locks play a role in both aspects of synchronization: enforcing exclusive access to an object's state and 
+establishing happens-before relationships that are essential to visibility.
+
+!Every object has an intrinsic lock associated with it. By convention, a thread that needs exclusive and consistent access to an object's fields has 
+!to acquire the object's intrinsic lock before accessing them, and then release the intrinsic lock when it's done with them. A thread is said to own 
+!the intrinsic lock between the time it has acquired the lock and released the lock. As long as a thread owns an intrinsic lock, no other thread can 
+!acquire the same lock. The other thread will block when it attempts to acquire the lock.
+
+When a thread releases an intrinsic lock, a happens-before relationship is established between that action(i.e releasing the lock) and any subsequent 
+acquisition of the same lock.
+
+#Lock mechanism for synchronized methods
+When a thread invokes a synchronized method, it automatically acquires the intrinsic lock for that method's object and releases it when the method 
+returns. !The lock release occurs even if the return was caused by an uncaught exception.
+
+# Lock mechaism for synchronized statements
+Another way to create synchronized code is with synchronized statements. Unlike synchronized methods, synchronized statements must specify the object
+that provides the intrinsic lock.
+
+# Reentrant Synchronization
+Recall that a thread cannot acquire a lock owned by another thread. But a thread can acquire a lock that it already owns. Allowing a thread to acquire the same lock more than once enables
+reentrant synchronization. This describes a situation where synchronized code, directly or indirectly, invokes a method that also contains synchronized code, and both sets of code use the 
+same lock. Without reentrant synchronization, synchronized code would have to take many additional precautions to avoid having a thread cause itself to block.
+
+# What is Liveness in java
+Definition : A concurrent application's ability to execute in a timely manner is known as its liveness. The most common kind of liveness problem, deadlock, and two other liveness problems, 
+starvation and livelock.
+
+# What is deadlock: 
+Deadlock describes a situation where two or more threads are blocked forever, waiting for each other.
+!Cause: The fact that, while thread1 who has lock of A is asking for lock of B, thread2 who owns lock of B is also asking for the lock of A, caused the deadlock. 
+
+# ???
+Good or bad practice? Link: https://docs.oracle.com/javase/tutorial/essential/concurrency/locksync.html
+    [java]
+    public class MsLunch {
+        private long c1 = 0;
+        private long c2 = 0;
+        private Object lock1 = new Object();
+        private Object lock2 = new Object();
+
+        public void inc1() {
+            synchronized(lock1) {
+                c1++;
+            }
+        }
+
+        public void inc2() {
+            synchronized(lock2) {
+                c2++;
+            }
+        }
+    }
+    [end]
+
+# Implementation of ReentrantLock， why is it needed to be custom? What is the default behaviour?
+
+
+# Indefinitely: for a period of time with no fixed.
+
+
+# Better practices to use lock in programming.
+That said, Locks may be more useful for more complicated things where you can't acquire and release in such a clean 
+manner. I would honestly prefer to avoid using bare Locks in the first place, and just go with a more sophisticated
+concurrency control such as a #CyclicBarrier# or a #LinkedBlockingQueue#, if they meet your needs.
+
+
+# Lock and synchronized keyword.
+Locks support various methods for finer grained lock control, which are more expressive than implicit monitors 
+(synchronized locks)
+
+A Lock provides exclusive access to a shared resource: only one thread at a time can acquire the lock and all access to the shared resource requires that the lock be acquired first. However, some locks may allow concurrent access to a shared resource, such as the read lock of a ReadWriteLock.
+Advantages of Lock over Synchronization from documentation page
+
+The use of synchronized methods or statements provides access to the implicit monitor lock associated with every object, but forces all lock acquisition and release to occur in a block-structured way
+Lock implementations provide additional functionality over the use of synchronized methods and statements by providing a non-blocking attempt to acquire a lock (tryLock()), an attempt to acquire the lock that can be interrupted (lockInterruptibly(), and an attempt to acquire the lock that can timeout (tryLock(long, TimeUnit)).
+A Lock class can also provide behavior and semantics that is quite different from that of the implicit monitor lock, such as guaranteed ordering, non-reentrant usage, or deadlock detection
+ReentrantLock: In simple terms as per my understanding, ReentrantLock allows an object to re-enter from one critical section to other critical section . Since you already have lock to enter one critical section, you can other critical section on same object by using current lock.
+
+ReentrantLock key features as per this article
+
+Ability to lock interruptibly.
+Ability to timeout while waiting for lock.
+Power to create fair lock.
+API to get list of waiting thread for lock.
+Flexibility to try for lock without blocking.
+You can use  ReentrantReadWriteLock.ReadLock, ReentrantReadWriteLock.WriteLock to further acquire control on granular locking on read and write operations.
+
+Apart from these three ReentrantLocks, java 8 provides one more Lock
+
+StampedLock:
+
+Java 8 ships with a new kind of lock called StampedLock which also support read and write locks just like in the example above. In contrast to ReadWriteLock the locking methods of a StampedLock return a stamp represented by a long value.
+You can use these stamps to either release a lock or to check if the lock is still valid. Additionally stamped locks support another lock mode called optimistic locking.
+
+Have a look at this article on usage of different type of ReentrantLock and StampedLock locks.
+
+Java8: https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/
+
+
+# statistical guarantee and deterministic guarantee
+In computer science, a deterministic algorithm is an algorithm that, given a particular input, will always produce 
+the same output, with the underlying machine always passing through the same sequence of states.
+
+
+# 
+https://programmer.group/5ef57f8b53d0a.html

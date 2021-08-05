@@ -1,6 +1,6 @@
 package com.java.learning.thread;
 
-public class MyThread implements Runnable{
+public class MyThread extends Thread implements Runnable{
 
     @Override
     public synchronized void run() {

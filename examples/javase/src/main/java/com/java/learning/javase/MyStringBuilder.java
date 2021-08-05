@@ -46,29 +46,26 @@ recommended that StringBuffer be used.
 Unless otherwise noted, passing a null argument to a constructor or method in this class will cause a 
 NullPointerException to be thrown.
 
-
 API Note:
 StringBuilder implements Comparable but does not override equals. Thus, the natural ordering of 
 StringBuilder is inconsistent with equals. Care should be exercised if StringBuilder objects are used as
 keys in a SortedMap or elements in a SortedSet. See Comparable, SortedMap, or SortedSet for more
 information.
-
-
 */
 public class MyStringBuilder {
     // Not synched
     // compatble with StringBuffer, it means in case of single thread, StringBuilder can be drop-in replacement of
     // StringBuffer
 
-    /*
-        In Java SE11, the default capacity for the construcotr with no parameter is 16 characters.
-    */
-    
     public static void main(String[] args) {
-
+        /*
+        * In Java SE11, the default capacity for the construcotr with no parameter is
+        * 16 characters.
+        */
         StringBuilder sb = new StringBuilder();
         int len = sb.length();      // len is 0 but sb has the local var "value" of char[16]
 
+        // The principal two methods of StringBuilder are insert() and append()
         // insert
         sb.insert(len, false);      // false is converted into a string and inserted into the buffer inside that sb.
 
@@ -76,13 +73,23 @@ public class MyStringBuilder {
         sb.append("Appendix");
         
         /*
-         * Possible parameters for insert() 
-         * (int, boolean/char/char[]/char[],int,int/CharSequence/CharSequence,int,int/double/
-         * float/int/long/Object/String)
+         * Possible parameters for insert(x, y). y refers to following types:
+         * boolean
+         * char
+         * char[]
+         * char[],int,int
+         * CharSequence
+         * CharSequence,int,int
+         * double
+         * float
+         * int
+         * long
+         * Object
+         * String
          * 
-         * ????what is this (int, char[], int, int) parameter list? // StringBuilder
+         * Question: what does (int, char[], int, int) parameter mean? 
          * 
-         * java.lang.StringBuilder.insert(int index, char[] str, int soffset, int len)
+         *      java.lang.StringBuilder.insert(int index, char[] str, int soffset, int len)
          * 
          * Inserts the string representation of a subarray of the str array argument
          * into this sequence. The subarray begins at the specified offset and
@@ -90,11 +97,9 @@ public class MyStringBuilder {
          * sequence at // the position indicated by index. The length of this sequence
          * increases by len // chars.
          */
-        // "falseApendix" -> 
-
         char[] charArray = {'a','b','c'};
         try {
-            sb.insert(sb.length(), charArray, 1, 3); // Exception expected. OutofBoundry
+            sb.insert(sb.length(), charArray, 1, 3); // Exception expected. OutofBoundryExcepiton, see following:
         } catch (Exception e) {
         }
         /* 
@@ -103,30 +108,45 @@ public class MyStringBuilder {
         at java.lang.StringBuilder.insert(StringBuilder.java:273)
         at com.java.learning.javase.MyStringBuilder.main(MyStringBuilder.java:82)
         */
+
+        
         // what is this codePoint()?
-        // Returns the character (Unicode code point) at the specified index. The index refers to char values 
+        // It returns the character (Unicode code point) at the specified index. The index refers to char values 
         // (Unicode code units) and ranges from 0 to length()- 1.
 
-        // What are ASCII and Unicode. How are they different from each other?
+        // What are ASCII and Unicode. How are they different from each other? See encoding.notes
 
         // How to loop through an array of primitive type like char[] if no index is used?
+        // Enhanced for loop
         List<Character> charList = new ArrayList<>();
         for (char c : charArray) {
             charList.add(c);
         }
 
         // This foreach loop is translated into: 
-/*         for (int i = 0; i < someArray.length; i++) {
+        /* for (int i = 0; i < someArray.length; i++) {
             String item2 = someArray[i];
             System.out.println(item2);
         } */
 
         // Or better: using stream
-        // Stream is an interface and therefore cannot be instantiated.
-        // Following line of code is illegal because there is no CharStream interface that can be returned
-        // If array is of int type, an IntStream will be returned.
+        // .stream() returns an object of the element type:
+        // Stream<Character> java.util.Collection.stream();
 
         charList.stream().forEach(System.out::println);
+        // Stream is an interface and therefore cannot be instantiated.
+
+        // Arrays.stream(charArray);            // illegal
+        // To use .stream(), T must be a reference type instead of a primitive type
+        Character[] characterArray = { 'a', 'b', 'c' };
+
+        // Question: how to convert char array into Character array?
+        // 
+        Character[] characterArrayConvertedFromChar = new String(charArray).chars().mapToObj(x -> (char)x).toArray(Character[]::new);
+        // Integer[] intConvertedFromChar = new String(charArray).chars().toArray(Integer[]::new);
+
+        Arrays.stream(characterArray);
+        // If array is of int type, an IntStream will be returned.
         
         // Data Structure: (key, [char, codePoint]) can be implemented as (key, CharAndItsCodePoint Object)
         // And CharAndItsCodePoint is a class that wraps the [char, CodePoint] information
@@ -149,9 +169,6 @@ public class MyStringBuilder {
         }
 
         Map<Integer, CharAndItsCodePoint> myMap = new HashMap<>();
-
-
-
 
         for(int i = 0; i < sb.length()-1; i++){
             myMap.put(i, new CharAndItsCodePoint(sb.charAt(i), sb.codePointAt(i)));
