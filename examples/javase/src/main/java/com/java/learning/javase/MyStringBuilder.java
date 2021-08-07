@@ -141,10 +141,10 @@ public class MyStringBuilder {
         Character[] characterArray = { 'a', 'b', 'c' };
 
         // Question: how to convert char array into Character array?
-        // 
         Character[] characterArrayConvertedFromChar = new String(charArray).chars().mapToObj(x -> (char)x).toArray(Character[]::new);
-        // Integer[] intConvertedFromChar = new String(charArray).chars().toArray(Integer[]::new);
-
+        // 
+        Integer[] intConvertedFromChar = new String(charArray).chars().mapToObj(x -> (Integer)x).toArray(Integer[]::new);
+        
         Arrays.stream(characterArray);
         // If array is of int type, an IntStream will be returned.
         
