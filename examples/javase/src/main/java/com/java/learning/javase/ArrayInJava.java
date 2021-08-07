@@ -11,7 +11,7 @@ package com.java.learning.javase;
     4. can be looped with for(Element c: Array). Time Complexity is O(n).
 */
 
-public class MyArray {
+public class ArrayInJava {
 
     public static void main(String[] args) {
 

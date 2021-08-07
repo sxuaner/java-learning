@@ -1,5 +1,5 @@
 package com.java.learning.javase;
 
-public class MyCharSequence {
+public class FileWritterInJava {
     
 }
