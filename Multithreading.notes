@@ -215,3 +215,6 @@ https://stackoverflow.com/questions/5713142/green-threads-vs-non-green-threads
 
 # Sleep method
 https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html
+
+# How are threads destroyed in Java:
+https://stackoverflow.com/questions/671049/how-do-you-kill-a-thread-in-java

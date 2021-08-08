@@ -44,8 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * sequence contained in the string buffer does not exceed the capacity, it is
  * not necessary to allocate a new internal buffer array. If the internal buffer
  * overflows, it is automatically made larger.
- * 
- * Unless otherwise noted, passing a null argument to a constructor or method in
+ * * Unless otherwise noted, passing a null argument to a constructor or method in
  * this class will cause a NullPointerException to be thrown.
  * 
  * As of release JDK 5, this class has been supplemented with an equivalent
@@ -101,28 +100,58 @@ public class StringBufferSE {
             TestThread t2 = new TestThread();
             t2.start();
 
-            /**
-             * What t1.join() does is, t.join() waits until thread t is dead. (I.e., you call it,
-             * and it doesn't return until t is dead).
-             * 
-             * How it works is, it sits in a loop, testing the status of the thread and
-             * calling t.wait() if the thread is not dead yet. One of the last things the
-             * thread does as it dies is to change its state and then call t.notifyAll().
-             */
+        /**
+         * ow to run code after all threads are dead? Use join() What t1.join() does is,
+         * t.join() waits until thread t is dead. (I.e., you call it, and it doesn't
+         * return until t is dead).
+         * 
+         * How it works is, it sits in a loop, testing the status of the thread and
+         * calling t.wait() if the thread is not dead yet. One of the last things the
+         * thread does as it dies is to change its state and then call t.notifyAll().
+        */
+        // Here is how to trigger InterrupedException
+
+            Thread.sleep(3000);
+
+            try {
+                t2.interrupt();
+            } catch (Exception e) {
+                //do nothing
+            }
+            // Read how to use wait()
+            t1.wait();
+
+        /**
+         * java.lang.InterruptedException: sleep interrupted 
+         *      at java.base/java.lang.Thread.sleep(Native Method) 
+         *      at com.java.learning.javase.StringBufferSE$1TestThread.run(StringBufferSE.java:87)
+         */
             t1.join(); 
-
             t2.join();
-
-            //How to trigger InterrupedException
-
+    
+            // How to use wait()?
         } catch (Exception e) {         // set the break point here
             e.printStackTrace();
         }
-        
+        // Performance can be calculated with VisualVM        
         performanceCalc = System.currentTimeMillis() - performanceCalc;
-        //How to run code after all threads are dead?
-        // 55025 mils = 55s
+        // 55025 mils = 55s  
         System.out.println(performanceCalc);        
+
+        // t1 is not terminating sometimes, so how to terminate a thread?
+
+
+
+
+
+
+
+
+
+
+        /**
+         * How to use Thread.sleep() properly in Java.
+         */
 
         //yield()
         /**
