@@ -138,3 +138,80 @@ https://stackoverflow.com/questions/11713944/java-run-a-runnable-on-an-existing-
 
 # How to validate that Thread.start() actually creates a new thread and runs it?
 By putting a breakpoint inside the overriden run() method and run either start() or run() method to see the difference.
+
+
+# What is the nature of Java Thread?
+https://stackoverflow.com/questions/18278425/are-java-threads-created-in-user-space-or-kernel-space
+1. 
+Java threads are "user" threads, but under the hood, the Java Virtual Machine is using kernel threads and delegating 
+the user threads CPU time on each kernel thread in its kernel thread pool. See this question for a better explanation. 
+It seems that threading is JVM-vendor specific, and my understanding might not hold for all JVM implementations.
+2. 
+Most JVMs implement threads with native, OS level threads, including the Oracle reference implementation based on OpenJDK.
+
+I imagine the JVMs that use 'green threads' (user space simulation of threads) would use preemptive scheduling so that 
+an infinite loop in one thread doesn't block the other threads, but without knowledge of a particular implementation 
+this is just speculation.
+
+https://stackoverflow.com/questions/2653458/understanding-javas-native-threads-and-the-jvm
+
+# Understanding Java native thread and the jvm
+Answer1:
+1. Does every thread create their own instance of the JVM to handle their particular execution?
+No. They execute in the same JVM so that (for example) they can share objects and class attributes.
+
+2. If not then does the JVM have to have some way to schedule which thread it will handle next
+There are two kinds of thread implementation in Java. Native threads are mapped onto a thread abstraction which is 
+implemented by the host OS. The OS takes care of native thread scheduling, and time slicing.
+
+The second kind of thread is "green threads". These are implemented and managed by the JVM itself, with the JVM 
+implementing thread scheduling. Java green thread implementations have not been supported by Sun / Oracle JVMs since 
+Java 1.2. (See Green Threads vs Non Green Threads)
+
+If so wouldn't this render the multi-threaded nature of Java useless since only one thread can be ran at a time?
+We are talking about green threads now, and this is of historic interest (only) from the Java perspective.
+
+Green threads have the advantage that scheduling and context switching are faster in the non-I/O case. (Based on 
+measurements made with Java on Linux 2.2; http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.8.9238)
+With pure green threads, N programming language threads are mapped to a single native thread. In this model you don't 
+get true parallel execution, as you noted.
+In a hybrid thread implementation, N programming language threads are mapped onto M native threads (where N > M). In 
+this model, the in-process thread scheduler is responsible for the green thread to native thread scheduling AND you g
+et true parallel execution (if M > 1); see https://stackoverflow.com/a/16965741/139985.
+But even with the pure green threads, you still get concurrency. Control is switched to another threads a thread 
+blocks on an I/O operation, whick acquiring a lock, and so on. Furthermore, the JVM's runtime could implement periodic 
+thread preemption so that a CPU intensive thread doesn't monopolize the (single) core to the exclusion of other threads
+
+
+#Answer2:
+Does every thread create their own instance of the jvm to handle their particular execution?
+No, your application running in the JVM can have many threads that all exist within that instance of the JVM.
+
+If not then does the jvm have to have some way to schedule which thread it will handle next...
+Yes, the JVM has a thread scheduler. There are many different algorithms for thread scheduling, and which one is used is JVM-vendor dependent. (Scheduling in general is an interesting topic.)
+
+...if so wouldn't this render the multi-threaded nature of java useless since only one thread can be ran at a time?
+I'm not sure I understand this part of your question. This is kind of the point of threading. You typically have more 
+threads than CPUs, and you want to run more than one thing at a time. Threading allows you to take full(er) advantage 
+of your CPU by making sure it's busy processing one thread while another is waiting on I/O, or is for some other 
+reason not busy.
+
+Answer3:
+A Java thread may be mapped one-to-one to a kernel thread. But this must not be so. There could be n kernel threads running m java threads, 
+where m may be much larger than n, and n should be larger than the number of processors. The JVM itself starts the n kernel threads, and 
+each one of them picks a java thread and runs it for a while, then switches to some other java thread. The operating system picks kernel threads 
+and assigns them to a cpu. So there may be thread scheduling on several levels. You may be interested to look at the GO programming language, 
+where thousands of so called "Goroutines" are run by dozens of threads.
+
+!?How exactly is the mapping of java thread to kernel thread? 1:1 or n:m?
+
+# Scheduling is a interesting topc
+https://en.wikipedia.org/wiki/Scheduling_%28computing%29
+
+
+# Green thread and non-green thread
+https://stackoverflow.com/questions/5713142/green-threads-vs-non-green-threads
+
+
+# Sleep method
+https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html

@@ -15,7 +15,9 @@ package com.java.learning.javase;
  * implemented in a fixed memory location in hardware—or by using a virtual data
  * buffer in software, pointing at a location in the physical memory. In all
  * cases, the data stored in a data buffer are stored on a physical storage
- * medium. A majority of buffers are implemented in software, which typically
+ * medium. 
+ * 
+ * A majority of buffers are implemented in software, which typically
  * use the faster RAM to store temporarydata, due to the much faster access
  * time compared with hard disk drives. Buffers are typically used when there is
  * a difference between the rate at which data is received and the rate at which
@@ -123,6 +125,8 @@ package com.java.learning.javase;
  * Buffers are not safe for use by multiple concurrent threads. If a buffer is
  * to be used by more than one thread then access to the buffer should be
  * controlled by appropriate synchronization.
+ * 
+ * StringBuffer is actually not a buffer
  * 
  * ################################ Invocation chaining
  * 

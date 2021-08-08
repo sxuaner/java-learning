@@ -1,0 +1,4 @@
+# StringBuffer is in java.lang package, whereas Buffer abstract class is in java.nio
+
+# Start with this doc
+https://docs.oracle.com/javase/8/docs/technotes/guides/io/index.html

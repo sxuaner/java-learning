@@ -1,0 +1,7 @@
+
+#  JS context
+https://nodejs.org/en/docs/guides/blocking-vs-non-blocking/  
+
+non-blocking & Async
+In many circumstances they are different names for the same thing, but in some contexts they are quite different. 
+So it depends. Terminology is not applied in a totally consistent way across the whole software industry.

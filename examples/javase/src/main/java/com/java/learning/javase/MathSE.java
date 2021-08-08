@@ -14,7 +14,7 @@ import java.util.Iterator;
  * Questions:
  *  1. How is multiplicatio of 2 ints exactly done?
  */
-public class App 
+public class MathSE 
 {
     public static void main( String[] args )
     {   
