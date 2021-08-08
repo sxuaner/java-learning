@@ -70,6 +70,7 @@ package com.java.learning.javase;
  * information.
  * 
  */
-public class MyStringBuffer {
+public class StringBufferSE {
+    // What does it mean by "StringBuffer is thread-safe?"? What methods are thread-safe?
     
 }

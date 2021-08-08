@@ -4,13 +4,15 @@ package com.java.learning.javase;
 import java.nio.CharBuffer;
 import java.util.stream.IntStream;
 
-/**
- 
- 
-public abstract class CharBuffer extends Buffer
-    implements Comparable<CharBuffer>, Appendable, CharSequence, Readable
 
-A char buffer.
+/**
+ * public abstract class CharBuffer extends Buffer implements
+ * Comparable<CharBuffer>, Appendable, CharSequence, Readable
+ */
+
+ 
+
+/*
 This class defines four categories of operations upon char buffers:
 
 1. Absolute and relative get and put methods that read and write single chars;
@@ -24,7 +26,8 @@ Char buffers can be created either
 2. by wrapping an existing char array or string into a buffer. 
 3. by creating a view of an existing byte buffer.
 
-?? What is direct   see DirectBufferInJava.java
+################  What is direct?
+see DirectBufferInJava.java
 
 Like a byte buffer, a char buffer is either direct or non-direct. A char buffer created via the wrap methods of this 
 class will be non-direct. A char buffer created as a view of a byte buffer will be direct if, and only if, the byte 
@@ -32,26 +35,9 @@ buffer itself is direct. Whether or not a char buffer is direct may be determine
 
 This class implements the CharSequence interface so that character buffers may be used wherever character sequences 
 are accepted, for example in the regular-expression package java.util.regex.
-
-Methods in this class that do not otherwise have a value to return are specified to return the buffer upon which 
-they are invoked. This allows method invocations to be chained. The sequence of statements
- cb.put("text/");
- cb.put(subtype);
- cb.put("; charset=");
- cb.put(enc);
- can, for example, be replaced by the single statement
- cb.put("text/").put(subtype).put("; charset=").put(enc);
-
-
-Method signature:
-public abstract class Buffer (implicitly extends Object)
- 
-public abstract class CharBuffer extends Buffer 
-    implements Comparable<CharBuffer>, Appendable, CharSequence, Readable {}
-
 */
 
-public class CharBufferInJava {
+public class CharBufferSE {
     public static void main(String[] args) {
 
         char[] charArray = {'a','b','c'};
@@ -108,6 +94,24 @@ public class CharBufferInJava {
         // what's the desgn pattern used in CharBuffer and HeapCharBuffer implementation?
 
         // What are 
+
+
+        /* Methods in this class that do not otherwise have a value to return are specified to return the buffer upon which 
+           they are invoked. This allows method invocations to be chained. The sequence of statements
+        */
+
+        cbWrap.put("text/").put("subtype").put("; charset=").put(cbAllocate);
+
+        /* 
+        put(CharBuffer) is implemented as:
+            for (int i = 0; i < n; i++)
+                // Relative get method. Reads the char at this buffer's current position, and then increments the position.
+                put(src.get());
+
+        What is current position?
+        */
+
+            
 
         }
     

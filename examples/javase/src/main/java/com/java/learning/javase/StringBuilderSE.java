@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /* java.lang.StringBuilder
 A mutable sequence of characters. 
@@ -52,7 +51,7 @@ StringBuilder is inconsistent with equals. Care should be exercised if StringBui
 keys in a SortedMap or elements in a SortedSet. See Comparable, SortedMap, or SortedSet for more
 information.
 */
-public class StringBuilderInJava {
+public class StringBuilderSE {
     // Not synched
     // compatble with StringBuffer, it means in case of single thread, StringBuilder can be drop-in replacement of
     // StringBuffer

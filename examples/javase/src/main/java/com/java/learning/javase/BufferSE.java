@@ -1,6 +1,10 @@
 package com.java.learning.javase;
 
 /**
+ * public abstract class Buffer (implicitly extends Object){}
+ */
+
+/**
  * what is a buffer in general? In computer science, a data buffer (or just
  * buffer) is a region of a physical memory storage used to temporarily store
  * data while it is being moved from one place to another. Typically, the data
@@ -12,7 +16,7 @@ package com.java.learning.javase;
  * buffer in software, pointing at a location in the physical memory. In all
  * cases, the data stored in a data buffer are stored on a physical storage
  * medium. A majority of buffers are implemented in software, which typically
- * use the faster RAM to store temporary data, due to the much faster access
+ * use the faster RAM to store temporarydata, due to the much faster access
  * time compared with hard disk drives. Buffers are typically used when there is
  * a difference between the rate at which data is received and the rate at which
  * it can be processed, or in the case that these rates are variable, for
@@ -23,13 +27,13 @@ package com.java.learning.javase;
  * writing data into the queue at one rate and reading it at another rate.
  * 
  * 
- * What is buffer in java?
+ * What is buffer class in java?
  * 
  * A container for data of a specific primitive type.
  * 
  * A buffer is a linear, finite sequence of elements of a specific primitive
  * type. Aside from its content, the essential properties of a buffer are its
- * capacity, limit, and positio:
+ * capacity, limit, and position:
  * 
  * A buffer's capacity is the number of elements it contains. The capacity of a
  * buffer is never negative and never changes.
@@ -130,10 +134,8 @@ package com.java.learning.javase;
  * compact statement b.flip().position(23).limit(42);
  */
 
-/**
- * public abstract class Buffer (implicitly extends Object)
- */
 
-public interface BufferInJava {
-    
+
+public interface BufferSE {
+
 }

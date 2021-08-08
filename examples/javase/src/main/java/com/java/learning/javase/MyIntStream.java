@@ -2,7 +2,6 @@ package com.java.learning.javase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntBinaryOperator;
 import java.util.stream.Stream;
 
 public class MyIntStream {
