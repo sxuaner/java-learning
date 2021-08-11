@@ -74,7 +74,7 @@ public class StringBufferSE {
             public void run() {
                 // How is 1 second represented in Java? By using Thread.sleep(millisec). 
                 // Watchout: sleep() is a static method
-                while(count.get()<10){
+                while(count.get()<30){
                     try {
                         // expected: 0:t0#1:t1#...#9:t?
                         // Before sleep in try block in main method: "#0:Thread-0#1:Thread-1#2:Thread-0#3:Thread-1#4:Thread-0#4:Thread-1#6:Thread-0#6:Thread-1#8:Thread-0#8:Thread-1"
@@ -99,9 +99,10 @@ public class StringBufferSE {
             Thread.sleep(5000);
             TestThread t2 = new TestThread();
             t2.start();
+            Thread.getAllStackTraces();
 
         /**
-         * ow to run code after all threads are dead? Use join() What t1.join() does is,
+         * How to run code after all threads are dead? Use join() What t1.join() does is,
          * t.join() waits until thread t is dead. (I.e., you call it, and it doesn't
          * return until t is dead).
          * 
@@ -110,29 +111,25 @@ public class StringBufferSE {
          * thread does as it dies is to change its state and then call t.notifyAll().
         */
         // Here is how to trigger InterrupedException
-
-            Thread.sleep(3000);
-
+  /*           Thread.sleep(3000);
             try {
                 t2.interrupt();
             } catch (Exception e) {
                 //do nothing
             }
-            // Read how to use wait()
-            t1.wait();
 
         /**
          * java.lang.InterruptedException: sleep interrupted 
          *      at java.base/java.lang.Thread.sleep(Native Method) 
          *      at com.java.learning.javase.StringBufferSE$1TestThread.run(StringBufferSE.java:87)
          */
-            t1.join(); 
-            t2.join();
+            // t1.join(); 
+            // t2.join();
     
-            // How to use wait()?
         } catch (Exception e) {         // set the break point here
             e.printStackTrace();
         }
+        // Thread.exit()
         // Performance can be calculated with VisualVM        
         performanceCalc = System.currentTimeMillis() - performanceCalc;
         // 55025 mils = 55s  
@@ -140,7 +137,7 @@ public class StringBufferSE {
 
         // t1 is not terminating sometimes, so how to terminate a thread?
 
-
+        
 
 
 

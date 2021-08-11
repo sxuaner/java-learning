@@ -495,6 +495,13 @@ ZGC is intended for applications which require low latency (less than 10 ms paus
 java -XX:+PrintCommandLineFlags -version
 java -XX:+PrintFlagsFinal <GC options> -version | grep MaxHeapSize
 
-
 # What are a mutator thread and mutator method.
 
+
+# What is memeory leak and how  to create one?
+https://stackoverflow.com/questions/6470651/how-can-i-create-a-memory-leak-in-java
+
+# Good article on W3 on GC in Java
+https://www.w3resource.com/java-tutorial/garbage-collection-in-java.php
+
+# How does jvm find the object given a reference?

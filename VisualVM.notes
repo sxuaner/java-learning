@@ -1,1 +1,320 @@
+# What is thread dump
+A JVM Thread Dump is a snapshot taken at a given time which provides you with a complete listing of all created Java Threads.
 
+
+# To change the jdk used on vsualvm when debugging in vscode, modify in the setting.json, java.configuration.runtimes
+
+# How to get stacktrace in VisualVM?
+Thread dump
+https://dzone.com/articles/how-to-read-a-thread-dump
+https://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/profiler.html
+https://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/
+https://sites.google.com/site/threaddumps/java-thread-dumps
+
+############## profiling:
+Links: https://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/profiler.html
+In software engineering, profiling ("program profiling", "software profiling") is a form of dynamic program analysis 
+that measures, for example, the space (memory) or time complexity of a program, the usage of particular instructions, 
+or the frequency and duration of function calls. Most commonly, profiling information serves to aid program 
+optimization, and more specifically, performance engineering.
+
+Profiling is achieved by instrumenting either the program source code or its binary executable form using a tool 
+called a profiler (or code profiler). Profilers may use a number of different techniques, such as event-based, 
+statistical, instrumented, and simulation methods.
+
+
+
+################ Understanding the thread dump
+$jps            //JVM Process Status (JPS) tool. use this command shipped with jdk to list all the IDs of running processes
+                // the result is normally Local VM ID (lvmid)
+$jstack -l <process id> >output        // To generate the dump
+
+
+Note that if we did not have a JDK 7+ installed, we could also generate a thread dump by quitting the deadlocked 
+program with a SIGQUIT signal. To do this on Linux, simply kill deadlocked program using its PID (11568 in our 
+example), along with the -3 flag.  Thread dumps are generally logged to the stderr.
+
+kill -3 11568
+
+Although very rare the JVM can also generate a thread dump when a thread causes the JVM to crash. The amount of 
+information which gets logged is again implementation specific. Typically you will find information about the thread 
+which caused the JVM to crash.
+
+################ Different IDs
+"Reference Handler" #2 daemon prio=10           // Object ID
+is A unique ID associated with each Thread object. This number is generated, starting at 1, for all threads in the 
+system. Each time a Thread object is created, the sequence number is incremented and then assigned to the newly 
+created Thread. This ID is read-only and can be obtained by calling getId on a Thread object.
+from method
+[java]
+/* For autonumbering anonymous threads. */
+    private static int threadInitNumber;
+    private static synchronized int nextThreadNum() {
+        return threadInitNumber++;
+    }
+[end]
+
+
+tid
+?? Where is threadSeqNumber = 14 from at debugging the StringBufferSE.java
+[java]
+    /* Set thread ID */
+    this.tid = nextThreadID();
+
+    /* For generating thread ID */
+    private static long threadSeqNumber;
+    private static synchronized long nextThreadID() {
+        return ++threadSeqNumber;
+    }
+[end]
+
+
+
+nid
+In Linux, it's the process id? Find prove
+
+#################### Sample thread dump #####################
+
+!Part1
+2021-08-09 18:06:07
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (11.0.12+8-LTS-237 mixed mode):
+
+!Part2
+# SMR
+This section contains the thread list Safe Memory Reclamation (SMR), which enumerates the addresses of all non-JVM 
+internal threads. e.g. non-VM and non-Garbage Collection (GC)).If we examine these addresses, we see that they 
+correspond to the #tid value# — #the address of the native thread object#, not the Thread ID, as we will see shortly — 
+of each of the numbered threads in the dump (note that ellipses are used to hide superfluous information)
+
+16^16 = ((2)^4)^16=2^64 in total addresses, which corresponds to 64 bit cpu? 
+
+1GB = 2^10 MB = 2^20 KB = 2^30 Bytes = 2^33 bits
+8GB = 2^36 bits 
+
+
+
+# When we talk about the size of a memeory, what are we actually talking about?
+Computer Architectures also impose an architectural constraint on the maximum allowable RAM. This constraint is 
+normally equal to 2^WordSize memory locations
+
+Although slower than register memory, the contents of any location in RAM can still be “read” or “written” very 
+quickly. The time to read or write is referred to as the access time and is the same for all RAM locations.
+
+What is wordsize?
+
+Threads class SMR info:
+_java_thread_list=0x00007fc4bd335540, length=20, elements={
+0x00007fc4bd80a800, 0x00007fc4be010800, 0x00007fc4c0025000, 0x00007fc4c0028000,
+0x00007fc4bc809000, 0x00007fc4be012000, 0x00007fc4be012800, 0x00007fc4c1813800,
+0x00007fc4bf0ca000, 0x00007fc4bc81e800, 0x00007fc4bf81b000, 0x00007fc4c0026800,
+0x00007fc4bf0cc000, 0x00007fc4bf30b800, 0x00007fc4bc811000, 0x00007fc4c0079000,
+0x00007fc4bf310800, 0x00007fc4bf48b800, 0x00007fc4bcc05800, 0x00007fc4bca24800
+}
+
+"Reference Handler" #2 daemon prio=10 os_prio=31 cpu=0.17ms elapsed=60.67s tid=0x00007fc4bd80a800 nid=0x3403 waiting on condition  [0x000070000d33b000]
+   java.lang.Thread.State: RUNNABLE
+        at java.lang.ref.Reference.waitForReferencePendingList(java.base@11.0.12/Native Method)
+        at java.lang.ref.Reference.processPendingReferences(java.base@11.0.12/Reference.java:241)
+        at java.lang.ref.Reference$ReferenceHandler.run(java.base@11.0.12/Reference.java:213)
+
+   Locked ownable synchronizers:
+        - None
+
+"Finalizer" #3 daemon prio=8 os_prio=31 cpu=0.33ms elapsed=60.67s tid=0x00007fc4be010800 nid=0x3703 in Object.wait()  [0x000070000d43e000]
+   java.lang.Thread.State: WAITING (on object monitor)
+        at java.lang.Object.wait(java.base@11.0.12/Native Method)
+        - waiting on <0x0000000787f09018> (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(java.base@11.0.12/ReferenceQueue.java:155)
+        - waiting to re-lock in wait() <0x0000000787f09018> (a java.lang.ref.ReferenceQueue$Lock)
+        at java.lang.ref.ReferenceQueue.remove(java.base@11.0.12/ReferenceQueue.java:176)
+        at java.lang.ref.Finalizer$FinalizerThread.run(java.base@11.0.12/Finalizer.java:170)
+
+   Locked ownable synchronizers:
+        - None
+...
+...
+"VM Thread" os_prio=31 cpu=53.22ms elapsed=60.68s tid=0x00007fc4bf0b7000 nid=0x3103 runnable  
+
+"GC Thread#0" os_prio=31 cpu=5.19ms elapsed=60.70s tid=0x00007fc4bf013800 nid=0x5103 runnable  
+
+"G1 Main Marker" os_prio=31 cpu=0.51ms elapsed=60.70s tid=0x00007fc4bf034800 nid=0x5003 runnable  
+
+"G1 Conc#0" os_prio=31 cpu=0.03ms elapsed=60.70s tid=0x00007fc4bf035000 nid=0x4d03 runnable  
+
+"G1 Refine#0" os_prio=31 cpu=0.45ms elapsed=60.69s tid=0x00007fc4bf096000 nid=0x4b03 runnable  
+
+"G1 Young RemSet Sampling" os_prio=31 cpu=12.01ms elapsed=60.69s tid=0x00007fc4bf096800 nid=0x4903 runnable  
+"VM Periodic Task Thread" os_prio=31 cpu=50.17ms elapsed=60.51s tid=0x00007fc4bf0cb000 nid=0x6003 waiting on condition  
+
+JNI global refs: 57, weak refs: 14
+
+#Handling More Complex Thread Dumps
+When handling production applications, thread dumps can become overwhelming very quickly. A single JVM may have 
+hundreds of threads running at the same time and deadlocks may involve more than two threads (or there may be more 
+than one concurrency issue as a side-effect of a single cause) and parsing through this firehose of information can 
+be tedious and unruly. 
+
+In order to handle these large-scale situations, Thread Dump Analyzers (TDAs) should be the tool of choice. These 
+tools parse Java thread dumps display otherwise confusing information in a manageable form (commonly with a graph or 
+other visual aid) and may even perform static analysis of the dump to discover issues. While the best tool for a 
+situation will vary by circumstance, some of the most common TDAs include the following
+
+fastThread
+Spotify TDA
+IBM Thread and Monitor Dump Analyze for Java
+irockel TDA
+
+# Anonymous Thread
+This thread, along with Thread-1, are called anonymous threads because they are not explicitly named (
+
+
+# JNI global references count
+JNI (Java Native Interface) global references are basically Object references from the native code to a Java object 
+managed by the Java garbage collector. Its role is to prevent collection of an object that is still in use by native 
+code but technically with no “live” references in the Java code.
+
+It is also important to keep an eye on JNI references in order to detect JNI related leaks. This can happen if you 
+program use JNI directly or using third party tools like monitoring tools which are prone to native memory leaks.
+
+
+
+Java Thread Dumps
+ Part 1 
+
+
+ 
+In this article we will try to understand Java Thread Dumps and how they can be very powerful tools to quickly understand and solve common problems. This article is divided into 2 parts. The first part focuses on following basic topics
+Brief introduction to Java threads
+Understand what are thread dumps
+Format of thread dumps
+How to take thread dumps
+
+In the Part II we will learn to dissect and interpret thread dumps by
+Understanding thread states
+Best practices around analysing dumps
+Analysing a few race conditions
+Resources
+
+All through this article the thread dumps shown are from real life scenarios. However, in the interest of space only snippets have been shown. We hope that the fundamental concepts can be still be easily understood and easily applied to your situation.
+
+Part I
+
+Introduction to Java threads
+
+Processes and Threads are basic building blocks for concurrent programming.
+
+A process has a self-contained execution environment. A process generally has a complete, private set of basic run-time resources; in particular, each process has its own memory space. Processes are often seen as synonymous with programs or applications. However, what the user sees as a single application may in fact be a set of cooperating processes. To facilitate communication between processes, most operating systems support Inter Process Communication (IPC) resources, such as pipes and sockets. IPC is used not just for communication between processes on the same system, but processes on different systems.
+
+Threads are sometimes called lightweight processes. Both processes and threads provide an execution environment, but creating a new thread requires fewer resources than creating a new process.
+Threads exist within a process — every process has at least one. Threads share the process's resources, including memory and open files. This makes for efficient, but potentially problematic, communication. Multithreaded execution is an essential feature of the Java platform. Every application has at least one thread — or several, if you count "system" threads that do things like memory management and signal handling. But from the application programmer's point of view, you start with just one thread, called the main thread. This thread has the ability to create additional threads, as we'll demonstrate in the next section. Most implementations of the Java virtual machine run as a single process.
+
+
+The rest of the article assumes you have basic understanding of programming with threads on java. If you would like to refresh your knowledge we would highly recommend Concurrency chapter from the Sun Java Tutorial. You could also look at the several other online resources.
+What are thread dumps
+Let us understand thread dumps by looking at a thread dump.
+
+Full thread dump Java HotSpot(TM) Client VM (1.5.0_04-b05 mixed mode, sharing):
+
+"DestroyJavaVM" prio=5 tid=0x00036218 nid=0xd68 waiting on condition [0x00000000..0x0007fae8]
+
+"Thread-1" prio=5 tid=0x00ab8e68 nid=0xe14 waiting on condition [0x02d0f000..0x02d0fb68]
+at java.lang.Thread.sleep(Native Method)
+at org.tw.testyard.thread.Consumer.run(Consumer.java:18)
+at java.lang.Thread.run(Unknown Source)
+
+"Thread-0" prio=5 tid=0x00aa3ab8 nid=0x1530 waiting on condition [0x02ccf000..0x02ccfbe8]
+at java.lang.Thread.sleep(Native Method)
+at org.tw.testyard.thread.Producer.run(Producer.java:24)
+at java.lang.Thread.run(Unknown Source)
+
+"Low Memory Detector" daemon prio=5 tid=0x00a6e950 nid=0x1698 runnable [0x00000000..0x00000000]
+
+"CompilerThread0" daemon prio=10 tid=0x00a6d658 nid=0x5b8 waiting on condition [0x00000000..0x02c0fa4c]
+
+"Signal Dispatcher" daemon prio=10 tid=0x00a6c7c0 nid=0x15e0 waiting on condition [0x00000000..0x00000000]
+
+"Finalizer" daemon prio=9 tid=0x0003fb00 nid=0x598 in Object.wait() [0x02b8f000..0x02b8fa68]
+at java.lang.Object.wait(Native Method)
+- waiting on <0x22a80840> (a java.lang.ref.ReferenceQueue$Lock)
+at java.lang.ref.ReferenceQueue.remove(Unknown Source)
+- locked <0x22a80840> (a java.lang.ref.ReferenceQueue$Lock)
+at java.lang.ref.ReferenceQueue.remove(Unknown Source)
+at java.lang.ref.Finalizer$FinalizerThread.run(Unknown Source)
+
+"Reference Handler" daemon prio=10 tid=0x00a47aa0 nid=0x1538 in Object.wait() [0x02b4f000..0x02b4fae8]
+at java.lang.Object.wait(Native Method)
+- waiting on <0x22a80750> (a java.lang.ref.Reference$Lock)
+at java.lang.Object.wait(Unknown Source)
+at java.lang.ref.Reference$ReferenceHandler.run(Unknown Source)
+- locked <0x22a80750> (a java.lang.ref.Reference$Lock)
+
+"VM Thread" prio=10 tid=0x00a67ce8 nid=0xc78 runnable
+
+"VM Periodic Task Thread" prio=10 tid=0x00a6fc90 nid=0x830 waiting on condition
+
+As the name suggests thread dump is a dump of all the threads in a Java virtual machine. It contains the current execution state of both application and the JVM specific threads. The above thread dump snippet shows two application threads [Thread-0 and Thread-1] and JVM specific threads such as "Signal Dispatcher", "Finalizer" etc. For the purpose of this article we will focus only on application threads.
+
+Thread dumps are extremely useful in the following situations
+To get a holistic view of what is happening in the application at that particular moment
+To expose glaring issues such as
+portions of code which seem to be invoked almost always
+portions of code where the application seems to be hung
+locking and thread synchronization issues in an application
+Additionally they are invaluable in production environments where sophisticated profiling tools cannot be easily 
+attached Format of thread dumps
+The format of thread dump has been changing with JSE versions. Sun or any other vendors inform users that the format 
+will change between versions. However one thing which hasn't changed is the level of information contained in a 
+thread dump. As mentioned above thread dumps is a snapshot of the JVM state listing all the application and system 
+level threads and monitor states.
+
+Full thread dump Java HotSpot(TM) Client VM (1.5.0_04-b05 mixed mode, sharing):
+
+"Thread-1" prio=5 tid=0x00a995d0 nid=0x1300 in Object.wait() [0x02d0f000..0x02d0fb68]
+at java.lang.Object.wait(Native Method)
+- waiting on <0x22aaa8d0> (a org.tw.testyard.thread.Drop)
+at java.lang.Object.wait(Unknown Source)
+at org.tw.testyard.thread.Drop.take(Drop.java:14)
+- locked <0x22aaa8d0> (a org.tw.testyard.thread.Drop)
+at org.tw.testyard.thread.Consumer.run(Consumer.java:15)
+at java.lang.Thread.run(Unknown Source)
+
+"Thread-0" prio=5 tid=0x00a88440 nid=0x6a4 waiting on condition [0x02ccf000..0x02ccfbe8]
+at java.lang.Thread.sleep(Native Method)
+at org.tw.testyard.thread.Producer.run(Producer.java:24)
+at java.lang.Thread.run(Unknown Source)
+
+In the thread dump snippet above you can observe the following
+The thread dump starts with "Full thread dump", followed by a list of threads currently being executed.
+There are 2 application threads called Thread-1 and Thread-0. These are the default names which the JVM handed over to the threads.
+"Thread-1" is waiting for a notification after it called Object.wait() on the Drop object.
+Similarly, "Thread-0" is sleeping on a condition after it called Thread.sleep
+At this particular instant, there are no threads in the runnable state and hence the application isn't doing any real work.
+
+Although thread dumps also lists the state of the system threads we are not going to look deeper into system threads.
+How to take thread dumps
+Thread dumps can be generated by the users as well as the system in unusual situations. The users can generate thread dumps by explicitly sending a signal to the JVM or programatically by calling java.lang.Exception.printStackTrace(). Calling printStackTrace() method will only cause the stack trace of the current thread to be printed.
+
+On windows environment thread dumps can only be generated when the process is running in the fore ground and is 
+associated with a command line console. Thread dumps can be generated by hitting the key combination Ctrl + \ 
+(Back slash). On unix / linux enviroments thread dumps can be generated by the command kill -QUIT <process id of jvm> 
+or kill -3 <process id of jvm>. Thread dumps are generally logged to the stderr. Depending on your start up commands 
+you may find the thread dumps in some other log files. Please consult your system administrator for details. 
+Taking thread dumps by either of the 2 strategies doesnt cause the application to terminate, the JVM dumps the 
+execution state and continues.
+
+Although very rare the JVM can also generate a thread dump when a thread causes the JVM to crash. The amount of 
+information which gets logged is again implementation specific. Typically you will find information about the thread 
+which caused the JVM to crash.
+ 
+
+
+Understanding Thread States
+Before starting on dissecting thread dumps it is very important to get a good understanding of the common thread states. The documentation for java.lang.management.ThreadState clearly states the thread can be in any one of the following states
+NEW : A thread is in a new state when it has just been created and the start() method hasn't been invoked
+RUNNING : A thread is in a runnable state when the start method has been invoked and the JVM actively schedules it for execution
+BLOCKED / WAITING FOR MONITOR ENTRY: Thread enters this state when it isn't able to acquire the necessary monitors to enter a synchronized block. A thread waits for other threads to reliquish the monitor. A thread in this state isnt doing any work
+WAITING : A thread enters this state when it relinquishes its control over the monitor by calling Object.wait(). It waits till the time other threads invoke Object.notify() or Object.notifyAll(). In this state too the thread isnt doing any work
+TIMED WAITING : A thread enters this state when it relinquishes its control over the monitor by calling Object.wait(long). It waits till the time other threads invoke Object.notify() / Object.notifyAll() or when the wait time expires. In this state too the thread isnt doing any work
+SLEEPING  / WAITING ON CONDITION: A thread sleeps when it calls Thread.sleep(long). As the name suggests the thread isnt doing in this state either
+Terminated
+Other

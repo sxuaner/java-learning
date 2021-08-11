@@ -1,0 +1,13 @@
+# what does << do?
+https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op3.html
+
+# use Karakau to disassemble the code
+1. downlaod the app on github
+2. python disassemble.py <class-file>           // this outputs a .j file
+3. cat <filename>.j                  
+// j files are descriptions of Java classes,written in a simple assembler-like syntax using the Java Virtual Machine 
+// instruction set and Jasmin assembler converts them into binary Java class files, suitable for loading by a Java 
+// runtime system.
+
+or: 
+$javap -c BitWiseOperators.class        // To disassemble the class file

@@ -12,7 +12,15 @@ public class ThreadSE {
          * thread does as it dies is to change its state and then call t.notifyAll().
          */
 
+         /**
+          * How to use wait()
+          * 
+          * 
+          * 
+          */
 
+        // wait() method is defined in Object
+         
         
     }
     

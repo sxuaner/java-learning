@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 // What's inside a String? 
 // Logic behind the String class is : private final char value[];
 // FInal vars cannot be reassigned
-public class MyString {
+public class StringSE {
      
     public static void main(String[] args) {
 
@@ -36,9 +36,6 @@ public class MyString {
                 stringConcateByte += (byte)o;
             }
             binaryForm = Integer.toBinaryString(1234);
-
-
-
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -47,7 +44,7 @@ public class MyString {
         // Byte.valueOf(s, radix)
         
         st.isEmpty();
-
+        
         }
 }
     
