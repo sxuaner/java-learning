@@ -1,0 +1,6 @@
+https://www.springbyexample.org/examples/intro-to-ioc-creating-a-spring-application.html
+
+
+#How is spring started
+In short, "The Container" is a Spring instance in charge of managing the lifecycle of your beans.
+
