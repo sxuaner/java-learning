@@ -1,1 +1,178 @@
 https://aspects.jcabi.com/index.html
+https://en.wikipedia.org/wiki/Aspect-oriented_programming
+https://docs.spring.io/spring-framework/docs/2.5.x/reference/aop.html
+https://flowframework.readthedocs.io/en/stable/TheDefinitiveGuide/PartIII/AspectOrientedProgramming.html
+https://docs.spring.io/spring-framework/docs/2.5.x/reference/aop.html
+
+
+# Definition:
+In computing, aspect-oriented programming (AOP) is a programming paradigm that aims to increase modularity by 
+allowing the separation of cross-cutting concerns.
+
+Aspect-Oriented Programming (AOP) complements Object-Oriented Programming (OOP) by providing another way of thinking about program structure. 
+The key unit of modularity in OOP is the class, whereas in AOP the unit of modularity is the aspect. Aspects enable the modularization of concerns 
+such as transaction management that cut across multiple types and objects. (Such concerns are often termed crosscutting concerns in AOP literature.)
+
+##########################################################################################################
+Clarification of some key concepts in the following part
+!Paradigm: 
+a set of linguistic items that form mutually exclusive choices in particular syntactic roles.
+
+Programming paradigms are a way to classify programming languages based on their features. Languages can be classified into multiple paradigms.
+
+Common programming paradigms include
+#imperative# in which the programmer instructs the machine how to change its state,
+    #procedural# which groups instructions into procedures,
+    #object-oriented# which groups instructions with the part of the state they operate on,
+#declarative# in which the programmer merely declares properties of the desired result, but not how to compute it
+    #functional# in which the desired result is declared as the value of a series of function applications,  
+    Functions evaluate expressions and return a value.
+    #logic# in which the desired result is declared as the answer to a question about a system of facts and rules,
+    #mathematical# in which the desired result is declared as the solution of an optimization problem
+    #reactive# in which the desired result is declared with data streams and the propagation of change
+
+Symbolic techniques such as reflection, which allow the program to refer to itself, might also be considered as a programming paradigm. 
+However, this is compatible with the major paradigms and thus is not a real paradigm in its own right.
+
+Harper, and Krishnamurthi. They argue that many programming languages cannot be strictly classified into one paradigm, but rather include 
+features from several paradigms
+
+
+A concise reference for the programming paradigms:
+#Concurrent programming# – have language constructs for concurrency, these may involve multi-threading, support for distributed computing, 
+message passing, shared resources (including shared memory), or futures
+#Actor programming# - concurrent computation with actors that make local decisions in response to the environment (capable of selfish or competitive behavior)
+#Constraint programming# – relations between variables are expressed as constraints (or constraint networks), directing allowable solutions (uses constraint satisfaction or simplex algorithm)
+#Dataflow programming# – forced recalculation of formulas when data values change (e.g. spreadsheets)
+#Declarative programming# – describes what a computation should perform, without specifying detailed state changes c.f. imperative programming (functional and logic programming are major subgroups of declarative programing)
+#Distributed programming# – have support for multiple autonomous computers that communicate via computer networks
+#Functional programming# – uses evaluation of mathematical functions and avoids state and mutable data
+#Generic programming# – uses algorithms written in terms of to-be-specified-later types that are then instantiated as needed for specific types provided as parameters
+#Imperative programming# – explicit statements that change a program state
+#Logic programming# – uses explicit mathematical logic for programming
+#Metaprogramming# – writing programs that write or manipulate other programs (or themselves) as their data, or that do part of the work at compile time that would otherwise be done at runtime
+Template metaprogramming – metaprogramming methods in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled
+Reflective programming – metaprogramming methods in which a program modifies or extends itself
+Object-oriented programming – uses data structures consisting of data fields and methods together with their interactions (objects) to design programs
+Class-based – object-oriented programming in which inheritance is achieved by defining classes of objects, versus the objects themselves
+Prototype-based – object-oriented programming that avoids classes and implements inheritance via cloning of instances
+Pipeline programming – a simple syntax change to add syntax to nest function calls to language originally designed with none
+Rule-based programming – a network of rules of thumb that comprise a knowledge base and can be used for expert systems and problem deduction & resolution
+Visual programming – manipulating program elements graphically rather than by specifying them textually (e.g. Simulink); also termed diagrammatic programming[1]
+
+!What is an aspect
+#An aspect of a program is a feature linked to many other parts of the program, but which is not related to the program's primary function#
+
+!What is a concern
+In computer science, a concern is a particular set of information that has an effect on the code of a computer program. A concern can be as general 
+as the details of database interaction or as specific as performing a primitive calculation.
+
+Usually the code can be separated into logical sections, each addressing separate concerns, and so it hides the need for a given section to know 
+particular information addressed by a different section. This leads to a modular program. 
+mplexity of the system being designed. 
+
+! intermingle: to become mixed together
+Two different concerns that intermingle in the same section of code are called "highly coupled". Sometimes the chosen module divisions do not allow 
+one concern to be completely separated from another, resulting in cross-cutting concerns. 
+
+!Example of cross-cutting concern
+Data logging is a common cross-cutting concern. It is used in many other parts of the program other than the particular 
+module(s) that actually logs the data.
+
+! Paradigms that specifically address the issue of concern separation:
+Object-oriented programming,        // describing concerns as objects
+Functional programming,             // describing concerns as functions
+Aspect-oriented software development, // treating concerns and their interaction as constructs of their own standing
+
+!What is a cross-cutting concern
+In aspect-oriented software development, cross-cutting concerns are aspects of a program that affect other concerns. These concerns often cannot be 
+cleanly decomposed from the rest of the system in both the design and implementation, and can result in either scattering (code duplication), 
+tangling (significant dependencies between systems), or both.
+
+An aspect crosscuts the program's core concerns, therefore violating its separation of concerns that tries to encapsulate unrelated functions
+For example, logging code can crosscut many modules, yet the aspect of logging should be separate from the functional concerns of the module it 
+cross-cuts. Isolating such aspects as logging and persistence from business logic is at the core of the aspect-oriented programming (AOP) paradigm.
+
+!What is separation of concerns(SoC)
+Edsger W. Dijkstra coined the term "separation of concerns" to describe the mentality behind this modularization, which allows the programmer to reduce 
+the complexity of the system being designed.
+
+In computer science, separation of concerns (SoC) is a design principle for separating a computer program into distinct sections such that each 
+section addresses a separate concern. 
+
+The separation of concerns (SoC) aims for making a software easier to maintain by grouping features and behavior into manageable parts which all have 
+a specific purpose and business to take care of.
+
+!??? How to understand this line:
+A concern can be as general as "the details of the hardware for an application", or as specific as "the name of which class to instantiate". 
+
+A program that embodies SoC well is called a modular program. Modularity, and hence separation of concerns, is achieved by encapsulating information 
+inside a section of code that has a well-defined interface. Encapsulation is a means of information hiding. Layered designs in information systems 
+are another embodiment of separation of concerns (e.g., presentation layer, business logic layer, data access layer, persistence layer).
+
+#  Java can separate concerns into objects
+#  Architectural design patterns like MVC or MVP can separate content from presentation and the data-processing (model) from content. 
+#  Service-oriented design can separate concerns into services. 
+#  Aspect-oriented programming languages can separate concerns into aspects and objects.
+
+! Benefit of SoC
+Separation of concerns results in more degrees of freedom for some aspect of the program's design, deployment, or usage. Common among these is 
+increased freedom for simplification and maintenance of code. When concerns are well-separated, there are more opportunities for module upgrade, 
+reuse, and independent development. Hiding the implementation details of modules behind an interface enables improving or modifying a single concern's 
+section of code without having to know the details of other sections and without having to make corresponding changes to those other sections. Modules 
+can also expose different versions of an interface, which increases the freedom to upgrade a complex system in piecemeal fashion without interim loss 
+of functionality.
+!interim: temporary and intended to be used or accepted until something permanent exists. An interim solution
+
+Separation of concerns is a form of abstraction. As with most abstractions, separating concerns means adding additional code interfaces, generally 
+creating more code to be executed. So despite the many benefits of well-separated concerns, there is often an associated execution penalty.
+##########################################################################################################
+# Continues on AOP
+It does so by adding additional behavior to existing code (an advice) without modifying the code itself, instead of separately specifying which code
+is modified via a "pointcut" specification, such as "log all function calls when the function's name begins with 'set'". This 
+allows behaviors that are not central to the business logic (such as logging) to be added to a program without cluttering the code core to the functionality.
+
+!AN example of AOP
+OOP already allows for modularizing concerns into distinct methods, classes and packages. However, some concerns are difficult to place as they cross
+the boundaries of classes and even packages. One example for such a cross-cutting concern is security: Although the main purpose of a Forum package 
+is to display and manage posts of a forum, it has to implement some kind of security to assert that only moderators can approve or delete posts. 
+And many more packages need a similar functionality for protect the creation, deletion and update of records. AOP enables you to move the security 
+(or any other) aspect into its own package and leave the other objects with clear responsibilities, probably not implementing any security themselves.
+
+!AOP concepts
+Let us begin by defining some central AOP concepts and terminology. These terms are not Spring-specific... unfortunately, AOP terminology is not 
+particularly intuitive; however, it would be even more confusing if Spring used its own terminology.
+
+#Aspect#: a modularization of a concern that cuts across multiple classes. Transaction management is a good example of a crosscutting concern in 
+J2EE applications. In Spring AOP, aspects are implemented using regular classes (the schema-based approach) or regular classes annotated with the 
+@Aspect annotation (the @AspectJ style).
+
+#Join point#: a point during the execution of a program, such as the execution of a method or the handling of an exception. In Spring AOP, a join point
+always represents a method execution.
+
+#Advice#: action taken by an aspect at a particular join point. Different types of advice include "around," "before" and "after" advice. (Advice types
+are discussed below.) Many AOP frameworks, including Spring, model an advice as an interceptor, maintaining a chain of interceptors around the join point.
+
+#Pointcut#: a predicate that matches join points. Advice is associated with a pointcut expression and runs at any join point matched by the pointcut
+(for example, the execution of a method with a certain name). The concept of join points as matched by pointcut expressions is central to AOP, 
+and Spring uses the AspectJ pointcut expression language by default.
+
+#Introduction#: declaring additional methods or fields on behalf of a type. Spring AOP allows you to introduce new interfaces (and a corresponding 
+implementation) to any advised object. For example, you could use an introduction to make a bean implement an IsModified interface, to simplify caching.
+ (An introduction is known as an inter-type declaration in the AspectJ community.)
+
+#Target object#: object being advised by one or more aspects. Also referred to as the advised object. Since Spring AOP is implemented using runtime 
+proxies, this object will always be a proxied object.
+
+#AOP proxy#: an object created by the AOP framework in order to implement the aspect contracts (advise method executions and so on). In the Spring Framework, an AOP proxy will be a JDK dynamic proxy or a CGLIB proxy.
+Weaving: linking aspects with other application types or objects to create an advised object. This can be done at compile time (using the AspectJ compiler, for example), load time, or at runtime. Spring AOP, like other pure Java AOP frameworks, performs weaving at runtime.
+
+Types of advice:
+#Before advice#: Advice that executes before a join point, but which does not have the ability to prevent execution flow proceeding to the join point (unless it throws an exception).
+#After returning advice#: Advice to be executed after a join point completes normally: for example, if a method returns without throwing an exception.
+#After throwing advice#: Advice to be executed if a method exits by throwing an exception.
+#After (finally) advice#: Advice to be executed regardless of the means by which a join point exits (normal or exceptional return).
+#Around advice#: Advice that surrounds a join point such as a method invocation. This is the most powerful kind of advice. Around advice can perform 
+custom behavior before and after the method invocation. It is also responsible for choosing whether to proceed to the join point or to shortcut the 
+advised method execution by returning its own return value or throwing an exception.
+

@@ -25,12 +25,28 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter</artifactId>
+          <version>2.3.12.RELEASE</version>
+    </dependency>
+  
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>2.3.12.RELEASE</version>
+    </dependency>
+
   </dependencies>
+
+  <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+ 
+
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-        
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
@@ -69,6 +85,8 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+        <!-- User defined dependencies-->
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
       </plugins>
     </pluginManagement>
 
@@ -87,7 +105,7 @@
               </execution>
             </executions>
             <configuration>
-                <mainClass>com.java.learning.javase.MyString</mainClass>
+                <mainClass>com.java.learning.javase.SpringPractice</mainClass>
             </configuration>
         </plugin>
     </plugins>

@@ -3,12 +3,18 @@
 3. date time
 4. hashtable
 5. concurrent hashtable
-log levels
-redis and message queue
-user docker
-docker and VM and k8s
-SSLSocket 
-integrate Hibernate into apps and use redis
+
+# Prio list: 
+1. Spring 
+2. redis                integrate Hibernate into apps and use redis
+3. docker k8s 
+4. docker VM differences
+5. Socket
+6. AOP
+7. AspectJ
+
+! Try to compile the spring project
+
 
 #How to evaluate how good I am with a certain technology, such as multi-threading prgoramming
 1. Understand all the terminoligies related to the concept
