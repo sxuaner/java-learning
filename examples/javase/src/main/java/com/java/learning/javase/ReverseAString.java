@@ -1,9 +1,13 @@
 package com.java.learning.javase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ReverseAString {
 
@@ -61,6 +65,53 @@ public class ReverseAString {
 
         System.out.println(result);
         // 87654321
+
+
+        class  reverseOrderComparator implements Comparator{
+            @Override
+            public int compare(Object o1, Object o2) {
+                return (int)o1 - (int)o2;
+            }
+        }
+
+        // nagive numbers:
+        // How to apply regex to a string?
+        String negNum = "-12345";
+        char[] temp = negNum.toCharArray();
+        List<Character> myList = new ArrayList<Character>();
+        for(char c: temp){
+            myList.add(c);
+        }
+
+        Collections.reverse(myList);
+
+        //Problem 1: ArrayList.toString() returns [1,2,3,4], we need a string
+        // How to concate elements of a list to a string
+        // Stupid would be to loop through the list and append each and every element to the end of an empty string
+        // If the last char is - sign, then syso("-" + mylist.stringform)
+
+        // https://stackoverflow.com/questions/10168066/how-to-print-out-all-the-elements-of-a-list-in-java/24109978
+        // This is not working
+        // System.out.println(Arrays.toString(myList.toArray()));
+        // And is equavalent to: 
+        // Arrays.asList(a).toString()
+
+        // Java 8 approach:
+        // myList.stream().forEach(System.out::print);
+
+        // But for out problem, we must filter the list and ouput the non-dash chars 
+        if(myList.get(myList.size()-1) == '-'){
+            StringBuilder reversedStringBuilder = new StringBuilder();
+            myList.stream().forEach(x -> {
+                if (x != '-')
+                    reversedStringBuilder.append(x);
+            });
+            System.out.println("-" + reversedStringBuilder);
+        }else{
+            myList.stream().forEach(System.out::print);
+        }
+
+
     }
     
 }
