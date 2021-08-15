@@ -64,12 +64,10 @@ Visual programming – manipulating program elements graphically rather than by 
 #An aspect of a program is a feature linked to many other parts of the program, but which is not related to the program's primary function#
 
 !What is a concern
-In computer science, a concern is a particular set of information that has an effect on the code of a computer program. A concern can be as general 
-as the details of database interaction or as specific as performing a primitive calculation.
+The concern is the behavior we want to have in a particular module of an application. It can be defined as a functionality we want to implement. 
 
-Usually the code can be separated into logical sections, each addressing separate concerns, and so it hides the need for a given section to know 
-particular information addressed by a different section. This leads to a modular program. 
-mplexity of the system being designed. 
+The cross-cutting concern is a concern which is applicable throughout the application. This affects the entire application. For example, logging, s
+ecurity and data transfer are the concerns needed in almost every module of an application, thus they are the cross-cutting concerns.
 
 ! intermingle: to become mixed together
 Two different concerns that intermingle in the same section of code are called "highly coupled". Sometimes the chosen module divisions do not allow 

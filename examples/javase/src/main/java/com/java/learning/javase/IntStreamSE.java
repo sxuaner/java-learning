@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class MyIntStream {
+public class IntStreamSE {
 
     public static void main(String[] args) {
         char[] charArray = {'a','b','c'};
@@ -24,7 +24,6 @@ public class MyIntStream {
            
         associative meaning:
         accumulation meaning:
-        
         
         for (int element : charStream ) {
                 // if the first element is now found, flip the monitor object so that we can execute the accumulative function

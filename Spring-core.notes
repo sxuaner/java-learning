@@ -4,3 +4,7 @@ https://www.springbyexample.org/examples/intro-to-ioc-creating-a-spring-applicat
 #How is spring started
 In short, "The Container" is a Spring instance in charge of managing the lifecycle of your beans.
 
+#IoC 
+inversion: a situation in which something is changed so that it is the opposite of what it was before, or in which something is turned upside down
+reversion: a change back to a previous and often worse condition
+

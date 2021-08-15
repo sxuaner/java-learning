@@ -29,15 +29,19 @@ package com.java.learning.javase;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
-public class MyStream {
+public class StreamSE {
     public static void main(String[] args) {
         List<Integer> mylist = Arrays.asList(1,2,3,4,5,6);
+        Stream aStream = mylist.stream();
 
-    /* *     Person[] men = people.stream()
-     *                          .filter(p -> p.getGender() == MALE)
-     *                          .toArray(Person[]::new);
-     * */
+    /*
+     * Stream<T> filter(Predicate<? super T> predicate)     // Filter out qualified candidates based on a
+     *                                                      // boolean prediate
+     * 
+     * public interface Predicate<T> :: boolean test(T t);
+     */
 
      // Result of following
         Integer[] result = mylist.stream()
@@ -50,11 +54,20 @@ public class MyStream {
         // No, it's called method reference
         
         // See why .toArray(Integer[]::new) is legitimate in 23. Functional Programming.notes
-
         result.getClass();
         resultArrayList.size();
-
         // How to create Streams? How many approaches are there?
+        // map
+        /**
+         * 
+         */
+        // Stream<R> java.util.stream.Stream.map(Function<? super T, ? extends R> mapper)
+        // aStream.map();
+
+        // reduce
+
+
+
 
     }
 }

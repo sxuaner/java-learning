@@ -48,12 +48,15 @@ public class StringSE {
         Boolean isStingImmutable = (immuStr == tmp);
 
         /**
-         * Logic behind System.out.println(immuStr):
+         * Logic behind System.out.println(immuStr): a reference is returned and how does println deal with 
+         * this ref?
          * 
            public String toString() {
             return this;
            }
          * */ 
+
+           //String.format()
 
     }
 

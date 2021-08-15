@@ -1,13 +1,10 @@
 package com.java.learning.javase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class ReverseAString {
 
@@ -111,6 +108,8 @@ public class ReverseAString {
             myList.stream().forEach(System.out::print);
         }
 
+        // differences among Stream.map(), Stream.forEach(), reduce()? see StreamSE.java
+        
 
     }
     
