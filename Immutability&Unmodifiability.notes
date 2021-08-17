@@ -1,0 +1,43 @@
+### Differences between immutability and unmodifiability
+An object is considered immutable if its state cannot change after it is constructed. 
+
+Immutable objects cannot be changed. Any thread trying to change its state gets only a new instance of the same class with "the new states".
+
+Unmodifiable objects are read-only. 
+
+An unmodifiable collection is not necessarily immutable. If the contained elements are mutable, the entire collection is clearly mutable, even though
+it might be unmodifiable. For example, consider two unmodifiable lists containing mutable elements. The result of calling list1.equals(list2) might
+differ from one call to the next if the elements had been mutated, even though both lists are unmodifiable. However, if an unmodifiable collection
+contains all immutable elements, it can be considered effectively immutable.
+
+They can be specified to throw UnsupportedOperationException if this collection implementation does not support the operation. Such methods should 
+(but are not required to) throw an UnsupportedOperationException if the invocation would have no effect on the collection. For example, consider 
+a collection that does not support the add operation. What will happen if the addAll method is invoked on this collection, with an empty 
+collection as the argument? The addition of zero elements has no effect, so it is permissible for this collection simply to do nothing and not 
+to throw an exception. However, it is recommended that such cases throw an exception unconditionally, as throwing only in certain cases can lead to
+programming errors.
+
+!!!
+An unmodifiable collection is a collection, all of whose mutator methods (as defined above) are specified to throw UnsupportedOperationException. 
+!!!
+
+Such a collection thus cannot be modified by calling any methods on it. For a collection to be properly unmodifiable, any view collections derived
+from it must also be unmodifiable. For example, if a List is unmodifiable, the List returned by List.subList is also unmodifiable.
+
+An unmodifiable collection is not necessarily immutable. If the contained elements are mutable, the entire collection is clearly mutable, even though
+it might be unmodifiable. For example, consider two unmodifiable lists containing mutable elements. The result of calling list1.equals(list2) might
+differ from one call to the next if the elements had been mutated, even though both lists are unmodifiable. However, if an unmodifiable collection
+contains all immutable elements, it can be considered effectively immutable.
+ 
+Unmodifiable View Collections
+* 
+* An unmodifiable view collection is a collection that is unmodifiable and that is also a view onto a backing collection. Its mutator methods throw
+* UnsupportedOperationException, as described above, while reading and querying methods are delegated to the backing collection. The effect is to provide
+* read-only access to the backing collection. This is useful for a component to provide users with read access to an internal collection, while preventing
+* them from modifying such collections unexpectedly. Examples of unmodifiable view collections are those returned by the
+* Collections.unmodifiableCollection, Collections.unmodifiableList, and related methods.
+* 
+* Note that changes to the backing collection might still be possible, and if they occur, they are visible through the unmodifiable view. Thus, an
+* unmodifiable view collection is not necessarily immutable. However, if the backing collection of an unmodifiable view is effectively immutable, 
+or if the only reference to the backing collection is through an unmodifiable view, the view can be considered effectively immutable.
+* 

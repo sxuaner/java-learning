@@ -18,6 +18,6 @@ package com.java.learning.javase;
 
 // For methods: 
 // https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/CharSequence.html
-public class MyICharSequence {
+public class ICharSequenceSE {
     
 }

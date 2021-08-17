@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
  *        }
  */
 
-public class MyCharacter {
+public class CharacterSE {
     public static void main(String[] args) {
 
     char[] charArray = {'a','b','c'};

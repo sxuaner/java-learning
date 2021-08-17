@@ -1,5 +1,9 @@
 package com.java.learning.javase;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Stream;
+
 /**
  * public interface Collection<E> extends Iterable<E>
  */
@@ -64,29 +68,51 @@ to the backing collection are visible in the view collection. Correspondingly, a
 * through to the backing collection. Although they technically aren't collections, instances of Iterator and ListIterator can also allow
 * modifications to be written through to the backing collection, and in some cases, modifications to the backing collection will be visible to the
 * Iterator during iteration.
-* 
-* Unmodifiable Collections
-* 
-* Certain methods of this interface are considered "destructive" and are called "mutator" methods in that they modify the group of objects contained 
+ 
+
+########Unmodifiable Collections########
+
+# Defiintion of mutator methods:
+Certain methods of this interface are considered "destructive" and are called "mutator" methods in that they modify the group of objects contained 
 within the collection on which they operate. 
 
-They can be specified to throw UnsupportedOperationException if this collection implementation does not
-* support the operation. Such methods should (but are not required to) throw an UnsupportedOperationException if the invocation would have no effect
-on the collection. For example, consider a collection that does not support the add operation. What will happen if the addAll method is invoked on
-this collection, with an empty collection as the argument? The addition of zero elements has no effect, so it is permissible for this collection 
-simply to do nothing and not to throw an exception. However, it is recommended that such cases throw an exception unconditionally, as throwing 
-only in certain cases can lead to programming errors.
-* 
-* An unmodifiable collection is a collection, all of whose mutator methods (as defined above) are specified to throw UnsupportedOperationException. 
+#Definition of unmodifiable collections: 
+In order to provide "read-only" collections java provides its unmodifiable versions. An unmodifiable collection is often a copy of a modifiable 
+collection which guarantees that the collection itself cannot be altered. Attempts to modify it will result in an UnsupportedOperationException 
+exception.
+
+### Differences between immutability and unmodifiability
+An object is considered immutable if its state cannot change after it is constructed. 
+
+Immutable objects cannot be changed. Any thread trying to change its state gets only a new instance of the same class with "the new states".
+
+Unmodifiable objects are read-only. 
+
+An unmodifiable collection is not necessarily immutable. If the contained elements are mutable, the entire collection is clearly mutable, even though
+it might be unmodifiable. For example, consider two unmodifiable lists containing mutable elements. The result of calling list1.equals(list2) might
+differ from one call to the next if the elements had been mutated, even though both lists are unmodifiable. However, if an unmodifiable collection
+contains all immutable elements, it can be considered effectively immutable.
+
+They can be specified to throw UnsupportedOperationException if this collection implementation does not support the operation. Such methods should 
+(but are not required to) throw an UnsupportedOperationException if the invocation would have no effect on the collection. For example, consider 
+a collection that does not support the add operation. What will happen if the addAll method is invoked on this collection, with an empty 
+collection as the argument? The addition of zero elements has no effect, so it is permissible for this collection simply to do nothing and not 
+to throw an exception. However, it is recommended that such cases throw an exception unconditionally, as throwing only in certain cases can lead to
+programming errors.
+
+!!!
+An unmodifiable collection is a collection, all of whose mutator methods (as defined above) are specified to throw UnsupportedOperationException. 
+!!!
+
 Such a collection thus cannot be modified by calling any methods on it. For a collection to be properly unmodifiable, any view collections derived
 from it must also be unmodifiable. For example, if a List is unmodifiable, the List returned by List.subList is also unmodifiable.
-* 
-* An unmodifiable collection is not necessarily immutable. If the contained elements are mutable, the entire collection is clearly mutable, even though
-* it might be unmodifiable. For example, consider two unmodifiable lists containing mutable elements. The result of calling list1.equals(list2) might
-* differ from one call to the next if the elements had been mutated, even though both lists are unmodifiable. However, if an unmodifiable collection
-* contains all immutable elements, it can be considered effectively immutable.
-* 
-* Unmodifiable View Collections
+
+An unmodifiable collection is not necessarily immutable. If the contained elements are mutable, the entire collection is clearly mutable, even though
+it might be unmodifiable. For example, consider two unmodifiable lists containing mutable elements. The result of calling list1.equals(list2) might
+differ from one call to the next if the elements had been mutated, even though both lists are unmodifiable. However, if an unmodifiable collection
+contains all immutable elements, it can be considered effectively immutable.
+ 
+Unmodifiable View Collections
 * 
 * An unmodifiable view collection is a collection that is unmodifiable and that is also a view onto a backing collection. Its mutator methods throw
 * UnsupportedOperationException, as described above, while reading and querying methods are delegated to the backing collection. The effect is to provide
@@ -104,5 +130,82 @@ or if the only reference to the backing collection is through an unmodifiable vi
 * implementation has a specific synchronization protocol, then it must override default implementations to apply that protocol.
 */
 public class ICollection {
+  /**
+   * default Stream<E> parallelStream() Returns a possibly parallel Stream with
+   * this collection as its source.
+   * 
+   * default boolean removeIf​(Predicate<? super E> filter) Removes all of the
+   * elements of this collection that satisfy the given predicate.
+   * 
+    default <T> T[]	toArray​(IntFunction<T[]> generator)	
+    Returns an array containing all of the elements in this collection, using the provided generator function to allocate the returned array.
+   * 
+   * Application of unmodifiable collections?
+   * 
+   */
+
+   public static void main(String[] args) {
+     Collection<Character> col = new ArrayList<>();
+
+     Stream parStream = col.parallelStream();
+
+     
+     
+     
+   }
+
+  /**
+   * 
+    boolean	add​(E e)	
+    Ensures that this collection contains the specified element (optional operation).
+
+    boolean	addAll​(Collection<? extends E> c)	
+    Adds all of the elements in the specified collection to this collection (optional operation).
+    
+    void	clear()	
+    Removes all of the elements from this collection (optional operation).
+    
+    boolean	contains​(Object o)	
+    Returns true if this collection contains the specified element.
+    
+    boolean	containsAll​(Collection<?> c)	
+    Returns true if this collection contains all of the elements in the specified collection.
+    
+    boolean	equals​(Object o)	
+    Compares the specified object with this collection for equality.
+    
+    int	hashCode()	
+    Returns the hash code value for this collection.
+    
+    boolean	isEmpty()	
+    Returns true if this collection contains no elements.
+    
+    Iterator<E>	iterator()	
+    Returns an iterator over the elements in this collection.
+    
+    boolean	remove​(Object o)	
+    Removes a single instance of the specified element from this collection, if it is present (optional operation).
+    
+    boolean	removeAll​(Collection<?> c)	
+    Removes all of this collection's elements that are also contained in the specified collection (optional operation).
+    
+    boolean	retainAll​(Collection<?> c)	
+    Retains only the elements in this collection that are contained in the specified collection (optional operation).
+    
+    int	size()	
+    Returns the number of elements in this collection.
+    
+    default Spliterator<E>	spliterator()	
+    Creates a Spliterator over the elements in this collection.
+    
+    default Stream<E>	stream()	
+    Returns a sequential Stream with this collection as its source.
+    
+    Object[]	toArray()	
+    Returns an array containing all of the elements in this collection.
+    
+    <T> T[]	toArray​(T[] a)	
+    Returns an array containing all of the elements in this collection; the runtime type of the returned array is that of the specified array.
+   */
     
 }

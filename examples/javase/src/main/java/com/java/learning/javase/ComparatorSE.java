@@ -2,7 +2,7 @@ package com.java.learning.javase;
 
 import java.util.Comparator;
 
-public class MyComparator  implements Comparator<Character>{
+public class ComparatorSE  implements Comparator<Character>{
 
     @Override
     public int compare(Character o1, Character o2) {

@@ -36,7 +36,6 @@ public class HashSetSE {
     // What is and why rehashing?
 
 
-
     //check out HashMap implementation note in HashMap.class
     //
     /**
@@ -56,7 +55,7 @@ public class HashSetSE {
         }
     }
      */
-    
+
     hs.equals(hs);
 
         

@@ -12,6 +12,6 @@ package com.java.learning.javase;
  * 
  */
 
-public class ConsumerSE {
+public class IConsumerSE {
     
 }

@@ -2,7 +2,7 @@ package com.java.learning.javase;
 
 import java.util.function.Predicate;
 
-public class MyPredicate implements Predicate<Integer>{
+public class PredicateSE implements Predicate<Integer>{
 
     @Override
     public boolean test(Integer t) {

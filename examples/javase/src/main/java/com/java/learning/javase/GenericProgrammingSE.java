@@ -1,6 +1,6 @@
 package com.java.learning.javase;
 
-public class MyGenericProgramming {
+public class GenericProgrammingSE {
 
     /* public static <T, SOURCE extends Collection<T>, DEST extends Collection<T>> DEST transferElements(
             SOURCE sourceCollection, Supplier<DEST> collectionFactory) {

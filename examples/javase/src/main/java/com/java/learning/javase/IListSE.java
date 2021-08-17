@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
 /*
     public interface List<E> extends Collection<E>
 
@@ -137,7 +136,7 @@ public class IListSE {
         }
         */
 
-        MyComparator mc = new MyComparator();
+        ComparatorSE mc = new ComparatorSE();
         Collections.sort(testList, mc);
         testList.size();
     

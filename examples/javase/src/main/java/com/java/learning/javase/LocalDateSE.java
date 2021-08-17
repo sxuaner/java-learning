@@ -7,7 +7,7 @@ import java.time.LocalDate;
     time-zone.
     THen what should be used to represent a time-zone based time?
  */
-public class MyLocalDate {
+public class LocalDateSE {
     public static void main(String[] args) {
         LocalDate ld = LocalDate.of(2021, 3, 19);
         int result = ld.compareTo(LocalDate.of(2021, 3, 20));

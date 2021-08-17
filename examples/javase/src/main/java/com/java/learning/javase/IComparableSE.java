@@ -1,6 +1,6 @@
 package com.java.learning.javase;
 
-public class MyComparable implements Comparable {
+public class IComparableSE implements Comparable {
     
     @Override
     public int compareTo(Object o) {
