@@ -22,7 +22,7 @@ import java.util.Collections;
     7. Offers fine control over where in the list each element is inserted.
     */
 
-public class MyList {
+public class IListSE {
     public static void main(String[] args) {
         // Here is how to create an array of chars.
         char[] charArray = { 'a', 'b', 'c', 'd', 'e' };
