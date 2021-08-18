@@ -67,7 +67,7 @@ What implementations are available?
 
  */
 
-public class SetSE {
+public class ISetSE {
     public static void main(String[] args) {
 
         Set set;

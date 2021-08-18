@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
     Register a CommandLinePropertySource to expose command line arguments as Spring properties
     Refresh the application context, loading all singleton beans
     Trigger any CommandLineRunner beans 
-
-
  */
+
 @SpringBootApplication
 @RestController
 public class SpringPractice {

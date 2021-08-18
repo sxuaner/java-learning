@@ -3,6 +3,8 @@
 3. date time
 4. hashtable
 5. concurrent hashtable
+6. classloader
+7. security manager
 
 # Prio list: 
 1. Spring 
@@ -12,10 +14,12 @@
 5. Socket
 6. AOP
 7. AspectJ
+8.learn bash 
 
 ! Try to compile the spring project
 
 Download effective Java
+Learn java instruction set
 
 
 #How to evaluate how good I am with a certain technology, such as multi-threading prgoramming

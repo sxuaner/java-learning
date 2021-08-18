@@ -6,6 +6,19 @@ import java.util.Set;
 /**
  * public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable
  * 
+ * 
+    What is Set Interface in Java?
+    A collection that 
+    1. contains no duplicate elements(through unique key in HashMap). More formally, sets contain no pair of elements e1 and e2 such that e1.equals(e2), and 
+    2. at most one null element. 
+    3. As implied by its name, this interface models the mathematical set abstraction.
+    
+
+
+
+ *
+ * 
+ *  
  * HashSet is backed by a HashMap, 
  * 
  * what is load factor?
@@ -16,8 +29,9 @@ import java.util.Set;
 *   @HotSpotIntrinsicCandidate
     public native int hashCode();
 
-!!! There are 2 equals() methods: one is in Object and the other is in Set
- * 
+!!! There are 2 equals() methods: one is in Object and the other is in Set. However, the equals() must conform to the method contract in Object.
+ If e1.hashCode() == e2.hashCode(), then e1.equals(e2) must be true. Vice versa. ??? must be verified. 
+
  */
 public class HashSetSE {
     public static void main(String[] args) {

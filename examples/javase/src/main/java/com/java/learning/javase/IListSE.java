@@ -136,7 +136,7 @@ public class IListSE {
         }
         */
 
-        ComparatorSE mc = new ComparatorSE();
+        IComparatorSE mc = new IComparatorSE();
         Collections.sort(testList, mc);
         testList.size();
     
