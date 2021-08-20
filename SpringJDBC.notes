@@ -1,0 +1,5 @@
+# 
+For single insert statements, the insert method of JdbcTemplate is good. However, for multiple inserts, it is better to use batchUpdate.
+
+#
+Use ? for arguments to avoid SQL injection attacks by instructing JDBC to bind variables.

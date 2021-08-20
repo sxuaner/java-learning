@@ -20,15 +20,22 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.java.learning.fileuploader.storage.StorageFileNotFoundException;
-import com.java.learning.fileuploader.storage.StorageService;
+import com.java.learning.fileuploader.storage.IStorageService;
 
+
+/**
+ * The FileUploadController class is annotated with @Controller so that Spring
+ * MVC can pick it up and look for routes.
+ * 
+ * How does Spring MVC work? Or more precisely how does Spring servlet work?
+ */
 @Controller
 public class FileUploadController {
 
-	private final StorageService storageService;
+	private final IStorageService storageService;
 
 	@Autowired
-	public FileUploadController(StorageService storageService) {
+	public FileUploadController(IStorageService storageService) {
 		this.storageService = storageService;
 	}
 
@@ -36,10 +43,12 @@ public class FileUploadController {
 	public String listUploadedFiles(Model model) throws IOException {
 
 		model.addAttribute("files", storageService.loadAll().map(
-				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-						"serveFile", path.getFileName().toString()).build().toUri().toString())
-				.collect(Collectors.toList()));
-
+				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,"serveFile", path.getFileName().toString())
+						.build()
+						.toUri()
+						.toString())
+						.collect(Collectors.toList()));
+		// Why? How dose this work?
 		return "uploadForm";
 	}
 

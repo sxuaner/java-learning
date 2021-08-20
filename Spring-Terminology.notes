@@ -34,3 +34,23 @@ for creating the instance.
 @Component need not to be used with the @Configuration annotation where as @Bean annotation has to be used within the class which is annotated with @Configuration.
 We cannot create a bean of a class using @Component, if the class is outside spring container whereas we can create a bean of a class using @Bean even if the class is present outside the spring container.
 @Component has different specializations like @Controller, @Repository and @Service whereas @Bean has no specializations.
+
+
+#domain objects.
+
+
+# MVC 
+A key difference between a traditional MVC controller and the RESTful web service controller shown earlier is the way that the HTTP response body is 
+created. Rather than relying on a view technology to perform server-side rendering of the greeting data to HTML, this RESTful web service controller
+populates and returns a Greeting object. The object data will be written directly to the HTTP response as JSON.
+
+# Jar Build an executable JAR
+You can run the application from the command line with Gradle or Maven. You can also build a single executable JAR file that contains all the 
+necessary dependencies, classes, and resources and run that. Building an executable jar makes it easy to ship, version, and deploy the service as an 
+application throughout the development lifecycle, across different environments, and so forth.
+
+# CommandLineRunner 
+
+# Spring MVC
+
+# spring core: what is included

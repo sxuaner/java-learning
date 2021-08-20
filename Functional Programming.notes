@@ -1,4 +1,4 @@
-#Functional Interface:
+###########Functional Interface:
 This is a functional interface and can therefore be used as the assignment target for a lambda expression 
 or method reference
 ! it means whenever a funcitonal interface is required as parameter or anything else, a lambda expression
@@ -15,7 +15,7 @@ Integer[] result = mylist.stream()
 toArry() method requires that a generator of IntFunction type. Rather than providing such a reference, 
 a lambda or a method reference can be used.
 
-# Usually, one would call the reduce method using Math.max(int, int) as follows:
+########### Usually, one would call the reduce method using Math.max(int, int) as follows:
 [java]
     reduce(new IntBinaryOperator() {
         int applyAsInt(int left, int right) {
@@ -41,7 +41,6 @@ T - the type of the first argument to the function
 U - the type of the second argument to the function
 R - the type of the result of the function
 
-
 # Lambda expression = class definition + instantiation + method call for functional interfaces
 As notice that the interface Comparator is a functional interface, you could use a lambda expression 
 instead of defining and then creating a new instance of a class that implements Comparator
@@ -59,7 +58,7 @@ Each has the following characteristics:
 Its formal parameter list is copied from Comparator<Person>.compare, which is (Person, Person).
 Its body calls the method Person.compareByAge.
 
-# What is function interface in java?
+############ What is Function interface in java?
 [java]
 @FunctionalInterface
 public interface Function<T,R>{}
@@ -80,5 +79,92 @@ Type Parameters:
     T - the type of the input to the function
     R - the type of the result of the function
 
-       
 
+########### Diference between reduce and map and collect, filter method
+map():
+map method processes every single element in a Stream object. 
+
+filter():
+used when working with only a subset of the elements. The lambda expression passed to it must always return a boolean value, which determines 
+whether or not the processed element should belong to the resulting Stream object.
+
+
+# Reduction operation or terminal operation
+A reduction operation (also called a fold) takes a sequence of input elements and combines them into a single summary result by repeated 
+application of a combining operation such as finding the sum or maximum of a set of numbers, or accumulating elements into a list. The streams classes have multiple forms of general 
+reduction operations, called reduce() and collect(), as well as multiple specialized reduction forms such as sum(), max(), or count().
+
+reduce():
+Unlike the map and filter methods, the reduce method expects two arguments: an identity element, and a lambda expression. You can think of the 
+identity element as an element which does not alter the result of the reduction operation. For example, if you are trying to find the product of 
+all the elements in a stream of numbers, the identity element would be the number 1.
+
+The lambda expression you pass to the reduce method must be capable of handling two inputs: a partial result of the reduction operation, and the 
+current element of the stream. If you are wondering what a partial result is, it’s the result obtained after processing all the elements of the 
+stream that came before the current element.
+
+[java]
+Optional<T> reduce​(BinaryOperator<T> accumulator)
+// Performs a reduction on the elements of this stream, using an associative accumulation function, and returns an Optional describing 
+// the reduced value, if any. 
+
+// This is equivalent to:
+// foundAny ???
+     boolean foundAny = false;
+     T result = null;
+     for (T element : this stream) {
+         if (!foundAny) {
+             foundAny = true;
+             result = element;
+         }
+         else
+             result = accumulator.apply(result, element);
+     }
+     return foundAny ? Optional.of(result) : Optional.empty();
+/*  
+but is not constrained to execute sequentially. The accumulator function must be an associative function. This is a terminal operation.
+
+Parameters:
+accumulator - an associative, non-interfering, stateless function for combining two values
+
+Returns:
+an Optional describing the result of the reduction
+
+Throws:
+NullPointerException - if the result of the reduction is null 
+*/
+
+
+T reduce​(T identity, BinaryOperator<T> accumulator)
+// Performs a reduction on the elements of this stream, using the provided identity value and an associative accumulation function, and returns 
+// the reduced value. This is equivalent to:
+    T result = identity;
+    for (T element : this stream)
+        result = accumulator.apply(result, element)
+    return result;
+ 
+// but is not constrained to execute sequentially.
+// The identity value must be an identity for the accumulator function. This means that for all t, accumulator.apply(identity, t) is equal to t. 
+// The accumulator function must be an associative function. This is a terminal operation.
+
+// API Note: Sum, min, max, average, and string concatenation are all special cases of reduction. Summing a stream of numbers can be expressed as:
+     Integer sum = integers.reduce(0, (a, b) -> a+b);
+// or:
+     Integer sum = integers.reduce(0, Integer::sum);
+// While this may seem a more roundabout way to perform an aggregation compared to simply mutating a running total in a loop, reduction 
+// operations parallelize more gracefully, without needing additional synchronization and with greatly reduced risk of data races.
+
+/*
+Parameters:
+identity - the identity value for the accumulating function
+
+accumulator - an associative, non-interfering, stateless function for combining two values
+
+Returns: the result of the reduction
+*/
+
+[end]
+
+# Parallel streaming:
+If you have computationally intensive map operations, or if you expect your streams to be very large, you should consider using parallel streams 
+instead. Fortunately, its very easy to convert any stream into its parallel equivalent. All you need to do is call its parallel method.

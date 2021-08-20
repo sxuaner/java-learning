@@ -30,8 +30,9 @@ package com.java.learning.javase;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
-public class StreamSE {
+public class IStreamSE {
     public static void main(String[] args) {
         List<Integer> mylist = Arrays.asList(1,2,3,4,5,6);
         Stream aStream = mylist.stream();
@@ -65,6 +66,9 @@ public class StreamSE {
         // aStream.map();
 
         // reduce
+
+        List<Object[]> splitUpNames = Arrays.asList("John Woo", "Jeff Dean", "Josh Bloch", "Josh Long").stream()
+                .map(name -> name.split(" ")).collect(Collectors.toList());
 
 
 

@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 
 import com.java.learning.fileuploader.storage.StorageProperties;
-import com.java.learning.fileuploader.storage.StorageService;
+import com.java.learning.fileuploader.storage.IStorageService;
 
 
 @SpringBootApplication
@@ -19,7 +19,7 @@ public class UploadingFilesApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(StorageService storageService) {
+	CommandLineRunner init(IStorageService storageService) {
 		return (args) -> {
 			storageService.deleteAll();
 			storageService.init();

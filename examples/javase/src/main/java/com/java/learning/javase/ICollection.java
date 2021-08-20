@@ -140,6 +140,11 @@ public class ICollection {
     default <T> T[]	toArray​(IntFunction<T[]> generator)	
     Returns an array containing all of the elements in this collection, using the provided generator function to allocate the returned array.
    * 
+   * 
+   * Every class that implements the Collection interface has a method to obtain a stream
+    default Stream<E>	stream()	
+    Returns a sequential Stream with this collection as its source.
+   * 
    * Application of unmodifiable collections?
    * 
    */
@@ -198,8 +203,6 @@ public class ICollection {
     default Spliterator<E>	spliterator()	
     Creates a Spliterator over the elements in this collection.
     
-    default Stream<E>	stream()	
-    Returns a sequential Stream with this collection as its source.
     
     Object[]	toArray()	
     Returns an array containing all of the elements in this collection.

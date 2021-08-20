@@ -5,6 +5,8 @@
 5. concurrent hashtable
 6. classloader
 7. security manager
+8. how to run spring app without boot
+
 
 # Prio list: 
 1. Spring 
