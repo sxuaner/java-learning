@@ -10,8 +10,6 @@ import java.util.stream.IntStream;
  * Comparable<CharBuffer>, Appendable, CharSequence, Readable
  */
 
- 
-
 /*
 This class defines four categories of operations upon char buffers:
 
@@ -55,7 +53,7 @@ public class CharBufferSE {
          * catch(IllegalArgumentException x)
          *      { throw new IndexOutOfBoundsException(); }
          * 
-         * CharBuffer is backed by the array. if the array is modified, CharBuffr is als
+         * CharBuffer is backed by the array. if the array is modified, CharBuffr is also
          * modified.
          */
         CharBuffer cbWrap = CharBuffer.wrap(charArray);

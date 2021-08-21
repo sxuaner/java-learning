@@ -6,8 +6,9 @@ package com.java.learning.javase;
  * A CharSequence is a readable sequence of char values. This interface provides
  * uniform, read-only access to many different kinds of char sequences. A char
  * value represents a character in the Basic Multilingual Plane (BMP) or a
- * surrogate. Refer to Unicode Character Representation for details. This
- * interface does not refine the general contracts of the equals and hashCode
+ * surrogate. Refer to Unicode Character Representation for details. 
+ * 
+ * This interface does not refine the general contracts of the equals and hashCode
  * methods. The result of testing two objects that implement CharSequence for
  * equality is therefore, in general, undefined. Each object may be implemented
  * by a different class, and there is no guarantee that each class will be

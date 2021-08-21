@@ -22,8 +22,8 @@ public class ArraySE {
         //  Spliterators.spliterator() takes Object[], int[], long[], doulbe[]
 
         // Optional<T> reduce(BinaryOperator<T> accumulator);
-        Arrays.stream(charArray).parallel().map(a->a).collect(Collectors::toList);
-        Arrays.stream(charArray).parallel().reduce();
+        // Arrays.stream(charArray).parallel().map(a->a).collect(Collectors::toList);
+        // Arrays.stream(charArray).parallel().reduce();
 
 
 

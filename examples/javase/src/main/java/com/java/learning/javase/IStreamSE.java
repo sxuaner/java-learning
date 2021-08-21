@@ -24,7 +24,7 @@ package com.java.learning.javase;
  * filter(Predicate)), and a terminal operation (which produces a result or side-effect, such as count()
  * or forEach(Consumer)). Streams are lazy; computation on the source data is only performed when the 
  * terminal operation is initiated, and source elements are consumed only as needed.
- * 
+ *
 */
 
 import java.util.Arrays;
@@ -70,6 +70,7 @@ public class IStreamSE {
         List<Object[]> splitUpNames = Arrays.asList("John Woo", "Jeff Dean", "Josh Bloch", "Josh Long").stream()
                 .map(name -> name.split(" ")).collect(Collectors.toList());
 
+        //  * 1. How to obtain streams from normal user-defined classes???
 
 
 

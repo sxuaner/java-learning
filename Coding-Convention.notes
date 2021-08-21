@@ -1,0 +1,10 @@
+Tho, personally, i m not fussed either way, as long as consistency is applied.
+
+
+
+Conversation on stackoverflow:
+It seems to be a convention that states if an underscore is used as an initial character in the name of method, 
+the method cannot be overridden. For example, in context of JSP, _jspService() method cannot be overridden.
+However, i dont find any document that states above convention.
+
+- If you want to make sure a method is not overriden you must make it final

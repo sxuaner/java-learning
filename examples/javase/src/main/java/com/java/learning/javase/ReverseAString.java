@@ -1,10 +1,16 @@
 package com.java.learning.javase;
 
+import java.nio.CharBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 
 public class ReverseAString {
 
@@ -14,7 +20,6 @@ public class ReverseAString {
          * that the String consists of only digits? How to optimize the performance?
          */
 
-        // The String to convert
         String stringToReverse = "12345678";
         // Convert a String to an array of primitive type char:
         // Complexity?
@@ -40,7 +45,6 @@ public class ReverseAString {
          * illustrated by the carets (^) below: Element(0) Element(1) Element(2) ...
          * Element(n-1) cursor positions: ^ ^ ^ ^ ^
          * 
-         * What is Character?
          * What is charSequence?
          */
         List<Character> listStringToReverse = new ArrayList<>();
@@ -52,36 +56,64 @@ public class ReverseAString {
         // Now reverse the list, because list is ordered
         Collections.reverse(listStringToReverse);
 
-        // How to use forEach() and lambda?
-        // Iterator class
+        // Positve case
         String result = "";
         Iterator<Character> iteratorListStringToReverse = listStringToReverse.iterator();
         while (iteratorListStringToReverse.hasNext()) {
             result += iteratorListStringToReverse.next();
         }
-
-        System.out.println(result);
-        // 87654321
-
-
-        class  reverseOrderComparator implements Comparator{
+        // Now result is 87654321
+        // Place what should be smaller on first operand
+        class  ReverseOrderComparator implements Comparator<Character>{
             @Override
-            public int compare(Object o1, Object o2) {
-                return (int)o1 - (int)o2;
+            public int compare(Character o1, Character o2) {
+                return (int)o2 - (int)o1;
             }
         }
 
-        // nagive numbers:
+        // Nagtive case:
         // How to apply regex to a string?
+        // how to revese an array
         String negNum = "-12345";
-        char[] temp = negNum.toCharArray();
-        List<Character> myList = new ArrayList<Character>();
-        for(char c: temp){
+
+        // No longer needed: char[] tempArrayChar = negNum.toCharArray();
+        Character[] tempArrayCharacter = negNum.chars().mapToObj(x-> (Character)(char)x).toArray(Character[]::new);
+
+        // You can use an IntStream to generate the indices followed by mapToObj:
+
+        // Approach 1: to reverse an array with Arrays
+        Arrays.sort(tempArrayCharacter, new ReverseOrderComparator());
+
+        // Compile the regex 
+        Pattern pat = Pattern.compile("[0-9]");
+
+        // .collect() expcts a collector returned and methods in Collectors.joining() can accomplish this
+        String resultInString = Arrays.stream(tempArrayCharacter).map(x -> String.valueOf(x)).filter(pat.asPredicate()).collect(Collectors.joining());
+
+        // Now let's convert the List of String into a String
+        System.out.println("-" + resultInString);
+
+        // Approach 2
+        // reset result
+        resultInString = "";
+        // now filter the stream and reduce with String::concat
+        // BinaryOperator<String> accumulator
+        // What accumulators are available there?
+        // 
+        resultInString = Arrays.stream(tempArrayCharacter).map(x -> String.valueOf(x)).filter(pat.asPredicate()).reduce("", String::concat);
+
+        System.out.println("-"+resultInString);
+        // Or, join() expects a CharSequence, Charbuffer.wrap()
+     
+        // Approach 2: put the array into a list and reverse using Collections
+        List<Character> myList = new ArrayList<>();
+        for(char c: tempArrayCharacter){
             myList.add(c);
         }
 
         Collections.reverse(myList);
 
+        // Now lets print out the result
         //Problem 1: ArrayList.toString() returns [1,2,3,4], we need a string
         // How to concate elements of a list to a string
         // Stupid would be to loop through the list and append each and every element to the end of an empty string
@@ -96,10 +128,11 @@ public class ReverseAString {
         // Java 8 approach:
         // myList.stream().forEach(System.out::print);
 
-        // But for out problem, we must filter the list and ouput the non-dash chars 
+        // But for this problem, we must filter the list and ouput the non-dash chars 
         if(myList.get(myList.size()-1) == '-'){
             StringBuilder reversedStringBuilder = new StringBuilder();
-            myList.stream().forEach(x -> {
+            myList.stream()
+                .forEach(x -> {
                 if (x != '-')
                     reversedStringBuilder.append(x);
             });

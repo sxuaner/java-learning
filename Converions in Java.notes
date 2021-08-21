@@ -1,0 +1,27 @@
+#Why is there no CharStream
+The designers explicitely chose to avoid the explosion of classes and methods by limiting the primitive streams to 3 types, since the other types 
+(char, short, float) can be represented by their larger equivalent (int, double) without any significant performance penalty. 
+
+# How to convert a char array into a stream<Character> and vice versa?
+! What is the most efficient way?
+! 1. USe IntStream to generate a stream of indexes/indices
+[java]
+char[] charArray = {'a','c','e'};
+Stream<Character> cStream = IntStream.range(0, charArray.length).mapToObj(i -> arr[i]);
+[end]
+
+! 2. A short and efficient way to create an IntStream from char[] array is to use java.nio.CharBuffer
+[java]
+char[] charArray = {'a','c','e'};
+// CharBuffer is backed by the array
+IntStream stream = CharBuffer.wrap(charArray).chars();
+[end]
+Comments:
+Semantically not different to this answer, except that using CharBuffer.wrap(list) is more efficient than new String(list) as it does not involve 
+copying the array resp., starting with Java 9, converting the char array to a byte array and converting it back while streaming. Under Java 8, 
+the difference is even bigger as String.chars() has been poorly implemented whereas CharBuffer.chars() has an efficient implementation. That has 
+been solved with Java 9, but the copying/conversion overhead of new String(char[]) remains.
+
+Using CharBuffer can be a little bit faster than IntStream.range as it has custom spliterator inside, so it does not have to execute an additional 
+lambda (possibly as slow polymorphic call). Also it refers to the char[] array only once and not inside the lambda, so it can be used with non-final 
+array variable or function return value (like CharBuffer.wrap(getCharArrayFromSomewhere()).chars()).

@@ -1,0 +1,26 @@
+# What is auto-boxing
+
+
+# 
+As every Java developer knows, there are eight primitive types (true and checked)in Java
+[java]
+byte me = 5;
+short circuit = 10;
+int eresting = 30;
+long johns = 22;
+float sum = 41;
+double trouble = 99;
+char broiled = ‘a’;
+boolean flag = true;
+[end]
+Primitive types represent the simplest, most direct way to represent data in code. Even the most complicated classes in Java can be flattened down 
+to nothing more than the set of primitive data types they represent. 
+
+!But primitive types aren’t objects(true and checked)
+!All the collection classes in the JDK hold data as objects. ref: https://docs.oracle.com/javase/8/docs/technotes/guides/language/autoboxing.html
+!Quatation from above link: 
+As any Java programmer knows, you can't put an int (or other primitive value) into a collection. Collections can only hold object references,
+
+# How efficient is autoboxing?
+
+Tho, personally, i m not fussed either way, as long as consistency is applied.
