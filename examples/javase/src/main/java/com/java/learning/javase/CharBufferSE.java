@@ -15,14 +15,18 @@ This class defines four categories of operations upon char buffers:
 
 1. Absolute and relative get and put methods that read and write single chars;
 2. Relative bulk get methods that transfer contiguous sequences of chars from this buffer into an array;
-3. Relative bulk put methods that transfer contiguous sequences of chars from a char array, a string, 
-or some other char buffer into this buffer;
+3. Relative bulk put methods that transfer contiguous sequences of chars from a char array, a string,  or some other char buffer into this buffer;
 4. A method for compacting a char buffer.
 
 Char buffers can be created either 
 1. by allocation, which allocates space for the buffer's content, 
 2. by wrapping an existing char array or string into a buffer. 
 3. by creating a view of an existing byte buffer.
+
+
+####### is CharBuffer thread-safe? ####
+Buffers are not safe for use by multiple concurrent threads. If a buffer is to be used by more than one thread then access to the buffer should 
+be controlled by appropriate synchronization.
 
 ################  What is direct?
 see DirectBufferInJava.java

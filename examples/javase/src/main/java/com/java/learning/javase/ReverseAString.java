@@ -49,7 +49,8 @@ public class ReverseAString {
          */
         List<Character> listStringToReverse = new ArrayList<>();
 
-        // Iterate through the array and add each element to the arraylist
+        // Iterate through the array and add each element to the arraylist. Because Collection can only contain reference types, primitive types
+        // are to be autoboxed.
         for (char charIterator : arrayStringToReverse) {
             listStringToReverse.add(charIterator);
         }
@@ -58,9 +59,9 @@ public class ReverseAString {
 
         // Positve case
         String result = "";
-        Iterator<Character> iteratorListStringToReverse = listStringToReverse.iterator();
-        while (iteratorListStringToReverse.hasNext()) {
-            result += iteratorListStringToReverse.next();
+        Iterator<Character> iteratorOfListStringToReverse = listStringToReverse.iterator();
+        while (iteratorOfListStringToReverse.hasNext()) {
+            result += iteratorOfListStringToReverse.next();
         }
         // Now result is 87654321
         // Place what should be smaller on first operand
@@ -88,6 +89,7 @@ public class ReverseAString {
         Pattern pat = Pattern.compile("[0-9]");
 
         // .collect() expcts a collector returned and methods in Collectors.joining() can accomplish this
+        // Returns a Collector that concatenates the input elements into a String, in encounter order.
         String resultInString = Arrays.stream(tempArrayCharacter).map(x -> String.valueOf(x)).filter(pat.asPredicate()).collect(Collectors.joining());
 
         // Now let's convert the List of String into a String

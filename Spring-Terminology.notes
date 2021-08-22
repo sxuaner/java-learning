@@ -52,5 +52,16 @@ application throughout the development lifecycle, across different environments,
 # CommandLineRunner 
 
 # Spring MVC
+# Spring web on servlet 
 
 # spring core: what is included
+
+# GA, RC, M SR in Spring
+GA = General availability (a release); should be very stable and feature complete
+
+RC = Release candidate; probably feature complete and should be pretty stable - problems should be relatively rare and minor, but worth 
+reporting to try to get them fixed for release.
+
+M = Milestone build - probably not feature complete; should be vaguely stable (i.e. it's more than just a nightly snapshot) but may still have problems.
+
+SR = Service Release (subsequent maintenance releases that come after major -RELEASE)

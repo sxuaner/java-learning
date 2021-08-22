@@ -2,6 +2,11 @@ package com.java.learning.javase;
 
 
  /**
+  * 
+  * public abstract class ByteBuffer 
+        extends Buffer implements
+        Comparable<ByteBuffer>
+
   * https://www.kdgregory.com/index.php?page=java.byteBuffer
   * 
   * Here is a great article explaining ByteBuffer benefits. Following are the key

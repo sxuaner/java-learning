@@ -16,6 +16,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+    <!-- Specify main class for spring boot -->
+    <start-class>com.java.learning.fileuploader.UploadingFilesApplication</start-class>
   </properties>
 
   <dependencies>
@@ -27,9 +29,9 @@
     </dependency>
     
     <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter</artifactId>
-          <version>2.3.12.RELEASE</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>2.3.12.RELEASE</version>
     </dependency>
   
     <dependency>
@@ -60,10 +62,17 @@
               </execution>
             </executions>
             <configuration>
-                <mainClass>com.java.learning.fileuploader.File</mainClass>
+                <mainClass>com.java.learning.fileuploader.UploadingFilesApplication</mainClass>
             </configuration>
-        </plugin>
+      </plugin>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <!-- Maven warns that a version must be specified. How is spring-boot-maven-plugin version related to spring-boot group  -->
+        <version>2.3.12.RELEASE</version>
+
+      </plugin>
     </plugins>
-    
   </build>
 </project>

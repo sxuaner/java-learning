@@ -3,8 +3,11 @@ package com.java.learning.javase;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * public final class StringBuffer extends Object 
+ * public final class StringBuffer 
+ *      extends Object 
  *      implements Serializable, Comparable<StringBuffer>, CharSequence
+ * 
+ * !!!!!!!!!String Buffer is not a implementing class of Buffer Interface!!!!!!
  * 
  * String is immmutable;
  * StringBuffer is mutable and thread-safe;

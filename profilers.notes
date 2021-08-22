@@ -1,6 +1,10 @@
-# What is thread dump
-A JVM Thread Dump is a snapshot taken at a given time which provides you with a complete listing of all created Java Threads.
+###############Options of profilers:
+Yourkit
+VisualVM
 
+
+############## What is thread dump
+A JVM Thread Dump is a snapshot taken at a given time which provides you with a complete listing of all created Java Threads.
 
 # To change the jdk used on vsualvm when debugging in vscode, modify in the setting.json, java.configuration.runtimes
 
