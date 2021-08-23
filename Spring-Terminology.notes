@@ -140,3 +140,10 @@ ApplicationContextAware: ThesetApplicationContext() method of this interface pro
 
 
 # Populate meaning: to fill
+
+# To fall back: 
+  // Cannot access thread context ClassLoader - falling back to system class loader...
+  // Fallback is a contingency option to be taken if the preferred choice is unavailable. 
+
+
+  # callback interface: 

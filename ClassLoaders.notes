@@ -1,7 +1,172 @@
 
 https://docs.oracle.com/cd/E19501-01/819-3659/beadf/index.html
+https://en.wikipedia.org/wiki/Java_Classloader
 # What is a classloader?
 A class loader is an object that is responsible for loading classes
+
+# Background on Class Loaders
+The class loader is the means by which JavaTM classes and resources are loaded into the JRE. It controls the policies ranging from where to load 
+class definitions to the data format of the class definitions.
+
+In the JDKTM 1.1 and earlier releases, no relationship exists between various class loaders. A system class loader responsible for loading in 
+the Java runtime, the application, and classes and resources in the application's classpath. An applet class loader is responsible for loading 
+the applets and their related classes and resources, possibly over the network by communicating with a Web server.
+
+In the Java 2 Platform, Standard Edition, v1.2 and later releases, class loaders have a hierarchical relationship. Each class loader has a parent
+class loader. When a class loader is asked to load a class or resource, it consults its parent class loader before attempting to load the item 
+itself. The parent in turn consults its parent, and so on. So it is only after all of the ancestor class loaders cannot find the item that the 
+current class loader gets involved.
+
+A bootstrap class loader is responsible for loading in the Java runtime. It is the "root" in the class loader hierarchy. The system class loader 
+is a descendant of the bootstrap class loader. It is responsible for loading in the application, as well as for loading classes and resources 
+in the application's classpath.
+
+The Java 2 platform also introduced the notion of context class loader. A thread's context class loader is, by default, set to the context class
+loader of the thread's parent. The hierarchy of threads is rooted at the primordial thread (the one that runs the program). The context class 
+loader of the primordial thread is set to the class loader that loaded the application. So unless you explicitly change the thread's context 
+class loader, its context class loader will be the application's class loader. That is, the context class loader can load the classes that the 
+application can load. This loader is used by the Java runtime such as the RMI (Java Remote Method Invocation) to load classes and resources on 
+behalf of the user application. The context class loader, like any Java 2 platform class loader, has a parent class loader and supports the same
+delegation model for class loading described previously.
+
+
+From Wikipedia:
+The Java Class Loader is a part of the Java Runtime Environment that dynamically loads Java classes into the Java Virtual Machine.[1] Usually classes are only loaded on demand. The Java run time system does not need to know about files and file systems as this is delegated to the classloader.
+
+
+#Difference between Primordial and Non-Primordial Threads
+When the operating system starts a new process, there is only one thread. This is the thread that will enter the application’s native main function, 
+which may then spawn other threads. The “primordial thread” is the first single thread; it isn’t a formal noun, but rather a word whose meaning 
+should be deduced from context.
+
+It’s understandable that a freshly established thread may be altered more easily than one that was already in use when the procedure began.
+When a process is formed, the Operating System kernel creates a primordial thread as the first thread.
+
+Prior to Java SE 6, a user program had little or no control over the primordial thread properties, which could not be changed after the thread 
+was established.
+
+Before any program/library code gets a chance to run, the kernel creates a primordial thread. Its stack size and position may differ greatly 
+from those of other threads started by the program.
+
+! Creating a JVM from a primordial thread and then running Java code on that thread caused a slew of issues:
+The executable’s PE header controls the size of the primordial thread stack on Windows. There is no mechanism for the user to adjust it dynamically. 
+Therefore -Xss isn’t applicable to the primordial thread. The size of the primordial thread stack for Solaris/Linux is governed by ulimit -s, which 
+is often quite big (8M). To compensate, we placed a guard page in the centre of the stack to lower the stack size artificially. This, however, may 
+cause issues with native programmes. It’s risky to set up a guard page for the primordial thread. The primordial thread stack, unlike other threads, 
+may increase on demand. getrlimit() informs VM of the ulimit value, which is the highest limit but not the actual stack size. What can happen is that
+the VM puts the guard at the theoretical limit, but because the application doesn’t need that much stack, the OS reuses the unused space 
+(e.g. malloc) for other reasons (this won’t happen with other threads). Between the stack and its guard page, we ended up with a C heap.
+
+To check for stack overflows, the Linux VM knocks the stack address below the current SP. Because of a security mechanism built into the kernel, 
+this will result in SEGVs if they occur in the primordial thread. The problem is solved on Linux VM by manually increasing the stack. When a VM 
+expands the stack, however, the available stack capacity is decreased to just one page for a brief time. If a signal is given inside that window, 
+the VM may not have enough room to handle it.
+
+For stack colouring and exec-shield, certain Linux kernels randomise the beginning stack address for every thread, but they don’t notify the application. In the primitive thread, this makes it hard to accurately identify stack position and size. The information is required by VM in order to properly manage stack overflows. We do have some cushion, which is usually sufficient, but as seen by bug reports, some do have crashes as a result of this.
+
+On Linux, there is no equivalent of the main() that can determine whether the current thread is a primordial thread, making it even more difficult to 
+write specific code to handle the primordial thread.
+
+It should be noted that certain numbers, such as Xss maximum, are severely limited by the Operating System, the shell’s restrictions, and the 
+system’s current available physical and virtual memory. Xmx may not be able to completely utilise all of your free memory due to fragmentation 
+caused by loaded shared objects or dlls in the process address space, notwithstanding the availability of physical/virtual memory. Because of 
+the overhead associated with the Web Browser and the dlls it loads in the process address space, -Xmx1.6M may not function with the Java Plugin 
+on Windows. 
+
+If you want a huge heap, 64-bit platforms should be actively considered.
+JNI applications that employ custom launchers might follow the same approach as this basic example 
+
+[java] 
+#include <jni.h>
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <pthread.h>
+
+YourJVM\* jvm;
+  
+JNIEnv\* create_vm()
+{
+    JNIEnv\* env;
+    YourJVMInitArgs args;
+    YourJVMOption options[1];
+  
+    args.version = JNI_VERSION_1_4;
+    args.nOptions = 1;
+    options[0].optionString = "-Djava.class.path=.";
+    args.options = options;
+    args.ignoreUnrecognized = JNI_FALSE;
+  
+    JNI_CreateYourJVM(&jvm, (void \*\*)&env, &args);
+    return env;
+}
+  
+void invoke_class(JNIEnv\* env)
+{
+    jclass helloWorldClass;
+    jmethodID mainMethod;
+    jobjectArray applicationArgs;
+    jstring applicationArg0;
+    char buf[128];
+  
+    sprintf(buf, "%d", getpid());
+  
+    helloWorldClass
+        = (\* env)->FindClass(env, "HelloWorld");
+  
+    mainMethod = (\* env)->GetStaticMethodID(
+        env, helloWorldClass, "main",
+        "([Ljava/lang/String;)V");
+  
+    applicationArgs = (\* env)->NewObjectArray(
+        env, 1,
+        (\* env)->FindClass(env, "java/lang/String"), NULL);
+    applicationArg0 = (\* env)->NewStringUTF(env, buf);
+  
+    (\* env)->SetObjectArrayElement(env, applicationArgs, 0,
+                                    applicationArg0);
+    (\* env)->CallStaticVoidMethod(
+        env, helloWorldClass, mainMethod, applicationArgs);
+}
+  
+// VM Worker Thread
+void\* dowork(void\* args)
+{
+    JNIEnv\* env = create_vm();
+    invoke_class(env);
+    // Unload the VM
+    if (jvm == NULL)
+        exit(-1);
+  
+    int retval = (\* jvm)->DetachCurrentThread(jvm);
+    if (retval != 0)
+        exit(2);
+  
+    retval = (\* jvm)->DestroyYourJVM(jvm);
+    if (retval != 0)
+        exit(3);
+}
+  
+int main(int argc, char \*\* argv)
+{
+    pthread_t tid;
+    void\* status;
+  
+    // Create a new thread and launch the vm in that thread
+    pthread_create(&tid, NULL, dowork, NULL);
+  
+    // Make the primordial wait until the VM worker thread
+    // exits
+    pthread_join(tid, &status);
+    exit(0);
+}
+All these count towards the differences
+[end]
+
+
+
+# How many kinds of commonly seen classloaders are there?
+
 
 # What is bootstrapping?
 pull yourself up by your bootstraps
@@ -24,3 +189,7 @@ classes in the java.util and the java.lang packages.
 ! The Bootstrap Classloader, being a classloader and all, is actually a part of the JVM Core and it is written in native code.
 
 # What are context classloaders?
+
+# What is classload agent? How does it ensure security?
+
+#
