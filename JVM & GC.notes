@@ -8,6 +8,8 @@ the Oracle Java Runtime Environment (JRE) 9 provides only that VM implementation
 // https://docs.oracle.com/en/java/javase
 // https://javarevisited.blogspot.com/2012/07/when-class-loading-initialization-java-example.html#axzz717pzj7Kj
 
+# What JDK provides what GC?
+
 # What is an unused object? 
 An unused object, or unreferenced object, is no longer referenced by any part of your program. So the memory used by an unreferenced object can
 be reclaimed.

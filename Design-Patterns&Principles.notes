@@ -1,9 +1,8 @@
 1. Builder
 2. Observer.
-
-
-
-
+3. singleton
+4. imutable pattern
+5. Prototype pattern
 
 # Principles: 
-depend on abstraction
+depend on abstraction instead of implementations

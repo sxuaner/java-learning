@@ -26,6 +26,7 @@ public class ArraySE {
         // Arrays.stream(charArray).parallel().reduce();
 
 
+        //Converting from an array to list has O(n) complexity correct?? Why ? what is the nature?
 
 
     }

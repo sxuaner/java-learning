@@ -1,0 +1,26 @@
+
+https://docs.oracle.com/cd/E19501-01/819-3659/beadf/index.html
+# What is a classloader?
+A class loader is an object that is responsible for loading classes
+
+# What is bootstrapping?
+pull yourself up by your bootstraps
+If someone pulls themselves up by their bootstraps, they improve their situation by their own efforts. Note: Bootstraps are straps attached 
+to a boot which you use for pulling it on. 
+
+#  What does Bootstrap Classloader do?
+When a JVM starts up, a special chunk of machine code runs that loads the system classloader. This machine code is known as the Bootstrap 
+/ Primordial (or sometimes - Null) classloader.
+
+The bootstrap classloader is platform specific machine instructions that kick off the whole classloading process.( Native code)
+
+All classloaders, with the exception of the bootstrap classloader, are implemented as Java classes. Something must load the very first Java 
+classloader to get the process started. Loading the first pure Java classloader is the job of the bootstrap classloader.
+
+The bootstrap classloader also takes care of loading all of the code needed to support the basic Java Runtime Environment (JRE), including 
+classes in the java.util and the java.lang packages.
+
+
+! The Bootstrap Classloader, being a classloader and all, is actually a part of the JVM Core and it is written in native code.
+
+# What are context classloaders?

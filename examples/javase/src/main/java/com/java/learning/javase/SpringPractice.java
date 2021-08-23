@@ -31,5 +31,13 @@ public class SpringPractice {
         return "value";
 
     }
+
+    // how to inspect what beans are assembled?
+
+    // How to use main() in SpringApplication.java
+
+    // why there are so many run() overloads in SpringApplication.java
+
+    // What are util classes?
     
 }

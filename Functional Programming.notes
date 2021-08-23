@@ -81,7 +81,7 @@ Type Parameters:
     R - the type of the result of the function
 
 
-########### Diference between reduce and map and collect, filter method
+########### Diference between reduce and map and collect, filter and forEach()
 map():
 map method processes every single element in a Stream object. 
 
