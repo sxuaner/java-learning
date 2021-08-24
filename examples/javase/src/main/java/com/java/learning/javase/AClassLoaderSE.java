@@ -18,6 +18,8 @@ A class loader is an object that is responsible for loading classes. The class C
 Given the binary name of a class, a class loader should attempt to locate or generate data that constitutes a definition for the class. 
 A typical strategy is to transform the name into a file name and then read a "class file" of that name from a file system. 
 
+!Does this mean that classloader only loads a .class file after compilation?
+
 Every Class object contains a reference to the ClassLoader that defined it.( Could be seen in VisualVM)
 
 Class objects for array classes(Such as primitive arrays or object arrays?) are not created by class loaders, but are created automatically as 
@@ -28,7 +30,10 @@ Applications implement subclasses of ClassLoader in order to extend the manner i
 
 Class loaders may typically be used by security managers to indicate security domains.
 
-The ClassLoader class uses a delegation model to search for classes and resources. Each instance of ClassLoader has an associated parent class loader. When requested to find a class or resource, a ClassLoader instance will delegate the search for the class or resource to its parent class loader before attempting to find the class or resource itself. The virtual machine's built-in class loader, called the "bootstrap class loader", does not itself have a parent but may serve as the parent of a ClassLoader instance.
+The ClassLoader class uses a delegation model to search for classes and resources. Each instance of ClassLoader has an associated parent class 
+loader. When requested to find a class or resource, a ClassLoader instance will delegate the search for the class or resource to its parent 
+class loader before attempting to find the class or resource itself. The virtual machine's built-in class loader, called the "bootstrap 
+class loader", does not itself have a parent but may serve as the parent of a ClassLoader instance.
 
 Class loaders that support concurrent loading of classes are known as parallel capable class loaders and are required to register themselves at their class initialization time by invoking the ClassLoader.registerAsParallelCapable method. Note that the ClassLoader class is registered as parallel capable by default. However, its subclasses still need to register themselves if they are parallel capable. 
 In environments in which the delegation model is not strictly hierarchical, class loaders need to be parallel capable, otherwise class loading can lead to deadlocks because the loader lock is held for the duration of the class loading process (see loadClass methods).

@@ -218,3 +218,40 @@ https://docs.oracle.com/javase/tutorial/essential/concurrency/sleep.html
 
 # How are threads destroyed in Java:
 https://stackoverflow.com/questions/671049/how-do-you-kill-a-thread-in-java
+
+#  Hashtable,  Hashmap, ConcurrentHashMap
+Just read the put() in the API(SE8)
+
+`Hashtable`: put() :  ! HashTable has been obsolete since 1.2. Read the API note.
+
+Maps the specified key to the specified value in this hashtable. !Neither the key nor the value can be null.!
+The value can be retrieved by calling the get method with a key that is equal to the original key.
+
+Returns:
+the previous value of the specified key in this hashtable, or null if it did not have one
+Throws:
+NullPointerException - if the key or value is Null
+
+--------------------------------
+`HashMap`: put() ! It didn't mention anything about null, so null key or null value should be valid. Have a try in HashMapSE.java
+
+Associates the specified value with the specified key in this map. If the map previously contained a mapping for the key, the old value is replaced. 
+
+Returns:
+the previous value associated with key, or null if there was no mapping for key. (A null return can also indicate that the map previously 
+associated null with key.)
+Throws:
+! No exception is thrown
+--------------------------------
+`ConcurrentHashMap`
+Maps the specified key to the specified value in this table. !Neither the key nor the value can be null!. The value can be retrieved by calling the 
+get method with a key that is equal to the original key.
+
+Specified by:
+put in interface Map<K,V>
+Overrides:
+put in class AbstractMap<K,V>
+Returns:
+the previous value associated with key, or null if there was no mapping for key
+Throws:
+NullPointerException - if the specified key or value is null

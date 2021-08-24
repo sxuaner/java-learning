@@ -187,3 +187,10 @@ to move software, a phone number, etc. to another system, without it being chang
 
 #  Guava
 Google's Java library(Guava)
+
+# Deprecated & obsolate 
+Deprecated status may also indicate the feature will be removed in the future. Features are deprecated, rather than immediately removed, to provide
+backward compatibility and to give programmers time to bring affected code into compliance with the new standard.
+! deprecate: to not approve of something or say that you do not approve of something /ˈdep.rə.keɪt/
+! obsolate: not in use any more, having been replaced by something newer and better or more fashionable: /ˌɒb.səlˈiːt/
+! obsolescence /ˌɒb.səˈles.əns/

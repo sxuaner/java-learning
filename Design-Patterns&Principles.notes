@@ -5,4 +5,13 @@
 5. Prototype pattern
 
 # Principles: 
-depend on abstraction instead of implementations
+Depend on abstraction instead of implementations. This can also mean the 
+[java]
+public void returnAUrl(){
+    return getUrl();    // getUrl() is an interface which is abstract
+}
+[end]
+
+# Why is interface needed? How was polymorphism getting so important.
+
+# What is domain-driven design (Evans, 2003)

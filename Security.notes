@@ -1,3 +1,7 @@
+
+# Security Manager
+Class loaders may typically be used by security managers to indicate security domains.
+
 # http://docs.oracle.com/javase/6/docs/technotes/guides/security/crypto/CryptoSpec.html
 Java Cryptography Architecture guide 
 
