@@ -3,9 +3,10 @@
 
 
 # @Target({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE})
+JLS 9.7.4.
+
 
 # Retentionw
-
 
 
 # @RestController - Spring
@@ -33,3 +34,36 @@ There is no web.xml file, either. This web application is 100% pure Java and you
 #Bean
 In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans. A bean is an 
 object that is instantiated, assembled, and otherwise managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application.
+
+
+
+
+
+
+
+
+############################### Spring Annotations ###############################
+# @RestController 
+!Class-level
+The first annotation on our MyApplication class is @RestController. This is known as a stereotype annotation. It provides hints for people reading
+the code and for Spring that the class plays a specific role. In this case, our class is a web @Controller, so Spring considers it when handling 
+incoming web requests.
+
+# @RequestMapping
+! Method-level
+The @RequestMapping annotation provides “routing” information. It tells Spring that any HTTP request with the / path should be mapped to the home 
+method. The @RestController annotation tells Spring to render the resulting string directly back to the caller.
+
+!The @RestController and @RequestMapping annotations are Spring MVC annotations.
+
+#@EnableAutoConfiguration
+!class-level! 
+The second class-level annotation is @EnableAutoConfiguration. This annotation tells Spring Boot to “guess” how you want to configure Spring, based 
+on the jar dependencies that you have added. Since spring-boot-starter-web added Tomcat and Spring MVC, the auto-configuration assumes that you are 
+developing a web application and sets up Spring accordingly.
+
+
+#@Import
+You need not put all your @Configuration into a single class. The @Import annotation can be used to import additional configuration classes. Alternatively, you can use @ComponentScan to automatically pick up all Spring components, including @Configuration classes.
+
+# @ComponentScan

@@ -3,6 +3,7 @@ package com.java.learning.javase;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Properties;
 
 /**
  * public class ArrayList<E>
@@ -52,8 +53,11 @@ public class ArrayListSE {
         List<Character> mylist = new ArrayList<>();
         mylist.add(null);
 
-        // ArrayList is not synchronized
+        // ArrayList is not synchronized, use a warpper to make it thread-safe
        List<Character> list = Collections.synchronizedList(new ArrayList<>());
+
+       Properties p = System.getProperties();
+       p.toString();
 
     }
 }

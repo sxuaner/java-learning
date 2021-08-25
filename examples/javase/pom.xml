@@ -18,12 +18,25 @@
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.12.RELEASE</version>
+    </parent>
+
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -38,7 +51,12 @@
       <version>2.3.12.RELEASE</version>
     </dependency>
 
-  </dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+</dependencies>
 
   <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
  

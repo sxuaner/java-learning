@@ -8,6 +8,13 @@ The Spring IoC container is responsible for instantiating, initializing, and wir
 #How is spring started
 In short, "The Container" is a Spring instance in charge of managing the lifecycle of your beans.
 
+ The “main” Method
+    The final part of our application is the main method. This is a standard method that follows the Java convention for an application entry point. 
+    Our main method delegates to Spring Boot’s SpringApplication class by calling run. SpringApplication bootstraps our application, starting Spring, 
+    which, in turn, starts the auto-configured Tomcat web server. We need to pass MyApplication.class as an argument to the run method to tell 
+    SpringApplication which is the primary Spring component. The args array is also passed through to expose any command-line arguments.
+
+
 #IoC 
 inversion: a situation in which something is changed so that it is the opposite of what it was before, or in which something is turned upside down
 reversion: a change back to a previous and often worse condition
@@ -145,5 +152,76 @@ ApplicationContextAware: ThesetApplicationContext() method of this interface pro
   // Cannot access thread context ClassLoader - falling back to system class loader...
   // Fallback is a contingency option to be taken if the preferred choice is unavailable. 
 
+# callback interface: 
 
-  # callback interface: 
+
+
+# Creating an Executable Jar
+We finish our example by creating a completely self-contained executable jar file that we could run in production. Executable jars (sometimes called
+“fat jars”) are archives containing your compiled classes along with all of the jar dependencies that your code needs to run.
+
+
+# A list of spring boot starters
+https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using
+
+
+# Not recommended of using default package due to component scan
+When a class does not include a package declaration, it is considered to be in the “default package”. The use of the “default package” is generally 
+discouraged and should be avoided. It can cause particular problems for Spring Boot applications that use the @ComponentScan, 
+@ConfigurationPropertiesScan, @EntityScan, or @SpringBootApplication annotations, since every class from every jar is read.
+
+We recommend that you follow Java’s recommended package naming conventions and use a reversed domain name (for example, com.example.project).
+
+# @SpringBootApplication, @EnableAutoConfiguration and @ComponentScan
+If you don’t want to use @SpringBootApplication, the @EnableAutoConfiguration and @ComponentScan annotations that it imports defines that behavior so 
+you can also use those instead.
+
+
+# Primary source
+Spring Boot favors Java-based configuration. Although it is possible to use SpringApplication with XML sources, we generally recommend that your 
+primary source be a single @Configuration class. Usually the class that defines the main method is a good candidate as the primary @Configuration.
+
+
+Many Spring configuration examples have been published on the Internet that use XML configuration. If possible, always try to use the equivalent 
+Java-based configuration. Searching for Enable* annotations can be a good starting point.
+
+# Importing xml configurations
+If you absolutely must use XML based configuration, we recommend that you still start with a @Configuration class. You can then use an @ImportResource 
+annotation to load XML configuration files.
+
+# Auto-configuration
+Spring Boot auto-configuration attempts to automatically configure your Spring application based on the jar dependencies that you have added. 
+For example, if HSQLDB is on your classpath, and you have not manually configured any database connection beans, then Spring Boot auto-configures an in-memory database.
+
+# What is the application.properties file?
+
+#Auto-restart  and devtool
+Spring Boot includes an additional set of tools that can make the application development experience a little more pleasant. 
+The spring-boot-devtools module can be included in any project to provide additional development-time features. 
+
+[xml]
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
+    </dependency>
+</dependencies>
+[end]
+
+#Actuator Endpoint
+Actuator endpoints let you monitor and interact with your application. Spring Boot includes a number of built-in endpoints and lets you add your own. 
+For example, the health endpoint provides basic application health information.
+
+Each individual endpoint can be enabled or disabled and exposed (made remotely accessible) over HTTP or JMX. An endpoint is considered to be 
+available when it is both enabled and exposed. The built-in endpoints will only be auto-configured when they are available. Most applications 
+choose exposure via HTTP, where the ID of the endpoint along with a prefix of /actuator is mapped to a URL. For example, by default, the health
+endpoint is mapped to /actuator/health.
+[xml]
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+</dependencies>
+[end]

@@ -194,3 +194,16 @@ backward compatibility and to give programmers time to bring affected code into 
 ! deprecate: to not approve of something or say that you do not approve of something /ˈdep.rə.keɪt/
 ! obsolate: not in use any more, having been replaced by something newer and better or more fashionable: /ˌɒb.səlˈiːt/
 ! obsolescence /ˌɒb.səˈles.əns/
+
+# JVM Hot-swapping 热插拔
+Hot swapping is the replacement or addition of components to a computer system without stopping, shutting down, or rebooting the system
+
+#Definition of Actuator
+An actuator is a manufacturing term that refers to a mechanical device for moving or controlling something. Actuators can generate a large amount 
+of motion from a small change.
+
+# What is JMX
+Java Management Extensions (JMX) is a Java technology that supplies tools for managing and monitoring applications, system objects, devices 
+(such as printers) and service-oriented networks. Those resources are represented by objects called MBeans (for Managed Bean). In the API, classes 
+can be dynamically loaded and instantiated. Managing and monitoring applications can be designed and developed using the Java Dynamic Management 
+Kit.

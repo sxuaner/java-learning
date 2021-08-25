@@ -6,6 +6,8 @@
 6. classloader
 7. security manager
 8. how to run spring app without boot
+9. how to create  sub modules in maven
+10. How is application.properties applied?
 
 
 # Prio list: 
