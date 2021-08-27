@@ -38,10 +38,6 @@ object that is instantiated, assembled, and otherwise managed by a Spring IoC co
 
 
 
-
-
-
-
 ############################### Spring Annotations ###############################
 # @RestController 
 !Class-level
@@ -67,3 +63,9 @@ developing a web application and sets up Spring accordingly.
 You need not put all your @Configuration into a single class. The @Import annotation can be used to import additional configuration classes. Alternatively, you can use @ComponentScan to automatically pick up all Spring components, including @Configuration classes.
 
 # @ComponentScan
+
+
+
+# @SpringBootApplication, @EnableAutoConfiguration and @ComponentScan
+If you don’t want to use @SpringBootApplication, the @EnableAutoConfiguration and @ComponentScan annotations that it imports defines that behavior so 
+you can also use those instead.

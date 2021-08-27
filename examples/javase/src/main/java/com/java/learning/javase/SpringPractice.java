@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
@@ -43,7 +44,7 @@ public class SpringPractice {
         // Try to understand SpringApplication.run() and stopped at SpringApplication.class 270 line
 		// this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources)); learn this and continue
         SpringApplication.run(SpringPractice.class, args);
-    
+        new ServletWebServerApplicationContext();
 
     }
     @Bean

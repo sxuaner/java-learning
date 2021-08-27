@@ -114,6 +114,10 @@ public class IMapSE {
         Map.of("1", 333);
 
         Map.ofEntries();
+
+		// good  to know 
+        // return loadSpringFactories(classLoader).getOrDefault(factoryTypeName, Collections.emptyList());
+
     }
     
 }

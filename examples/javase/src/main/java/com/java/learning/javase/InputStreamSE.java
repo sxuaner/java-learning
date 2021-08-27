@@ -1,0 +1,14 @@
+package com.java.learning.javase;
+public class InputStreamSE {
+    /**
+     * public abstract class InputStream
+        extends Object
+        implements Closeable
+    This abstract class is the superclass of all classes representing an input stream of bytes.
+    Applications that need to define a subclass of InputStream must always provide a method that returns the next byte of input.
+     */
+    public static void main(String[] args) {
+        
+    }
+    
+}

@@ -172,15 +172,9 @@ discouraged and should be avoided. It can cause particular problems for Spring B
 
 We recommend that you follow Java’s recommended package naming conventions and use a reversed domain name (for example, com.example.project).
 
-# @SpringBootApplication, @EnableAutoConfiguration and @ComponentScan
-If you don’t want to use @SpringBootApplication, the @EnableAutoConfiguration and @ComponentScan annotations that it imports defines that behavior so 
-you can also use those instead.
-
-
 # Primary source
 Spring Boot favors Java-based configuration. Although it is possible to use SpringApplication with XML sources, we generally recommend that your 
 primary source be a single @Configuration class. Usually the class that defines the main method is a good candidate as the primary @Configuration.
-
 
 Many Spring configuration examples have been published on the Internet that use XML configuration. If possible, always try to use the equivalent 
 Java-based configuration. Searching for Enable* annotations can be a good starting point.
@@ -198,6 +192,13 @@ For example, if HSQLDB is on your classpath, and you have not manually configure
 #Auto-restart  and devtool
 Spring Boot includes an additional set of tools that can make the application development experience a little more pleasant. 
 The spring-boot-devtools module can be included in any project to provide additional development-time features. 
+
+# Spring boot devltool restarts on change
+The restart technology provided by Spring Boot works by using two classloaders. Classes that do not change (for example,
+those from third-party jars) are loaded into a base classloader. Classes that you are actively developing are loaded into a
+restart classloader. When the application is restarted, the restart classloader is thrown away and a new one is created. This
+approach means that application restarts are typically much faster than “cold starts”, since the base classloader is already
+available and populated
 
 [xml]
 <dependencies>
@@ -224,4 +225,34 @@ endpoint is mapped to /actuator/health.
         <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 </dependencies>
+[end]
+
+# What implementations of BeanFactory are avaible?
+Interfaces:
+ApplicationContext
+[java]
+public interface ApplicationContext
+    extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory, MessageSource, ApplicationEventPublisher, ResourcePatternResolver{}
+[end]
+ConfigurableApplicationContext and ListableApplicationContext
+Annotaion
+
+Implementations:
+[java]
+public class AnnotationConfigApplicationContext
+    extends GenericApplicationContext
+    implements AnnotationConfigRegistry{}
+
+public class GenericApplicationContext
+    extends AbstractApplicationContext
+    implements BeanDefinitionRegistry{}
+
+public abstract class AbstractApplicationContext
+    extends DefaultResourceLoader
+    implements ConfigurableApplicationContext{}
+
+public class DefaultResourceLoader
+    extends Object
+    implements ResourceLoader{}
+
 [end]

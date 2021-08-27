@@ -3,7 +3,9 @@
 https://docs.spring.io/spring-boot/docs/2.5.4/maven-plugin/reference/htmlsingle/
 https://docs.spring.io/spring-boot/docs/current/reference/html/using.html
 https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
-https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features
+https://docs.spring.io/spring-boot/docs/current/reference/html/features.html
+https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
+
 
 # First, remote @SpringbootApplication and run the program with maven clean package (assuming that exec has
 # been configured properly)
@@ -31,32 +33,13 @@ Unable to start ServletWebServerApplicationContext due to missing ServletWebServ
     at com.java.learning.javase.SpringPractice.main (SpringPractice.java:30)
     at org.codehaus.mojo.exec.ExecJavaMojo$1.run (ExecJavaMojo.java:254)
     at java.lang.Thread.run (Thread.java:834)
-
-Caused by: org.springframework.context.ApplicationContextException: Unable to start ServletWebServerApplicationContext due to missing 
-ServletWebServerFactory bean.
-
-    at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getWebServerFactory (ServletWebServerApplicationContext.java:205)
-    at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer (ServletWebServerApplicationContext.java:177)
-    at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh (ServletWebServerApplicationContext.java:158)
-    at org.springframework.context.support.AbstractApplicationContext.refresh (AbstractApplicationContext.java:545)
-    at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh (ServletWebServerApplicationContext.java:143)
-    at org.springframework.boot.SpringApplication.refresh (SpringApplication.java:755)
-    at org.springframework.boot.SpringApplication.refresh (SpringApplication.java:747)
-    at org.springframework.boot.SpringApplication.refreshContext (SpringApplication.java:402)
-    at org.springframework.boot.SpringApplication.run (SpringApplication.java:312)
-    at org.springframework.boot.SpringApplication.run (SpringApplication.java:1247)
-    at org.springframework.boot.SpringApplication.run (SpringApplication.java:1236)
-    at com.java.learning.javase.SpringPractice.main (SpringPractice.java:30)
-    at org.codehaus.mojo.exec.ExecJavaMojo$1.run (ExecJavaMojo.java:254)
-    at java.lang.Thread.run (Thread.java:834)
 [end]
 
 !Q what's this springframework.boot package? 
 Then I read : https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
 
 Following is the dependency tree:
-
- com.java.learning.javase:javase:jar:1.0-SNAPSHOT
+com.java.learning.javase:javase:jar:1.0-SNAPSHOT
 [INFO] +- junit:junit:jar:4.11:test
 [INFO] |  \- org.hamcrest:hamcrest-core:jar:2.2:test
 [INFO] |     \- org.hamcrest:hamcrest:jar:2.2:test
@@ -103,3 +86,233 @@ Following is the dependency tree:
 [INFO]       \- org.springframework:spring-expression:jar:5.2.15.RELEASE:compile
 
 Now refer to Annotations.notes 
+
+
+# What exactly does SpringApplication.run(SpringPractice.class, args) do?
+[java]
+    // static helper class that takes only 1 class as source
+	public static ConfigurableApplicationContext run(Class<?> primarySource, String... args) {
+		return run(new Class<?>[] { primarySource }, args);
+	}
+    
+    // static help class that takes an array of classes as sources? 
+    // for Class<>[] primarySource, can I pass class1.class, class2.class as parameter?
+	public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args) {
+		return new SpringApplication(primarySources).run(args);
+	}
+
+    // To instantiate an object
+    public SpringApplication(Class<?>... primarySources) {
+		this(null, primarySources);
+	}
+// ############################## Part0 #######################
+    // Work is done here: 
+    public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
+		this.resourceLoader = resourceLoader;
+		Assert.notNull(primarySources, "PrimarySources must not be null");
+        // Convert the source array into a LinkedHashSet<>();
+		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
+        // set the web type, see belowe part1
+		this.webApplicationType = WebApplicationType.deduceFromClasspath();
+        // Go to part 3 for getSpringFactoriesInstances()
+		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+		this.mainApplicationClass = deduceMainApplicationClass();
+	}
+//// ########################### part1 #################################
+	static WebApplicationType deduceFromClasspath() {
+        // With ClassUtils, what classes are loaded can be determined, thus the setting of web type
+		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null) && !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
+				&& !ClassUtils.isPresent(JERSEY_INDICATOR_CLASS, null)) {
+			return WebApplicationType.REACTIVE;
+		}
+		for (String className : SERVLET_INDICATOR_CLASSES) {
+			if (!ClassUtils.isPresent(className, null)) {
+				return WebApplicationType.NONE;
+			}
+		}
+		return WebApplicationType.SERVLET;
+	}
+    // ClassUtils.isPresent Determine whether the Class identified by the supplied name is present and can be loaded. Will return false if either 
+    // the class or one of its dependencies is not present or cannot be loaded.
+    public static boolean isPresent(String className, @Nullable ClassLoader classLoader) {
+		try {
+            // now go to part 1.1 and find out what forName does
+			forName(className, classLoader);
+			return true;
+		}
+		catch (IllegalAccessError err) {
+			throw new IllegalStateException("Readability mismatch in inheritance hierarchy of class [" +
+					className + "]: " + err.getMessage(), err);
+		}
+		catch (Throwable ex) {
+			// Typically ClassNotFoundException or NoClassDefFoundError...
+			return false;
+		}
+	}// Now return to part0
+//// ########################### part1.1 #################################
+    // ClassUtils.java
+    // forName() looks up the classname and load it
+    public static Class<?> forName(String name, @Nullable ClassLoader classLoader)
+			throws ClassNotFoundException, LinkageError {
+
+		Assert.notNull(name, "Name must not be null");
+
+		Class<?> clazz = resolvePrimitiveClassName(name);
+		if (clazz == null) {
+			clazz = commonClassCache.get(name);
+		}
+		if (clazz != null) {
+			return clazz;
+		}
+
+        // what does this do?
+		// "java.lang.String[]" style arrays
+		if (name.endsWith(ARRAY_SUFFIX)) {
+			String elementClassName = name.substring(0, name.length() - ARRAY_SUFFIX.length());
+			Class<?> elementClass = forName(elementClassName, classLoader);
+			return Array.newInstance(elementClass, 0).getClass();
+		}
+
+		// "[Ljava.lang.String;" style arrays
+		if (name.startsWith(NON_PRIMITIVE_ARRAY_PREFIX) && name.endsWith(";")) {
+			String elementName = name.substring(NON_PRIMITIVE_ARRAY_PREFIX.length(), name.length() - 1);
+			Class<?> elementClass = forName(elementName, classLoader);
+			return Array.newInstance(elementClass, 0).getClass();
+		}
+
+		// "[[I" or "[[Ljava.lang.String;" style arrays
+		if (name.startsWith(INTERNAL_ARRAY_PREFIX)) {
+			String elementName = name.substring(INTERNAL_ARRAY_PREFIX.length());
+			Class<?> elementClass = forName(elementName, classLoader);
+			return Array.newInstance(elementClass, 0).getClass();
+		}
+
+		ClassLoader clToUse = classLoader;
+		if (clToUse == null) {
+			clToUse = getDefaultClassLoader();
+		}
+		try {
+			return Class.forName(name, false, clToUse);
+		}
+		catch (ClassNotFoundException ex) {
+			int lastDotIndex = name.lastIndexOf(PACKAGE_SEPARATOR);
+			if (lastDotIndex != -1) {
+				String innerClassName =
+						name.substring(0, lastDotIndex) + INNER_CLASS_SEPARATOR + name.substring(lastDotIndex + 1);
+				try {
+					return Class.forName(innerClassName, false, clToUse);
+				}
+				catch (ClassNotFoundException ex2) {
+					// Swallow - let original exception get through
+				}
+			}
+			throw ex;
+		}
+	}// Now go back to part1
+
+//// ########################### part2 #################################
+
+[end]
+Then .run(args) is executed and return an object of ConfigurableApplicationContext.
+[java]
+[end]
+
+[java]
+// So why ConfigurableApplicationContext? Why not ListableApplicationContext? Read API
+public ConfigurableApplicationContext run(String... args) {
+        // StopWatch is a thing that calculates time between two events
+        // This class is normally used to verify performance during proof-of-concept work and in development, rather than as part of production 
+        // applications.
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+		ConfigurableApplicationContext context = null;
+        // HeadlessProperty?
+		configureHeadlessProperty();
+        // what is listener for?
+		SpringApplicationRunListeners listeners = getRunListeners(args);
+		listeners.starting();
+
+		try {
+			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
+            // This Environment might contain application.properties            
+			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
+
+			configureIgnoreBeanInfo(environment);
+			Banner printedBanner = printBanner(environment);
+
+			context = createApplicationContext();
+			prepareContext(context, environment, listeners, applicationArguments, printedBanner);
+            //why?
+			refreshContext(context);
+			afterRefresh(context, applicationArguments);
+			stopWatch.stop();
+			if (this.logStartupInfo) {
+				new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), stopWatch);
+			}
+			listeners.started(context);
+            // Commandline runner is called here
+			callRunners(context, applicationArguments);
+		}
+		catch (Throwable ex) {
+			handleRunFailure(context, ex, listeners);
+			throw new IllegalStateException(ex);
+		}
+
+		try {
+			listeners.running(context);
+		}
+		catch (Throwable ex) {
+			handleRunFailure(context, ex, null);
+			throw new IllegalStateException(ex);
+		}
+		return context;
+	}
+[end]
+//// ########################### part3 #################################
+
+[java]
+	private <T> Collection<T> getSpringFactoriesInstances(Class<T> type, Class<?>[] parameterTypes, Object... args) {
+		ClassLoader classLoader = getClassLoader();
+		// Use names and ensure unique to protect against duplicates
+		Set<String> names = new LinkedHashSet<>(SpringFactoriesLoader.loadFactoryNames(type, classLoader));
+		List<T> instances = createSpringFactoriesInstances(type, parameterTypes, classLoader, args, names);
+		AnnotationAwareOrderComparator.sort(instances);
+		return instances;
+	}
+    //SpringApplication.getClassLoader()
+    public ClassLoader getClassLoader() {
+		if (this.resourceLoader != null) {
+			return this.resourceLoader.getClassLoader();
+		}
+		return ClassUtils.getDefaultClassLoader();
+	}
+
+		
+    // ClassUtils.getDefaultClassLoader();  
+    @Nullable
+	public static ClassLoader getDefaultClassLoader() {
+		ClassLoader cl = null;
+		try {
+			cl = Thread.currentThread().getContextClassLoader();
+		}
+		catch (Throwable ex) {
+			// Cannot access thread context ClassLoader - falling back...
+		}
+		if (cl == null) {
+			// No thread context class loader -> use class loader of this class.
+			cl = ClassUtils.class.getClassLoader();
+			if (cl == null) {
+				// getClassLoader() returning null indicates the bootstrap ClassLoader
+				try {
+					cl = ClassLoader.getSystemClassLoader();
+				}
+				catch (Throwable ex) {
+					// Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+				}
+			}
+		}
+		return cl;
+	}// go back to getSpringFactoriesInstances() in part 3
+
+[end]

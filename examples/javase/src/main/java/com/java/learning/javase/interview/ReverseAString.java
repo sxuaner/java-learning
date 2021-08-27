@@ -1,4 +1,4 @@
-package com.java.learning.javase;
+package com.java.learning.javase.interview;
 
 import java.nio.CharBuffer;
 import java.util.ArrayList;

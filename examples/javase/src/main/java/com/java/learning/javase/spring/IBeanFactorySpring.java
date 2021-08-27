@@ -1,4 +1,4 @@
-package com.java.learning.javase;
+package com.java.learning.javase.spring;
 
 import org.springframework.beans.factory.BeanFactory;
 

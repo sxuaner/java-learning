@@ -35,7 +35,7 @@ The Java platform contains three general-purpose Set implementations: #HashSet, 
 LinkedHashSet spares its clients from the unspecified, generally chaotic ordering provided by HashSet at a cost that is only slightly higher.
 
 
-
+! Why is using stream a good approach?
 # A good way to iterate through a list
 [java]
          default void sort(Comparator<? super E> c) {
@@ -50,6 +50,102 @@ LinkedHashSet spares its clients from the unspecified, generally chaotic orderin
 [end]
 
 
- // Returns a hash code based on the contents of the specified array. For any two char arrays a and b such that 
-        // Arrays.equals(a, b), it is also the case that Arrays.hashCode(a) == Arrays.hashCode(b).
-        int hashOfCharArray=Arrays.hashCode(charArray);
+Returns a hash code based on the contents of the specified array. For any two char arrays a and b such that 
+Arrays.equals(a, b), it is also the case that Arrays.hashCode(a) == Arrays.hashCode(b).
+[java]
+    int hashOfCharArray=Arrays.hashCode(charArray);
+[end]
+
+
+# The most important part of HashMap.put(). Analyse this
+[java]
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+        Node<K,V>[] tab; Node<K,V> p; int n, i;
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+        if ((p = tab[i = (n - 1) & hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        else {
+            Node<K,V> e; K k;
+            if (p.hash == hash &&
+                ((k = p.key) == key || (key != null && key.equals(k))))
+                e = p;
+            else if (p instanceof TreeNode)
+                e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+            else {
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) {
+                        p.next = newNode(hash, key, value, null);
+                        if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    if (e.hash == hash &&
+                        ((k = e.key) == key || (key != null && key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);
+                return oldValue;
+            }
+        }
+        ++modCount;
+        if (++size > threshold)
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+[end]
+
+
+
+# HashSet
+[java]
+ public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable{}
+ [end]
+! What is Set Interface in Java?
+A collection that 
+1. contains no duplicate elements(through unique key in HashMap). More formally, sets contain no pair of elements e1 and e2 such that e1.equals(e2), and 
+2. at most one null element. 
+3. As implied by its name, this interface models the mathematical set abstraction.
+
+! Hashset implementation details
+HashSet is backed by a HashMap. If this set already contains the element, the call to HashSet.put() leaves the set unchanged and returns false.
+It's funny that HashMap.put() and HashSet.add()
+
+To ensure a set has unique elements, it calls the HashMap.put() to put a (e.PRESENT) value pair into the HashMap. Based on the returned value, 
+if null, 
+
+From this we can tell that the HashMap backing HashSet is actually a {new Object()}; The keys of the HashMap are in fact the set elements.
+
+So the question is: when will a HashMap.put(key,value) return null? Implementation details of HashMap.put() is above.
+
+[java]
+    private static final Object PRESENT = new Object();
+    public boolean add(E e) {
+        return map.put(e, PRESENT)==null;
+    }
+[end]
+
+
+
+! what is load factor?
+if there are n entries and b is the size of the array there would be n/b entries on each index. This value 
+n/b is called the load factor that represents the load that is there on our map.
+
+! How is the hash function implemented?
+// Object.hashCode()
+[java]
+@HotSpotIntrinsicCandidate
+public native int hashCode();
+[end]
+
+
+!!! There are 2 equals() methods: one is in Object and the other is in Set. However, the equals() must conform to the method contract in Object.
+If e1.hashCode() == e2.hashCode(), then e1.equals(e2) must be true. Vice versa. ??? must be verified. 

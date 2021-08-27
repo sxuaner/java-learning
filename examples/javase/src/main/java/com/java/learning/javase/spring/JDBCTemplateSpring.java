@@ -1,4 +1,4 @@
-package com.java.learning.javase;
+package com.java.learning.javase.spring;
 // Compare with Hibernate and SPring JPA?
 
 public class JDBCTemplateSpring {
