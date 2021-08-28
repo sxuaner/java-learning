@@ -1,19 +1,20 @@
 package com.java.learning.javase.spring;
 
+
+/**
+    public interface ResourceLoader 
+
+    Strategy interface for loading resources (e.g., class path or file system resources). An ApplicationContext is required to provide this 
+    functionality plus extended ResourcePatternResolver support. 
+    
+    DefaultResourceLoader is a standalone implementation that is usable outside an ApplicationContext and is also used by ResourceEditor.
+    
+    Bean properties of type Resource and Resource[] can be populated from Strings when running in an ApplicationContext, using the particular 
+    context's resource loading strategy.
+*/
+
 public class IResourceLoaderSpring {
 
-
-    /**
-      public interface ResourceLoader 
-
-      Strategy interface for loading resources (e.g., class path or file system resources). An ApplicationContext is required to provide this 
-      functionality plus extended ResourcePatternResolver support. 
-      
-      DefaultResourceLoader is a standalone implementation that is usable outside an ApplicationContext and is also used by ResourceEditor.
-      
-      Bean properties of type Resource and Resource[] can be populated from Strings when running in an ApplicationContext, using the particular 
-      context's resource loading strategy.
-     */
     public static void main(String[] args) {
         /**
         

@@ -39,3 +39,11 @@ snapshot can do, or reduce the window during which a really serious snapshot can
 
 !if something is in black and white, it means one has to be correct and second has to be incorrect. in absolute terms; without shades of grey. seeing 
 !things in absolute extremes. lacking colours except black and white.
+
+
+
+# Can access modifier be reliable ?
+Java does have the "package" access modifier which is the default access modifier when none is specified (ie. you don't specify public, private or 
+protected). With the "package" access modifier, only classes in odp.proj will have access to the methods. But keep in mind that in Java, the access 
+modifiers cannot be relied upon to enforce access rules because with reflection, any access is possible. Access modifiers are merely suggestive 
+(unless a restrictive security manager is present).

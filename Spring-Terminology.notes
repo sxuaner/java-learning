@@ -8,11 +8,11 @@ The Spring IoC container is responsible for instantiating, initializing, and wir
 #How is spring started
 In short, "The Container" is a Spring instance in charge of managing the lifecycle of your beans.
 
- The “main” Method
-    The final part of our application is the main method. This is a standard method that follows the Java convention for an application entry point. 
-    Our main method delegates to Spring Boot’s SpringApplication class by calling run. SpringApplication bootstraps our application, starting Spring, 
-    which, in turn, starts the auto-configured Tomcat web server. We need to pass MyApplication.class as an argument to the run method to tell 
-    SpringApplication which is the primary Spring component. The args array is also passed through to expose any command-line arguments.
+The “main” Method
+The final part of our application is the main method. This is a standard method that follows the Java convention for an application entry point. 
+Our main method delegates to Spring Boot’s SpringApplication class by calling run. SpringApplication bootstraps our application, starting Spring, 
+which, in turn, starts the auto-configured Tomcat web server. We need to pass MyApplication.class as an argument to the run method to tell 
+SpringApplication which is the primary Spring component. The args array is also passed through to expose any command-line arguments.
 
 
 #IoC 
@@ -21,10 +21,16 @@ reversion: a change back to a previous and often worse condition
 
 # Dependency inversion
 
+# What does dependency realy mean
+1. Vanilla way to get objects is by calling the constructor with new keyword
+2. Since the invention of bean factory, java objects are all picked up by the bean factory. So to retrieve a certain type of bean, just call 
+ApplicationContext.getBean(<bean name>.class)
+3. Now the program still depends on ApplicationContext in the code. Then the ApplicationContext must be called everywhere in the code. Thus the use of
+@Autowire or @inject annotations .
+
 # Reactive meaning
 In plain terms reactive programming is about non-blocking applications that are asynchronous and event-driven and require a small number of threads 
 to scale. A key aspect of that definition is the concept of backpressure which is a mechanism to ensure producers don't overwhelm consumers.
-
 
 # @Bean and @Component:
 https://stackoverflow.com/questions/10604298/spring-component-versus-bean
@@ -77,7 +83,6 @@ M = Milestone build - probably not feature complete; should be vaguely stable (i
 
 SR = Service Release (subsequent maintenance releases that come after major -RELEASE)
 
-
 # Bean Factory
 [java]
 public interface BeanFactory{}
@@ -119,7 +124,6 @@ On shutdown of a bean factory, the following lifecycle methods apply:
 postProcessBeforeDestruction methods of DestructionAwareBeanPostProcessors
 DisposableBean's destroy
 a custom destroy-method definition
-
 
 # Life Cycle
 Spring provides several ways through which you can tap into the bean lifecycle. For example, once a bean is instantiated, you might need to 
@@ -239,20 +243,34 @@ Annotaion
 
 Implementations:
 [java]
+
+
 public class AnnotationConfigApplicationContext
     extends GenericApplicationContext
     implements AnnotationConfigRegistry{}
-
+---------------------------------------------
 public class GenericApplicationContext
     extends AbstractApplicationContext
     implements BeanDefinitionRegistry{}
-
+---------------------------------------------
 public abstract class AbstractApplicationContext
     extends DefaultResourceLoader
     implements ConfigurableApplicationContext{}
-
+---------------------------------------------
 public class DefaultResourceLoader
     extends Object
     implements ResourceLoader{}
 
+public interface ConfigurableApplicationContext
+    extends ApplicationContext, Lifecycle, Closeable{}
 [end]
+
+
+
+# Choice of ApplicationContext: 
+For the typical case of XML bean definitions, simply use !ClassPathXmlApplicationContext! or !FileSystemXmlApplicationContext!, which are easier to set 
+up - but less flexible, since you can just use standard resource locations for XML bean definitions, rather than mixing arbitrary bean definition 
+formats. The equivalent in a web environment is !XmlWebApplicationContext!.
+
+
+# Bean scope

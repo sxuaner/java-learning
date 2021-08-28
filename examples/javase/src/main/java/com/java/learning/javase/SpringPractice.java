@@ -5,6 +5,7 @@ import java.util.Properties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
@@ -30,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
   */
 
 @RestController
-// @Configuration
-@SpringBootApplication
+@Configuration
+// @SpringBootApplication
 public class SpringPractice {
     /**
     The “main” Method
@@ -44,24 +45,32 @@ public class SpringPractice {
         // Try to understand SpringApplication.run() and stopped at SpringApplication.class 270 line
 		// this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources)); learn this and continue
         SpringApplication.run(SpringPractice.class, args);
-        new ServletWebServerApplicationContext();
+
+        AnnotationConfigApplicationContext acfc = new AnnotationConfigApplicationContext(SpringPractice.class);
+        
+        String beanValue = acfc.getBean(String.class);
+
+
 
     }
+        
     @Bean
     public String getValue(){
         return "value";
     }
 
-    @RequestMapping
-    /**
-    The @RequestMapping annotation provides “routing” information. It tells Spring that any HTTP request with the / path should be mapped to 
-    the home method. The @RestController annotation tells Spring to render the resulting string directly back to the calle
-    */
-    public String restCon(){
-        return "";
-    }
+    // ------------------------- Following line of code requires ServletWebServerFactory --------------------------
+    // @RequestMapping
+    // /**
+    // The @RequestMapping annotation provides “routing” information. It tells Spring that any HTTP request with the / path should be mapped to 
+    // the home method. The @RestController annotation tells Spring to render the resulting string directly back to the calle
+    // */
+    // public String restCon(){
+    //     return "";
+    // }
 
     // how to inspect what beans are assembled?
+    
 
     // How to use main() in SpringApplication.java
 

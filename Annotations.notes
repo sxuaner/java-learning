@@ -1,17 +1,55 @@
 # @SuppressWarnings
 
+# @Target
+Refer to JLS 9.7.4.
+
+Indicates the contexts in which an annotation type is applicable.
+
+@Target(ElementType.TYPE) means that this annotation appears only at syntactic locations of ElementType.TYPE. Which are 
+Class, interface (including annotation type like @Configuration, @Target), or enum declaration( when declaring an enum)
+
+!ElementType:
+[java]
+public enum ElementType extends Enum<ElementType>{}
+[end]
+The constants of this enumerated type provide a simple classification of the syntactic locations where annotations may appear in a Java program. 
+These constants are used in java.lang.annotation.Target meta-annotations to specify where it is legal to write annotations of a given type.
+
+!For example, this @Target meta-annotation indicates that the declared type is itself a meta-annotation type. It can only be used on annotation 
+!type declarations. This is how to declare an annotation
+[java]
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface MetaAnnotationType {
+    ...
+}
+[end]
 
 
-# @Target({TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, MODULE})
-JLS 9.7.4.
+# @Retention
+[java]
+@Documented
+@Retention(RUNTIME)
+@Target(ANNOTATION_TYPE)
+public @interface Retention{}
+[end]
+Indicates how long annotations with the annotated type are to be retained. If no Retention annotation is present on an annotation type declaration, 
+the retention policy defaults to RetentionPolicy.CLASS.
+//????
+A Retention meta-annotation has effect only if the meta-annotated type is used directly for annotation. It has no effect if the meta-annotated type 
+is used as a member type in another annotation type.
 
+! retain: to keep or continue to have something
 
-# Retentionw
+! Rentention policies:
+RetentionPolicy.RUNTIME:
+Annotations are to be recorded in the class file by the compiler and retained by the VM at run time, so they may be read reflectively.
 
+RetentionPolicy.SOURCE:
+Annotations are to be discarded by the compiler.
 
-# @RestController - Spring
-This code uses Spring @RestController annotation, which marks the class as a controller where every method returns a domain object instead of a view. 
-It is shorthand for including both @Controller and @ResponseBody.
+RetentionPolicy.CLASS:
+Annotations are to be recorded in the class file by the compiler but need not be retained by the VM at run time. This is the default behavior.
+
 
 # @SpringBootApplication is a convenience annotation that adds all of the following:
 @Configuration: Tags the class as a source of bean definitions for the application context.
@@ -31,12 +69,9 @@ There is no web.xml file, either. This web application is 100% pure Java and you
 @JsonIgnoreProperties is from the Jackson JSON processing library to indicate that any properties not bound in this #type# should be ignored.
 ! what does  type here refer to?
 
-#Bean
+# @Bean
 In Spring, the objects that form the backbone of your application and that are managed by the Spring IoC container are called beans. A bean is an 
 object that is instantiated, assembled, and otherwise managed by a Spring IoC container. Otherwise, a bean is simply one of many objects in your application.
-
-
-
 
 ############################### Spring Annotations ###############################
 # @RestController 
@@ -45,6 +80,9 @@ The first annotation on our MyApplication class is @RestController. This is know
 the code and for Spring that the class plays a specific role. In this case, our class is a web @Controller, so Spring considers it when handling 
 incoming web requests.
 
+This code uses Spring @RestController annotation, which marks the class as a controller where every method returns a domain object instead of a view. 
+It is shorthand for including both @Controller and @ResponseBody.
+
 # @RequestMapping
 ! Method-level
 The @RequestMapping annotation provides “routing” information. It tells Spring that any HTTP request with the / path should be mapped to the home 
@@ -52,20 +90,79 @@ method. The @RestController annotation tells Spring to render the resulting stri
 
 !The @RestController and @RequestMapping annotations are Spring MVC annotations.
 
-#@EnableAutoConfiguration
+# @EnableAutoConfiguration
 !class-level! 
 The second class-level annotation is @EnableAutoConfiguration. This annotation tells Spring Boot to “guess” how you want to configure Spring, based 
 on the jar dependencies that you have added. Since spring-boot-starter-web added Tomcat and Spring MVC, the auto-configuration assumes that you are 
 developing a web application and sets up Spring accordingly.
 
 
-#@Import
+# @Import
 You need not put all your @Configuration into a single class. The @Import annotation can be used to import additional configuration classes. Alternatively, you can use @ComponentScan to automatically pick up all Spring components, including @Configuration classes.
 
 # @ComponentScan
 
-
-
 # @SpringBootApplication, @EnableAutoConfiguration and @ComponentScan
 If you don’t want to use @SpringBootApplication, the @EnableAutoConfiguration and @ComponentScan annotations that it imports defines that behavior so 
 you can also use those instead.
+
+
+# @Repository
+
+# @Configuration
+[java]
+@Target(value=TYPE)
+ @Retention(value=RUNTIME)
+ @Documented
+ @Component
+public @interface Configuration
+[end]
+Indicates that a class declares one or more @Bean methods and may be processed by the Spring container to generate bean definitions and service 
+requests for those beans at runtime, for example
+[java]
+@Configuration
+ public class AppConfig {
+     @Bean
+     public MyBean myBean() {
+         // instantiate, configure and return bean ...
+     }
+ }
+[end]
+
+! @Configuration classes are typically bootstrapped 
+1. using either AnnotationConfigApplicationContext or its web-capable variant, AnnotationConfigWebApplicationContext.
+
+2.As an alternative to registering @Configuration classes directly against an AnnotationConfigApplicationContext, @Configuration classes may be 
+declared as normal <bean> definitions within Spring XML files
+[xml]
+<beans>
+    <context:annotation-config/>
+    <bean class="com.acme.AppConfig"/>
+ </beans>
+ [end]
+In the example above, <context:annotation-config/> is required in order to enable ConfigurationClassPostProcessor and other annotation-related post 
+processors that facilitate handling @Configuration classes.
+
+3. @Configuration is meta-annotated with @Component, therefore @Configuration classes are candidates for component scanning (typically using Spring 
+XML's <context:component-scan/> element) and therefore may also take advantage of @Autowired/@Inject like any regular @Component. In particular, 
+if a single constructor is present autowiring semantics will be applied transparently for that constructor
+[java]
+@Configuration
+ public class AppConfig {
+     private final SomeBean someBean;
+     public AppConfig(SomeBean someBean) {
+         this.someBean = someBean;
+     }
+     // @Bean definition using "SomeBean"
+
+ }
+[end]
+@Configuration classes may not only be bootstrapped using component scanning, but may also themselves configure component scanning using the 
+@ComponentScan annotation:
+[java]
+@Configuration
+ @ComponentScan("com.acme.app.services")
+ public class AppConfig {
+     // various @Bean definitions ...
+ }
+[end]

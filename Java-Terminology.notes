@@ -207,3 +207,85 @@ Java Management Extensions (JMX) is a Java technology that supplies tools for ma
 (such as printers) and service-oriented networks. Those resources are represented by objects called MBeans (for Managed Bean). In the API, classes 
 can be dynamically loaded and instantiated. Managing and monitoring applications can be designed and developed using the Java Dynamic Management 
 Kit.
+
+
+# Java module starting from JDK9? JSR 376: Java Platform Module System 
+https://www.oracle.com/corporate/features/understanding-java-9-modules.html
+The Java Platform Module System[1] specifies a distribution format for collections of Java code and associated resources. It also specifies a 
+repository for storing these collections, or modules, and identifies how they can be discovered, loaded and checked for integrity. It includes 
+features such as namespaces with the aim of fixing some of the shortcomings in the existing JAR format, especially the JAR Hell, which can lead to 
+issues such as classpath and class loading problems.
+
+!shortcoming: a fault or a failure to reach a particular standard
+! E.g: shortcoming as father.
+! Synonyms: defects, fault
+
+! Drawback: a disadvantage or a problem, the negative part of a situation:
+! E.g. One of the drawbacks of living with someone is having to share a bathroom.
+
+
+# JSR
+SR Overview. Java Specification Requests (JSRs) are the actual descriptions of proposed and final specifications for the Java platform. At any one 
+time there are numerous JSRs moving through the review and approval process.
+
+
+
+
+################ Subpackage in java
+https://stackoverflow.com/questions/1967229/java-subpackage-visibility/1967241
+
+Most of the answers here have stated that there is no such thing as a subpackage in Java, but that is not accurate. The term is defined in the Java 
+Language Specification (JLS) and has been since the initial version of the specification.
+
+Java 15 JLS:
+The members of a package are its subpackages and all the top level class types and top level interface types declared in all the compilation units 
+of the package.
+
+For example, in the Java SE Platform API:
+The package java has subpackages awt, applet, io, lang, net, and util, but no compilation units.
+The package java.awt has a subpackage named image, as well as a number of compilation units containing declarations of class and interface types.
+
+The subpackage concept has practical implications, as is enforces naming constraints between packages and classes/interfaces:
+A package may not contain two members of the same name, or a compile-time error results.
+Here are some examples
+Because the package java.awt has a subpackage image, it cannot (and does not) contain a declaration of a class or interface type named image.
+If there is a package named mouse and a member type Button in that package (which then might be referred to as mouse.Button), then there cannot be any package with the fully qualified name mouse.Button or mouse.Button.Click.
+If com.nighthacks.java.jag is the fully qualified name of a type, then there cannot be any package whose fully qualified name is either com.nighthacks.java.jag or com.nighthacks.java.jag.scrabble.
+However, this naming restriction is the only significance afforded to subpackages by the language:
+
+The hierarchical naming structure for packages is intended to be convenient for organizing related packages in a conventional manner, but has no 
+significance in itself other than the prohibition against a package having a subpackage with the same simple name as a top level type declared in 
+that package.
+
+For example, there is no special access relationship between a package named oliver and another package named oliver.twist, or between packages named
+evelyn.wood and evelyn.waugh. That is, the code in a package named oliver.twist has no better access to the types declared within package oliver than 
+code in any other package.
+
+With this context, we can answer the question itself. Since there is no special access relationship between a package and its subpackage, or between 
+two different subpackages of a parent package, there is no way within the language to make a method visible to two different packages in the requested 
+manner, while restricting its access from other packages. This is a documented, intentional design decision.
+
+Either the method can be made public and all packages (including odp.proj and odp.proj.test) will be able to access the given methods, or the method 
+could be made package private (the default visibility), and all the code that needs to directly access it must put in the same (sub)package as the method.
+
+Regarding the test use case, a standard practice in Java is to put the test code for a type in the same package as its source code, but in a different 
+location on the file system. For instance, in both the Maven and Gradle build tools, the convention would be to put the source files in 
+src/main/java/odp/proj and the test files in src/test/java/odp/proj. When compiled by the build tool, the items in both directories end up in the 
+odp.proj package, but only the src files are included in the production artifact; the test files are only used at build time to verify the production 
+files. With this setup, test code can freely access any package private or protected code of the code it's testing, as they will be in the same package.
+
+In the case where you want code sharing across subpackages or sibling packages that isn't the test/production case, one solution I've seen some 
+libraries use is to put that shared code as public, but document that it is intended for internal library use only.
+
+# The Structure of java documentation
+Java® Platform, Standard Edition & Java Development Kit 
+Version 11 API Specification
+
+This document is divided into two sections:
+!Java SE
+The Java Platform, Standard Edition (Java SE) APIs define the core Java platform for general-purpose computing. These APIs are in modules whose 
+names start with java.
+
+!JDK
+The Java Development Kit (JDK) APIs are specific to the JDK and will not necessarily be available in all implementations of the Java SE Platform. 
+These APIs are in modules whose names start with jdk.

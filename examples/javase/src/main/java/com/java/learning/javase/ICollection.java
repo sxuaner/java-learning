@@ -5,13 +5,11 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 /**
- * public interface Collection<E> extends Iterable<E>
- */
+public interface Collection<E> extends Iterable<E>
 
- /**
-  * The root interface in the collection hierarchy. 
+The root interface in the collection hierarchy.  A collection represents a group of objects, known as its elements. 
 
-A collection represents a group of objects, known as its elements. 
+Try to read on all the intefaces that extend Collection.
 
 Some collections allow duplicate elements and others do not. 
 Allow duplicate elements:  List

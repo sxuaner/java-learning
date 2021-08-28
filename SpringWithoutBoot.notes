@@ -6,6 +6,7 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
 https://docs.spring.io/spring-boot/docs/current/reference/html/features.html
 https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html
 
+! To run a app without springboot, just checkout AnnotationConfigApplicationContextSpring.java
 
 # First, remote @SpringbootApplication and run the program with maven clean package (assuming that exec has
 # been configured properly)
@@ -90,12 +91,12 @@ Now refer to Annotations.notes
 
 # What exactly does SpringApplication.run(SpringPractice.class, args) do?
 [java]
-    // static helper class that takes only 1 class as source
+    // static helper method that takes only 1 class as source
 	public static ConfigurableApplicationContext run(Class<?> primarySource, String... args) {
 		return run(new Class<?>[] { primarySource }, args);
 	}
     
-    // static help class that takes an array of classes as sources? 
+    // static help method that takes an array of classes as sources? 
     // for Class<>[] primarySource, can I pass class1.class, class2.class as parameter?
 	public static ConfigurableApplicationContext run(Class<?>[] primarySources, String[] args) {
 		return new SpringApplication(primarySources).run(args);
@@ -115,6 +116,9 @@ Now refer to Annotations.notes
         // set the web type, see belowe part1
 		this.webApplicationType = WebApplicationType.deduceFromClasspath();
         // Go to part 3 for getSpringFactoriesInstances()
+		// WHat is this ApplicationContextInitializer.class
+		// A runtime type that implements ApplicationContextIntializer(functional interface) replaces it and then returns the runtime class object by
+		// calling .class
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();

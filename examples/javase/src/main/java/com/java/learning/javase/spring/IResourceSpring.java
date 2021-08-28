@@ -1,5 +1,4 @@
-package com.java.learning.javase;
-
+package com.java.learning.javase.spring;
 public class IResourceSpring {
     public static void main(String[] args) {
 
