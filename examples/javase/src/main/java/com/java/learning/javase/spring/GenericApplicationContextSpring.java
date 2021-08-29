@@ -5,8 +5,11 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
-// org.springframework.context.support
-// public class GenericApplicationContext extends AbstractApplicationContext implements BeanDefinitionRegistry
+// package: org.springframework.context.support
+
+// public class GenericApplicationContext 
+// extends AbstractApplicationContext 
+// implements BeanDefinitionRegistry
 
 /**
 Generic ApplicationContext implementation that holds a single internal DefaultListableBeanFactory instance and does not assume a specific bean 

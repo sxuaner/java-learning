@@ -14,6 +14,8 @@ Our main method delegates to Spring Boot’s SpringApplication class by calling 
 which, in turn, starts the auto-configured Tomcat web server. We need to pass MyApplication.class as an argument to the run method to tell 
 SpringApplication which is the primary Spring component. The args array is also passed through to expose any command-line arguments.
 
+# What is the lifecycle of beans
+
 
 #IoC 
 inversion: a situation in which something is changed so that it is the opposite of what it was before, or in which something is turned upside down
@@ -274,3 +276,8 @@ formats. The equivalent in a web environment is !XmlWebApplicationContext!.
 
 
 # Bean scope
+
+# What is the difference between WebApplicationContext and WebServerApplicationContext?
+WebServerApplicationContext:
+
+

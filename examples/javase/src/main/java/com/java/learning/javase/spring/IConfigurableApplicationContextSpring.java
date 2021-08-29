@@ -19,7 +19,7 @@ Configuration and lifecycle methods are encapsulated here to avoid making them o
 only be used by startup and shutdown code.
 
 */
-public class ConfigurableApplicationContextSpring {
+public class IConfigurableApplicationContextSpring {
     public static void main(String[] args) {
         
     }

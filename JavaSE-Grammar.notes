@@ -122,3 +122,6 @@ the method signature. All method declarations in an interface, including static 
 # What does .class do ?
 class after a class name, it references the class literal - java. lang. Class object that represents information about given class. For example, 
 if your class is Print , then Print. class is an object that represents the class Print on runtime
+
+# Can an abstract class extend a concrete class?
+An abstract class always extends a concrete class ( java. lang. Object at the very least). So it works the same as it always does.
