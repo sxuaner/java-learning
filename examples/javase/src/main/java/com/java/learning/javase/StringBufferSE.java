@@ -126,7 +126,7 @@ public class StringBufferSE {
          *      at java.base/java.lang.Thread.sleep(Native Method) 
          *      at com.java.learning.javase.StringBufferSE$1TestThread.run(StringBufferSE.java:87)
          */
-            // t1.join(); 
+            t1.join(); 
             // t2.join();
     
         } catch (Exception e) {         // set the break point here

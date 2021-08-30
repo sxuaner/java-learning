@@ -20,6 +20,9 @@ public class ReverseAString {
          * that the String consists of only digits? How to optimize the performance?
          */
 
+        String method3ReturnedValue =  method3();
+
+
         String stringToReverse = "12345678";
         // Convert a String to an array of primitive type char:
         // Complexity?
@@ -144,8 +147,22 @@ public class ReverseAString {
         }
 
         // differences among Stream.map(), Stream.forEach(), reduce()? see StreamSE.java
-        
+    }
+
+    public static String method3(){
+        String sampleStr = "1234567";
+        Long result = 0l;
+        try {
+            result = Long.parseLong(sampleStr);
+            // not working because reverse() reverses the bits
+            result = Long.reverse(result);
+        } catch (NumberFormatException ne) {
+            ne.printStackTrace();
+        }
+        // how to convert a long to a String?
+        return Long.toString(result);
 
     }
+
     
 }

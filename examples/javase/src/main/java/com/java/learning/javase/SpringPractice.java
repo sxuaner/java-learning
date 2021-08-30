@@ -44,7 +44,7 @@ public class SpringPractice {
     public static void main(String[] args) {
         // Try to understand SpringApplication.run() and stopped at SpringApplication.class 270 line
 		// this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources)); learn this and continue
-        SpringApplication.run(SpringPractice.class, args);
+        // SpringApplication.run(SpringPractice.class, args);
 
         AnnotationConfigApplicationContext acfc = new AnnotationConfigApplicationContext(SpringPractice.class);
         

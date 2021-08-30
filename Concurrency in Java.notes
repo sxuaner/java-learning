@@ -324,3 +324,53 @@ Returns:
 the previous value associated with key, or null if there was no mapping for key
 Throws:
 NullPointerException - if the specified key or value is null
+
+
+# .join() method analyze:
+[java]
+public final synchronized void join(long millis) throws InterruptedException {
+        long base = System.currentTimeMillis();
+        long now = 0;
+        if (millis < 0) {
+            throw new IllegalArgumentException("timeout value is negative");
+        }
+        // if millis is 0, wait indefinitely
+        if (millis == 0) {
+            // test if this thread is alive
+            while (isAlive()) {
+                wait(0);
+            }
+        } else {
+            while (isAlive()) {
+                long delay = millis - now;
+                if (delay <= 0) {
+                    break;
+                }
+                wait(delay);
+                now = System.currentTimeMillis() - base;
+            }
+        }
+    }
+[end]
+1.  synchronized means access to this code block can only be one thread at a time.
+2.  
+
+
+# What does Thread State BLOCKED mean:
+BLOCKED : A thread that is blocked waiting for a !monitor lock! is in this state.
+
+# What does "A thread blocked in IO mean?"
+Well blocking IO means that a given thread cannot do anything more until the IO is fully received (in the case of sockets this wait could be a long time).
+
+Non-blocking IO means an IO request is queued straight away and the function returns. The actual IO is then processed at some later point by the kernel.
+
+For blocking IO you either need to accept that you are going to wait for every IO request or you are going to need to fire off a thread per request 
+(Which will get very complicated very quickly).
+
+For non-blocking IO you can send off multiple requests but you need to bear in mind that the data will not be available until some "later" point. 
+This checking that the data has actually arrived is probably the most complicated part.
+
+In 99% of applications you will not need to care that your IO blocks. Sometimes however you need the extra performance of allowing yourself to 
+initiate an IO request and then do something else before coming back and, hopefully, finding that the IO request has completed.
+
+# Coroutine

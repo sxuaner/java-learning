@@ -125,3 +125,7 @@ if your class is Print , then Print. class is an object that represents the clas
 
 # Can an abstract class extend a concrete class?
 An abstract class always extends a concrete class ( java. lang. Object at the very least). So it works the same as it always does.
+
+# static class:
+You cannot use the static keyword with a class unless it is an inner class. A static inner class is a nested class which is a static member of 
+the outer class. It can be accessed without instantiating the outer class, using other static members.
