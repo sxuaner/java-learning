@@ -1,14 +1,171 @@
 https://docs.oracle.com/javase/tutorial/essential/concurrency/index.html
 
-# Thread class is in java.lang package
+!Thread class is in java.lang package
+
+Processes and Threads
+
+In concurrent programming, there are two basic units of execution: processes and threads. In the Java programming language, concurrent programming is 
+mostly concerned with threads. However, processes are also important.
+
+A computer system normally has many active processes and threads. This is true even in systems that only have a single execution core, and thus only 
+have one thread actually executing at any given moment. Processing time for a single core is shared among processes and threads through an OS feature 
+called time slicing.
+
+It's becoming more and more common for computer systems to have multiple processors or processors with multiple execution cores. This greatly enhances 
+a system's capacity for concurrent execution of processes and threads — but concurrency is possible even on simple systems, without multiple processors
+or execution cores.
+
+# Definition of Processes
+A process has a self-contained execution environment. A process generally has a complete, private set of basic run-time resources; in particular, 
+each process has its own memory space.
+
+Processes are often seen as synonymous with programs or applications. However, what the user sees as a single application may in fact be a set of 
+cooperating processes. To facilitate communication between processes, most operating systems support Inter Process Communication (IPC) resources, 
+such as pipes and sockets. IPC is used not just for communication between processes on the same system, but processes on different systems.
+
+!Most implementations of the Java virtual machine run as a single process.! A Java application can create additional processes using a ProcessBuilder 
+object. Multiprocess applications are beyond the scope of this lesson.
 
 # Definition of Thread
-In computer science, a thread of execution is the smallest sequence of programmed instructions that can be managed independently by a scheduler, which is typically a part of the operating system.
+In computer science, a thread of execution is the smallest sequence of programmed instructions that can be managed independently by a scheduler, 
+which is typically a part of the operating system.
  
+Threads are sometimes called lightweight processes. Both processes and threads provide an execution environment, but creating a new thread requires 
+fewer resources than creating a new process.
+
+Threads exist within a process — every process has at least one. Threads share the process's resources, including memory and open files. This makes
+for efficient, but potentially problematic, communication.
+
+!Multithreaded execution is an essential feature of the Java platform. Every application has at least one thread — or several!, if you count "system" 
+threads that do things like memory management and signal handling. But from the application programmer's point of view, you start with just one 
+thread, called the !main thread!. This thread has the ability to create additional threads, as we'll demonstrate in the next section.
+
 #Thread and process 
 The implementation of threads and processes differs between operating systems, but in most cases a thread is a component of a process. The multiple threads of a given process may be executed 
 concurrently (via multithreading capabilities), sharing resources such as memory, while different processes do not share these resources. In particular, the threads of a process share its 
 executable code and the values of its dynamically allocated variables and non-thread-local global variables at any given time.
+
+# Thread Objects
+
+Each thread is associated with an instance of the class Thread. There are two basic strategies for using Thread objects to create a concurrent 
+application.
+
+To directly control thread creation and management, simply instantiate Thread each time the application needs to initiate an asynchronous task.
+To abstract thread management from the rest of your application, pass the application's tasks to an executor.
+This section documents the use of Thread objects. Executors are discussed with other high-level concurrency objects.
+
+# Defining and Starting a Thread
+
+!An application that creates an instance of Thread must provide the code that will run in that thread!. 
+
+There are two ways to do this
+
+1. Provide a Runnable object. The Runnable interface defines a single method, run, meant to contain the code executed in the thread. The Runnable 
+object is passed to the Thread constructor, as in the HelloRunnable example
+[java]
+public class HelloRunnable implements Runnable {
+
+    public void run() {
+        System.out.println("Hello from a thread!");
+    }
+
+    public static void main(String args[]) {
+        (new Thread(new HelloRunnable())).start();
+    }
+
+}
+[end]
+2. Subclass Thread. The Thread class itself implements Runnable, though its run method does nothing. An application can subclass Thread, providing 
+its own implementation of run, as in the HelloThread example
+[java]
+public class HelloThread extends Thread {
+
+    public void run() {
+        System.out.println("Hello from a thread!");
+    }
+
+    public static void main(String args[]) {
+        (new HelloThread()).start();
+    }
+
+}
+[end]
+ The first idiom, which employs a Runnable object, is more general, because the Runnable object can subclass a class other than Thread. The second 
+ idiom is easier to use in simple applications, but is limited by the fact that your task class must be a descendant of Thread. This lesson focuses 
+ on the first approach, which separates the Runnable task from the Thread object that executes the task. Not only is this approach more flexible, but
+  it is applicable to the high-level thread management APIs covered later.
+
+
+# Pausing Execution with Sleep
+
+Thread.sleep causes the current thread to suspend execution for a specified period. 
+!This is an efficient means of making processor time available to the other threads! of an application or other applications that might be running 
+on a computer system. The sleep method can also be used for pacing, as shown in the example that follows, and waiting for another thread with duties 
+that are understood to have time requirements, as with the SimpleThreads example in a later section.
+
+Two overloaded versions of sleep are provided: one that specifies the sleep time to the millisecond and one that specifies the sleep time to the 
+nanosecond. 
+!However, these sleep times are not guaranteed to be precise, because they are limited by the facilities provided by the underlying OS. 
+!Also, the sleep period can be terminated by interrupts, as we'll see in a later section. 
+!In any case, you cannot assume that invoking sleep will suspend the thread for precisely the time period specified.
+
+# Interrupts
+An interrupt is an indication to a thread that it should stop what it is doing and do something else. It's up to the programmer to decide exactly how
+a thread responds to an interrupt, !but it is very common for the thread to terminate when interrupted. This is the usage emphasized in this lesson.
+
+A thread sends an interrupt by invoking interrupt on the Thread object for the thread to be interrupted. For the interrupt mechanism to work correctly, 
+the interrupted thread must support its own interruption.
+
+# Supporting Interruption
+
+How does a thread support its own interruption? This depends on what it's currently doing. If the thread is frequently invoking methods that throw 
+InterruptedException, it simply returns from the run method after it catches that exception. For example, suppose the central message loop in the 
+SleepMessages example were in the run method of a thread's Runnable object. Then it might be modified as follows to support interrupts
+[java]
+for (int i = 0; i < importantInfo.length; i++) {
+    // Pause for 4 seconds
+    try {
+        Thread.sleep(4000);
+    } catch (InterruptedException e) {
+        // We've been interrupted: no more messages.
+        return;
+    }
+    // Print a message
+    System.out.println(importantInfo[i]);
+}
+[end]
+Many methods that throw InterruptedException, such as sleep, are designed to cancel their current operation and return immediately when an interrupt 
+is received.
+
+!What if a thread goes a long time without invoking a method that throws InterruptedException? Then it must periodically invoke Thread.interrupted, 
+!which returns true if an interrupt has been received. For example
+[java]
+for (int i = 0; i < inputs.length; i++) {
+    heavyCrunch(inputs[i]);
+    if (Thread.interrupted()) {
+        // We've been interrupted: no more crunching.
+        return;
+    }
+}
+[end]
+In this simple example, the code simply tests for the interrupt and exits the thread if one has been received. In more complex applications, it might 
+make more sense to throw an InterruptedException
+[java]
+if (Thread.interrupted()) {
+    throw new InterruptedException();
+}
+[end]
+This allows interrupt handling code to be centralized in a catch clause.
+
+# The Interrupt Status Flag
+The interrupt mechanism is implemented using an internal flag known as the interrupt status. Invoking Thread.interrupt sets this flag. When a thread 
+checks for an interrupt by invoking the static method Thread.interrupted, interrupt status is cleared. The non-static isInterrupted method, which is 
+used by one thread to query the interrupt status of another, does not change the interrupt status flag.
+
+By convention, any method that exits by throwing an InterruptedException clears interrupt status when it does so. However, it's always possible that 
+interrupt status will immediately be set again, by another thread invoking interrupt.
+
+
 
 ## Multitasking
 By definition, multitasking is when multiple processes share common processing resources such as a CPU.
@@ -28,93 +185,6 @@ When code running in some thread creates a new Thread object, the new thread has
 1. implement the Runnable interface.
 2. create a new class that extends #Thread class#
 
-#Signature of the Thread Class: 
-    [java]
-        public class Thread extends Object implements Runnable{}
-    [end]    
-# Methods in thread class:
-    [java]
-
-        public final void setPriority(int priority){}
-        public final void setDaemon(boolean on) {}          //A parameter of true denotes this Thread as a daemon thread.
-    [end]
-        
-        ! The newly created object is a daemon thread if and only if the creating thread is a daemon
-        !? what is daemon
-        ! Components of some Linux desktop environments that are daemons include D-Bus, NetworkManager (here called unetwork), PulseAudio (usound), and Avahi. 
-        ! In multitasking computer operating systems, a daemon (/ˈdiːmən/ or /ˈdeɪmən/) is a computer program that runs as a background process, rather than being under the direct control 
-        ! of an interactive user. Traditionally, the process names of a daemon end with the letter d, for clarification that the process is in fact a daemon, and for differentiation between 
-        ! a daemon and a normal computer program. For example, syslogd is a daemon that implements system logging facility, and sshd is a daemon that serves incoming SSH connections.
-
-    [java]
-        public final void join(long millisec) throws InterruptedException {} // The current thread invokes this method on a second thread, causing the current thread to block until the second thread terminates or the 
-                                                                                // specified number of milliseconds passes.
-    [end]
-
-    [java]
-        public void start(){}
-        public void run(){}
-    [end]
-        !? Different between start() and run() method
-        The difference is that Thread.start() starts a new thread that calls the run() method, while Runnable.run() just calls the run() method on the calling thread.
-        See in link: https://stackoverflow.com/questions/8579657/whats-the-difference-between-thread-start-and-runnable-run
-
-        !? If run() method is executed on the same thread, why is the interface Runnable needed? What is the purpose of this interface.
-        // Runnable is a functional interface, which has only 1 method to implement: public void run()
-        This interface Runnable is designed to provide a common protocol for objects that #wish to execute code while they are active#. For example, Runnable is implemented by class Thread. 
-        Being active simply means that a thread has been started and has not yet been stopped.
-        If a class implements Runnable interface, the objects of this class should not execute any code when they are not active according to the above protocol.
-        In addition, Runnable provides the means for a class to be active while not subclassing Thread. 
-        A class that implements Runnable can run without subclassing Thread by instantiating a Thread instance and passing itself in as the target. 
-        // ?? see howto in thread project
-        [java]
-             class PrimeRun implements Runnable {
-                 //...
-                }
-            // The following code would then create a new thread and start it running:
-             PrimeRun p = new PrimeRun(143);
-             new Thread(p).start();
-        [end]
-        
-        // This means run() is executed on the thread itself
-        In most cases, the Runnable interface should be used if you are only planning to override the run() method and no other Thread methods. 
-        // This means if the program does not need multiple threads, the class should implement Runnable instead of subclassing the thread class. Reason why subclassing is not  recommended are 
-        // as follows
-        This is important because classes should not be subclassed unless the programmer intends on modifying or enhancing the fundamental behavior of the class.
-    [java]
-    public void checkAccess()     // What is Security Manager???
-    [end]
-
-    [java]
-    protected Object clone()  //Throws CloneNotSupportedException as a Thread can not be meaningfully cloned.
-    [end]
-
-    [java]
-    public static Thread currentThread()     //Returns a reference to the currently executing thread object.
-    [end]
-    Example:
-
-    [java]
-    public static void dumpStack()  // Prints a stack trace of the current thread to the standard error stream. Example in thread project
-    [end]
-
-    [java]
-    public final void join() throws InterruptedException
-    [end]
-    Thread class provides the join() method which allows one thread to wait until another thread completes its execution. If t is a Thread object whose thread is currently executing, then t. 
-    join() will make sure that t is terminated before the next instruction is executed by the program.
-
-    The join method allows one thread to wait for the completion of another. If t is a Thread object whose thread is currently executing,
-    causes the current thread to pause execution until t's thread terminates. Overloads of join allow the programmer to specify a waiting period. However, as with sleep, 
-    join is dependent on the OS for timing, so you should not assume that join will wait exactly as long as you specify.
-    Like sleep, join responds to an interrupt by exiting with an InterruptedException.
-
-
-// join()
-//Solutions using Join() do not answer the question - they ensure that the termination of the threads is ordered, not the running of them. 
-//If the interviewr does not get that, you need to find another job anyway.
-
-
 # ConcurrentHashMap    
 When a Java Virtual Machine starts up, there is usually a single non-daemon thread (which typically calls the method named main of some designated class). 
 The Java Virtual Machine continues to execute threads until either of the following occurs
@@ -127,9 +197,6 @@ Types of locks
 # 1. How to have three threads run after another? See thread-sequential example
 // Happen after order
 // t1,t2,t3 all implement Runnable and as normal objects instead of being threads, they can be executed one after another in sequential order
-t1.run();
-t2.run();
-t3.run();
 
 # 1. Assuming two threads should run in parallel, one solution would be to have each thread start the next one, since the JMM guarantees that:
 ! A call to start() on a thread happens-before any actions in the started thread. ???????????

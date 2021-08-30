@@ -1,0 +1,58 @@
+# Are java servlets and JSP considered outdated?
+
+# Answer1 
+Servlets and JSPs are considered outdated technologies and no longer chosen for the new projects.
+
+These were found in use significantly for legacy projects. Servlet JSPs were used enormously in around 2000.
+
+With the popularity of emerging MVC frameworks like Struts, Webwork, Spring etc. the industry realized the 
+potential which comes out of the box from these frameworks, and hence people started using them over core Servlets JSP implementation.
+
+So the vanilla implementation of Servlets JSP is something which industry is trying to get rid of. However one must understand the core concepts of 
+these two technologies to build a strong foundation of any web application.
+
+I had started my career with the project built with the core implementation of Servlets and Jsps. And now after around ten years, I see these 
+technologies only in the legacy systems.
+
+We have used Servlets recently for mimicking the behavior of some third party services; we call it fake implementation. So I am not observing any 
+production code with Servlets and Jsps.
+
+Spring MVC is leading the market. With the growing popularity of AngularJs core HTML us delivering the required interactive page implementation. 
+We are also using velocity as an alternative to JSP.
+
+
+# Answer2
+Almost all Java back-end (server side) frameworks use Java Servlet as the core technology and add layers on top of it. If you are framework developer, 
+then you will need to understand it at some level. You most likely will not see them in raw form but will probably catch a glimpse of them on the 
+configuration side.
+
+JSP is a back-end approach for the web presentation layer. Most of the modern applications shifted to processing presentations on the client-side. 
+Processing representations on server-side is no longer desired. It is inefficient. Thus JSP mostly exists in a legacy application. Most front-end 
+process uses Javascript based framework utilizing the client-side power such as AngularJS with the introduction of AJAX and proliferation of 
+service-oriented paradigm.
+
+# 3
+If you want to remain conpletely in the realm of JEE, then servlets can still play an important role. JSF, however, is preferred over JSP for 
+presentation layer.
+
+As others have mentioned, servlets/JSP are mostly used in legacy and/or maintainenece applications. Current trend in web/enterprise development 
+is to expose REST based services which are consumed by JavaScript based frontend frameworks such as Angular etc. to keep the presentation layer 
+completely out of application layer.
+
+#4 
+I would say very rare, unless and until you are working on maintenance project which was developed couple of years back.
+
+Emergence of web frameworks like Spring, Struts, JSF made the web development easy. So nobody is interested to develop new projects on Servlets 
+and JSP.
+
+#5 
+Servlets are under the hood of most of Java server-side technologies (ex Spring MVC or JAX-RS/JAX-WS implementations). Servlet is a low-level 
+interface and rarely used in its raw form nowadays, usually hidden behind frameworks
+
+! well-versed: experienced
+! Good point Bear. I only thought about the part of the question that was asked. Not the part that was important to ask,
+
+Servlets/JSP can never becomes obsolete. As said, they are backbone/hidden players behind every good Java framework.
+
+Not all Java web app frameworks use Servlets/JSP -- but most do. And regardless, the concepts are common enough that one should definitely 
+know Servlets and JSP for any Java web work.
