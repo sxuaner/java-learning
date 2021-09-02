@@ -23,8 +23,6 @@ There's almost no reason to override the service method. service handles standar
 Likewise, there's almost no reason to override the doOptions and doTrace methods.
 
 Servlets typically run on multithreaded servers, so be aware that a servlet must handle concurrent requests and be careful to synchronize access to shared resources. Shared resources include in-memory data such as instance or class variables and external objects such as files, database connections, and network connections. See the Java Tutorial on Multithreaded Programming for more information on handling multiple threads in a Java program.
-
-
  */
 
 public class HttpServletX extends HttpServlet{
@@ -42,8 +40,9 @@ public class HttpServletX extends HttpServlet{
         // Set response content type
         response.setContentType("text/html");
 
-        //What's the implementation of interface HttpServletRespons?        
+        //What implementation of interface HttpServletResponse is there?        
         try{
+            // ServletResponse.getWriter()
             PrintWriter out = response.getWriter();
             out.println("<h1>" + message + "</h1>");
         }catch(IOException ie){
@@ -57,9 +56,6 @@ public class HttpServletX extends HttpServlet{
     public static void main(String[] args) {
 
         System.out.println("http-servletx is being called");
-        
-
-        // read source code httpServlet
 
         /**
          * protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,IOException

@@ -374,3 +374,92 @@ In 99% of applications you will not need to care that your IO blocks. Sometimes 
 initiate an IO request and then do something else before coming back and, hopefully, finding that the IO request has completed.
 
 # Coroutine
+
+# Can a thread sleep indefinitely in java?
+Thread state for a waiting thread with a specified waiting time. A thread is in the timed waiting state due to calling one of the following 
+methods with a specified positive waiting time: 
+
+Thread.sleep
+Object.wait with timeout
+Thread.join with timeout
+LockSupport.parkNanos
+LockSupport.parkUntil
+
+# why re-interrupt?
+Usually, when a thread is interrupted, whoever is interrupting the thread, wants the thread to exit what it's currently doing.
+[java]
+try{
+    //some code
+} catch (InterruptedException ie) {
+    logger.error("InterruptedException: ", ie);
+    Thread.currentThread().interrupt();
+} catch (ExecutionException ee) {
+    logger.error("ExecutionException: ",ee);
+}
+[end]
+
+
+# How is Thread.interrupt() implemented in java 
+! how is interrupt0() implemented?
+! What is this blocker field?
+[java]
+   public void interrupt() {
+        if (this != Thread.currentThread()) {
+            checkAccess();
+
+            // thread may be blocked in an I/O operation
+            synchronized (blockerLock) {
+                Interruptible b = blocker;
+                if (b != null) {
+                    interrupt0();  // set interrupt status
+                    b.interrupt(this);
+                    return;
+                }
+            }
+        }
+
+        // set interrupt status
+        interrupt0();
+    }
+
+  /* The object in which this thread is blocked in an interruptible I/O
+     * operation, if any.  The blocker's interrupt method should be invoked
+     * after setting this thread's interrupt status.
+     */
+    private volatile Interruptible blocker;
+[end]
+
+
+#Intransic lock, extransic locks
+The fact that every object has a built-in lock is just a convenience so that you needn't explicitly create lock objects
+[java]
+public synchronized void foo() {
+  doSomething;
+}
+
+// is equavalent to
+public void foo() {
+    synchronized(this) {
+        doSomething;
+    }
+}
+[end]
+
+
+# What is a fail-fast iterator?
+Iterators in java are used to iterate over the Collection objects. Fail-Fast iterators immediately throw ConcurrentModificationException 
+if there is structural modification of the collection
+
+# A structural modification of Collections
+(A structural modification is any operation that adds or deletes one or more elements; merely setting the value( !Integer.set(x)! ) of 
+an element is not a structural modification.
+
+# How is iterator implemented?
+Fail-fast iterators are typically implemented using a volatile counter on the collection object.
+
+When the collection is updated, the counter is incremented.
+When an Iterator is created, the current value of the counter is embedded in the Iterator object.
+When an Iterator operation is performed, the method compares the two counter values and throws a CuoncurrentModificationException if they are different.
+
+By contrast, weakly consistent iterators are typically light-weight and leverage properties of each concurrent collection's internal data structures. 
+There is no general pattern. If you are interested, read the source code for different collection classes.

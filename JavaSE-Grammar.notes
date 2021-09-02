@@ -53,7 +53,7 @@ which is actually an index of the internal array, known as the table.
 
 Read more: https://javarevisited.blogspot.com/2011/02/how-hashmap-works-in-java.html#ixzz717vg30l1
 
-# HashTable and Ha]shMap
+# HashTable and HashMap
 
 # dot notation( It's not an operator)
 "".value
@@ -88,6 +88,7 @@ the object constructor.
 https://en.wikipedia.org/wiki/Object_copying#Copying_in_Java
 
 # How does hashCode() work?
+By default the hashCode() returns an integer that represents the !internal memory address of the object. 
 
 # Overload and Overwrite
 
@@ -118,7 +119,6 @@ getZonedDateTime)
 Like static methods in classes, you specify that a method definition in an interface is a static method with the static keyword at the beginning of 
 the method signature. All method declarations in an interface, including static methods, are implicitly public, so you can omit the public modifier.
 
-
 # What does .class do ?
 class after a class name, it references the class literal - java. lang. Class object that represents information about given class. For example, 
 if your class is Print , then Print. class is an object that represents the class Print on runtime
@@ -129,3 +129,146 @@ An abstract class always extends a concrete class ( java. lang. Object at the ve
 # static class:
 You cannot use the static keyword with a class unless it is an inner class. A static inner class is a nested class which is a static member of 
 the outer class. It can be accessed without instantiating the outer class, using other static members.
+
+# How many ways are there to create new java objects
+!1
+Java new Operator
+
+! 2
+Java Class.newInstance() method
+!@Deprecated(since="9")
+is replaced by:
+clazz.getDeclaredConstructor().newInstance()
+
+! 3 
+Java newInstance() method of constructor
+// almost same as #2
+
+! 4
+Java Object.clone() method
+// how to use?
+! 5
+Java Object Serialization and Deserialization
+
+# WHen will nodes in HashMap converted into TreeMap in Java?
+[java]
+// When there are at least 8 entries (TREEIFY_THRESHOLD) in a single bucket and the total number of buckets is more then 64 (MIN_TREEIFY_CAPACITY) then that single 
+// bucket will be transformed to a perfectly balanced red black tree node.
+    /**
+     * The bin count threshold for using a tree rather than list for a
+     * bin.  Bins are converted to trees when adding an element to a
+     * bin with at least this many nodes. The value of nodes must be greater
+     * than 2 and should be at least 8 to mesh with assumptions in
+     * tree removal about conversion back to plain bins upon
+     * shrinkage.
+     */
+    static final int TREEIFY_THRESHOLD = 8;
+
+    /**
+     * The bin count threshold for untreeifying a (split) bin during a
+     * resize operation. Should be less than TREEIFY_THRESHOLD, and at
+     * most 6 to mesh with shrinkage detection under removal.
+     */
+    static final int UNTREEIFY_THRESHOLD = 6;
+
+    /**
+     * The smallest table capacity for which bins may be treeified.
+     * (Otherwise the table is resized if too many nodes in a bin.)
+     * Should be at least 4 * TREEIFY_THRESHOLD to avoid conflicts
+     * between resizing and treeification thresholds.
+     */
+    static final int MIN_TREEIFY_CAPACITY = 64;
+
+    for (int binCount = 0; ; ++binCount) {
+        if ((e = p.next) == null) {
+            p.next = newNode(hash, key, value, null);
+            if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                treeifyBin(tab, hash);      // here converts the linked bin into tree
+            break;
+        }
+        if (e.hash == hash &&
+            ((k = e.key) == key || (key != null && key.equals(k))))
+            break;
+        p = e;
+    }
+
+[end]
+
+
+# What is the type of arrays in Java?
+In the Java programming language, arrays are objects (§4.3.1), are dynamically created, and may be assigned to variables of type Object (§4.3.2). 
+All methods of class Object may be invoked on an array.
+
+An array object contains a number of variables. The number of variables may be zero,in which case the array is said to be empty.
+
+
+# Serialization
+Classes that do not implement this interface will not have any of their state serialized or deserialized.
+
+# What are shallow copy and deep copy
+
+Before discussing differences between shallow copy and deep copy let’s discuss what a copy is? We can have two types of copies
+
+#Reference copy#: It creates a copy of a reference variable pointing to an object.
+#Object copy#: It creates a copy of the object itself.
+
+[java]
+ Public Object clone throws CloneNotSupportedException {
+	return super.clone();
+    }    
+[end]
+
+!Copying Reference-based Collection Classes
+What happens when you make a copy of a reference-based collection class, or any class that references another object, for that matter? It depends 
+which of the two general approaches you choose: shallow copying or deep copying.
+
+!A shallow copy! of an object is a new object whose instance variables are identical to the old object. For example, a shallow copy of a Set has the 
+same members as the old Set, and shares objects with the old Set through pointers. Shallow copies are sometimes said to use reference semantics.
+
+
+!A deep copy! of an object is a new object with entirely new instance variables; it does not share objects with the old. For example, a deep copy 
+of a Set not only makes a new Set, but also inserts items that are copies of the old items. In a true deep copy, this copying is done recursively. 
+Deep copies are sometimes said to use value semantics.
+
+Note that some reference-based collection classes have a copy() member function that returns a new object with entirely new instance variables. 
+This copying is not done recursively, and the new instance variables are shallow copies of the old instance variables.
+
+Here's a graphical example of the differences between shallow and deep copies. Imagine Bag, an unordered collection class of objects with duplicates 
+allowed, that looks like this before a copy 
+
+You can see that the deep copy copies not only the bag itself, but recursively all objects within it.
+
+The copying approach you choose is important. For example, shallow copies can be useful and fast, because less copying is done, but you must be careful
+because two collections now reference the same object. If you delete all the items in one collection, you will leave the other collection pointing into nonsense.
+
+You also need to consider the approach when writing an object to disk. If an object includes two or more pointers or references to the same object, 
+it is important to preserve this morphology when the object is restored. Classes that inherit from RWCollectable inherit algorithms that guarantee to 
+preserve an object's morphology. You'll see more on this in Chapter 14.
+
+Note:
+clone() method of the object class support shallow copy of the object.
+In case of deep copy we have to override the clone() method of the object class and we also need to ensure that all the member class also implement the Cloneable interface.
+There is no difference between shallow and deep copy in java if only !primitive type fields or Immutable objects! are there as fields in the original object.
+
+!why can't Immutable java?
+
+# Can 2 vars point to the same String object? yes
+[java]
+// StringLatin1.class
+ public static int hashCode(byte[] value) {
+        int h = 0;
+        for (byte v : value) {
+            h = 31 * h + (v & 0xff);
+        }
+        return h;
+    }
+[end]
+
+! v & 0xff? 
+Java and C uses 0x or 0X to represent hexadecimal numbers.
+0xff has 4+4 = 8 bits.
+
+! reset the last 8 digits to 0
+v & 0x00
+! Reset the last 8 digits to 1
+v | 0xff

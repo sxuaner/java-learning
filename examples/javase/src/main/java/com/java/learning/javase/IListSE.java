@@ -19,7 +19,24 @@ import java.util.Collections;
     5. Iterable. An iterator can be obtained by calling .iterator();
     6. Is an interface that extends Collection( which extends iterable)
     7. Offers fine control over where in the list each element is inserted.
-    */
+
+    * An ordered collection 2. Index based methods to insert, update, delete and
+    * search the elements. The index is zero based. 3. allow duplicate elements. 4.
+    * Null element allowed in some implementations 5. provides a special iterator,
+    * called a ListIterator. It allows element insertion and replacement, and
+    * bidirectional access(forward&backford) in addition to the normal operations
+    * that the Iterator interface provides. 6. provides two methods to search for a
+    * specified object. From a performance standpoint, these methods should be used
+    * with caution. In many implementations they will perform costly linear
+    * searches. O(n)
+
+    * Interface ListIterator<E> A ListIterator has no current element; its cursor
+    * position always lies between the element that would be returned by a call to
+    * previous() and the element that would be returned by a call to next(). An
+    * iterator for a list of length n has n+1 possible cursor positions, as
+    * illustrated by the carets (^) below: Element(0) Element(1) Element(2) ...
+    * Element(n-1) cursor positions: ^ ^ ^ ^ ^
+*/
 
 public class IListSE {
     public static void main(String[] args) {
@@ -28,13 +45,13 @@ public class IListSE {
 
         // A mutable list
         List<Character> charList = new ArrayList<>();
-
         
         // Loop though the array
         for( Character c : charArray){
             charList.add(c);
         }
 
+        Arrays.asList(charList);
         
         // Create a immutable list. Is this backed by the original list?? yes
         List< Character> immutableList = Collections.unmodifiableList(charList);
@@ -44,7 +61,6 @@ public class IListSE {
         * definition ensures that the equals method works properly across
         * different implementations of the <tt>List</tt> interface. */
         Boolean equalResult = charList.equals(immutableList);
-
 
         // When adding elements to an immutable list, UnsupportedOperationException will be thrown
         try{
@@ -61,7 +77,6 @@ public class IListSE {
             e.printStackTrace();
 
         }
-
 
         // ######SingletonList#########
         // singletonList() : Returns an immutable list containing only the specified object(Only 1 object). The returned list is serializable.

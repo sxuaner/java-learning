@@ -10,6 +10,7 @@ T - the type of the class modeled by this Class object. For example, the type of
 modeled is unknown.
 
 Instances of the class Class represent classes and interfaces in a running Java application. 
+
 An enum is a kind of class 
 
 An annotation is a kind of interface. 

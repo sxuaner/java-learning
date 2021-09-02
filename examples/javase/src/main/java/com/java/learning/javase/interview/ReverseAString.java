@@ -11,63 +11,39 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
+/*
+   * Interview Question: How to reverse the order of digits in a String, given
+   * that the String consists of only digits? How to optimize the performance?
+   */
 
 public class ReverseAString {
 
     public static void main(String[] args) {
-        /*
-         * Interview Question: How to reverse the order of digits in a String, given
-         * that the String consists of only digits? How to optimize the performance?
-         */
-
+  
         String method3ReturnedValue =  method3();
-
 
         String stringToReverse = "12345678";
         // Convert a String to an array of primitive type char:
         // Complexity?
         char[] arrayStringToReverse = stringToReverse.toCharArray();
-        /*
-         * List characteristics:
-         * 
-         * Interface List<E> Type Parameters: E - the type of elements in this list 1.
-         * An ordered collection 2. Index based methods to insert, update, delete and
-         * search the elements. The index is zero based. 3. allow duplicate elements. 4.
-         * Null element allowed in some implementations 5. provides a special iterator,
-         * called a ListIterator. It allows element insertion and replacement, and
-         * bidirectional access(forward&backford) in addition to the normal operations
-         * that the Iterator interface provides. 6. provides two methods to search for a
-         * specified object. From a performance standpoint, these methods should be used
-         * with caution. In many implementations they will perform costly linear
-         * searches. O(n)
-         * 
-         * Interface ListIterator<E> A ListIterator has no current element; its cursor
-         * position always lies between the element that would be returned by a call to
-         * previous() and the element that would be returned by a call to next(). An
-         * iterator for a list of length n has n+1 possible cursor positions, as
-         * illustrated by the carets (^) below: Element(0) Element(1) Element(2) ...
-         * Element(n-1) cursor positions: ^ ^ ^ ^ ^
-         * 
-         * What is charSequence?
-         */
         List<Character> listStringToReverse = new ArrayList<>();
 
-        // Iterate through the array and add each element to the arraylist. Because Collection can only contain reference types, primitive types
-        // are to be autoboxed.
+        // Iterate through the array and add each element to the arraylist. 
+        // Because Collection can only contain reference types, primitive types are to be autoboxed.
         for (char charIterator : arrayStringToReverse) {
             listStringToReverse.add(charIterator);
         }
         // Now reverse the list, because list is ordered
         Collections.reverse(listStringToReverse);
 
-        // Positve case
+        // Concatenate all elements in listStringToReverse.
         String result = "";
         Iterator<Character> iteratorOfListStringToReverse = listStringToReverse.iterator();
         while (iteratorOfListStringToReverse.hasNext()) {
             result += iteratorOfListStringToReverse.next();
         }
-        // Now result is 87654321
         // Place what should be smaller on first operand
+        // login behind  this
         class  ReverseOrderComparator implements Comparator<Character>{
             @Override
             public int compare(Character o1, Character o2) {
@@ -81,19 +57,19 @@ public class ReverseAString {
         String negNum = "-12345";
 
         // No longer needed: char[] tempArrayChar = negNum.toCharArray();
-        Character[] tempArrayCharacter = negNum.chars().mapToObj(x-> (Character)(char)x).toArray(Character[]::new);
+        Character[] tempCharacterArray = negNum.chars().mapToObj(x-> (Character)(char)x).toArray(Character[]::new);
 
         // You can use an IntStream to generate the indices followed by mapToObj:
 
         // Approach 1: to reverse an array with Arrays
-        Arrays.sort(tempArrayCharacter, new ReverseOrderComparator());
+        Arrays.sort(tempCharacterArray, new ReverseOrderComparator());
 
         // Compile the regex 
         Pattern pat = Pattern.compile("[0-9]");
 
         // .collect() expcts a collector returned and methods in Collectors.joining() can accomplish this
         // Returns a Collector that concatenates the input elements into a String, in encounter order.
-        String resultInString = Arrays.stream(tempArrayCharacter).map(x -> String.valueOf(x)).filter(pat.asPredicate()).collect(Collectors.joining());
+        String resultInString = Arrays.stream(tempCharacterArray).map(x -> String.valueOf(x)).filter(pat.asPredicate()).collect(Collectors.joining());
 
         // Now let's convert the List of String into a String
         System.out.println("-" + resultInString);
@@ -105,14 +81,14 @@ public class ReverseAString {
         // BinaryOperator<String> accumulator
         // What accumulators are available there?
         // 
-        resultInString = Arrays.stream(tempArrayCharacter).map(x -> String.valueOf(x)).filter(pat.asPredicate()).reduce("", String::concat);
+        resultInString = Arrays.stream(tempCharacterArray).map(x -> String.valueOf(x)).filter(pat.asPredicate()).reduce("", String::concat);
 
         System.out.println("-"+resultInString);
         // Or, join() expects a CharSequence, Charbuffer.wrap()
      
         // Approach 2: put the array into a list and reverse using Collections
         List<Character> myList = new ArrayList<>();
-        for(char c: tempArrayCharacter){
+        for(char c: tempCharacterArray){
             myList.add(c);
         }
 

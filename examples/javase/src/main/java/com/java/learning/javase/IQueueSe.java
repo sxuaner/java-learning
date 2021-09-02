@@ -10,10 +10,10 @@ value (either null or false, depending on the operation). The latter form of the
 capacity-restricted Queue implementations; in most implementations, insert operations cannot fail.
 
 Summary of Queue methods
-Throws exception	Returns special value
-Insert	add(e)	offer(e)
-Remove	remove()	poll()
-Examine	element()	peek()
+        Throws exception	Returns special value
+Insert	add(e)	            offer(e)
+Remove	remove()	        poll()
+Examine	element()	        peek()
 
 Queues typically, but do not necessarily, order elements in a FIFO (first-in-first-out) manner. Among the exceptions are priority queues, which order
 elements according to a supplied comparator, or the elements' natural ordering, and LIFO queues (or stacks) which order the elements LIFO 
@@ -47,10 +47,13 @@ public class IQueueSe {
     public static void main(String[] args) {
         /**
         boolean	add​(E e)	
-        Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions, returning true upon success and throwing an IllegalStateException if no space is currently available.
+        Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions, returning true upon success 
+        and throwing an IllegalStateException if no space is currently available.
         
         E	element()	
-        Retrieves, but does not remove, the head of this queue.
+        Retrieves, but does not remove, the head of this queue. This method differs from peek only in that it throws an exception if this queue is empty.
+        Throws:
+        NoSuchElementException - if this queue is empty
         
         boolean	offer​(E e)	
         Inserts the specified element into this queue if it is possible to do so immediately without violating capacity restrictions.

@@ -8,6 +8,17 @@ import java.io.UnsupportedEncodingException;
 public class StringSE {
     public static void main(String[] args) {
 
+        // can 2 vars point to the same object?
+        String var1 = "123";
+        String var2 = var1;
+        // true
+        Boolean compareV1V2 = var1.hashCode() == var2.hashCode();
+        // what does v & 0xff mean in Stringlatin1.hashCode()
+        char[]  varChar = var1.toCharArray();
+        byte v =(byte) varChar[1];
+        // v & 0xff returns int
+        int vres = v & 0xff;
+
         // What's the class name
         String st = "12345";
         String nameOfStringClass="".getClass().getName();

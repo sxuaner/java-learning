@@ -1,50 +1,152 @@
 package com.java.learning.javase;
 
 /**
-    public interface Queue<E> extends Collection<E>
-
-    A collection designed for holding elements prior to processing. Besides basic Collection operations, queues provide additional insertion, 
-    extraction, and inspection operations. Each of these methods exists in two forms: one throws an exception if the operation fails, the other 
-    returns a special value (either null or false, depending on the operation). The latter form of the insert operation is designed specifically 
-    for use with capacity-restricted Queue implementations; in most implementations, insert operations cannot fail.
+ 
+public interface Deque<E>
+    extends Queue<E>
     
-    Summary of Queue methods
-    Throws exception	Returns special value
-    Insert	add(e)	offer(e)
-    Remove	remove()	poll()
-    Examine	element()	peek()
-    Queues typically, but do not necessarily, order elements in a FIFO (first-in-first-out) manner. Among the exceptions are priority queues, 
-    which order elements according to a supplied comparator, or the elements' natural ordering, and LIFO queues (or stacks) which order the elements
-    LIFO (last-in-first-out). Whatever the ordering used, the head of the queue is that element which would be removed by a call to remove() or poll(). 
-    In a FIFO queue, all new elements are inserted at the tail of the queue. Other kinds of queues may use different placement rules. Every Queue 
-    implementation must specify its ordering properties.
+A linear collection that supports element insertion and removal at both ends. The name deque is short for "double ended queue" and
+is usually pronounced "deck". Most Deque implementations place no fixed limits on the number of elements they may contain, but this 
+interface supports capacity-restricted deques as well as those with no fixed size limit.
 
-    The offer method inserts an element if possible, otherwise returning false. This differs from the Collection.add method, which can fail to add an 
-    element only by throwing an unchecked exception. The offer method is designed for use when failure is a normal, rather than exceptional occurrence, 
-    for example, in fixed-capacity (or "bounded") queues.
+This interface defines methods to access the elements at both ends of the deque. Methods are provided to insert, remove, and examine 
+the element. Each of these methods exists in two forms: one throws an exception if the operation fails, the other returns a special 
+value (either null or false, depending on the operation). The latter form of the insert operation is designed specifically for use 
+with capacity-restricted Deque implementations; in most implementations, insert operations cannot fail.
 
-    The remove() and poll() methods remove and return the head of the queue. Exactly which element is removed from the queue is a function of the queue's
-    ordering policy, which differs from implementation to implementation. The remove() and poll() methods differ only in their behavior when the queue 
-    is empty: the remove() method throws an exception, while the poll() method returns null.
+The twelve methods described above are summarized in the following table:
 
-    The element() and peek() methods return, but do not remove, the head of the queue.
+Summary of Deque methods
+        First Element (Head)	                    Last Element (Tail)
+        Throws exception	Special value	Throws exception	Special value
+Insert	addFirst(e)	        offerFirst(e)	addLast(e)	        offerLast(e)
+Remove	removeFirst()	    pollFirst()	    removeLast()	    pollLast()
+Examine	getFirst()	        peekFirst()	    getLast()	        peekLast()
 
-    The Queue interface does not define the blocking queue methods, which are common in concurrent programming. These methods, which wait for elements
-    to appear or for space to become available, are defined in the BlockingQueue interface, which extends this interface.
+This interface extends the Queue interface. When a deque is used as a queue, FIFO (First-In-First-Out) behavior results. 
+Elements are added at the end of the deque and removed from the beginning. The methods inherited from the Queue interface 
+are precisely equivalent to Deque methods as indicated in the following table:
 
-    Queue implementations generally do not allow insertion of null elements, although some implementations, such as LinkedList, do not prohibit 
-    insertion of null. Even in the implementations that permit it, null should not be inserted into a Queue, as null is also used as a special return 
-    value by the poll method to indicate that the queue contains no elements.
+Comparison of Queue and Deque methods
+Queue Method	Equivalent Deque Method
+add(e)	        addLast(e)
+offer(e)	    offerLast(e)
+remove()	    removeFirst()
+poll()	        pollFirst()
+element()	    getFirst()
+peek()	        peekFirst()
 
-    Queue implementations generally do not define element-based versions of methods equals and hashCode but instead inherit the identity based versions
-    from class Object, because element-based equality is not always well-defined for queues with the same elements but different ordering properties.
+Deques can also be used as LIFO (Last-In-First-Out) stacks. This interface should be used in preference to the legacy Stack class. 
+When a deque is used as a stack, elements are pushed and popped from the beginning of the deque. Stack methods are equivalent to Deque methods as indicated in the table below:
 
-    This interface is a member of the Java Collections Framework.
+Comparison of Stack and Deque methods
+Stack Method	Equivalent Deque Method
+push(e)	        addFirst(e)
+pop()	        removeFirst()
+peek()	        getFirst()
+
+Note that the peek method works equally well when a deque is used as a queue or a stack; in either case, elements are drawn from the beginning of the deque.
+
+This interface provides two methods to remove interior elements, removeFirstOccurrence and removeLastOccurrence.
+
+Unlike the List interface, this interface does not provide support for indexed access to elements.
+
+While Deque implementations are not strictly required to prohibit the insertion of null elements, they are strongly encouraged to do so. Users of any Deque 
+implementations that do allow null elements are strongly encouraged not to take advantage of the ability to insert nulls. This is so because null is used as 
+a special return value by various methods to indicate that the deque is empty.
+
+Deque implementations generally do not define element-based versions of the equals and hashCode methods, but instead inherit the identity-based versions 
+from class Object.
+
+This interface is a member of the Java Collections Framework.
  */
 
 public class IDequeSE {
     public static void main(String[] args) {
-
+        
+        /* 
+        boolean	add​(E e)	
+        Inserts the specified element into the queue represented by this deque (in other words, at the tail of this deque) if it is 
+        possible to do so immediately without violating capacity restrictions, returning true upon success and throwing an IllegalStateException if no space is currently available.
+        
+        boolean	addAll​(Collection<? extends E> c)	
+        Adds all of the elements in the specified collection at the end of this deque, as if by calling addLast(E) on each one, in the order that they are returned by the collection's iterator.
+        
+        void	addFirst​(E e)	
+        Inserts the specified element at the front of this deque if it is possible to do so immediately without violating capacity restrictions, throwing an IllegalStateException if no space is currently available.
+        
+        void	addLast​(E e)	
+        Inserts the specified element at the end of this deque if it is possible to do so immediately without violating capacity restrictions, throwing an IllegalStateException if no space is currently available.
+        
+        boolean	contains​(Object o)	
+        Returns true if this deque contains the specified element.
+        
+        Iterator<E>	descendingIterator()	
+        Returns an iterator over the elements in this deque in reverse sequential order.
+        
+        E	element()	
+        Retrieves, but does not remove, the head of the queue represented by this deque (in other words, the first element of this deque).
+        
+        E	getFirst()	
+        Retrieves, but does not remove, the first element of this deque.
+        
+        E	getLast()	
+        Retrieves, but does not remove, the last element of this deque.
+        
+        Iterator<E>	iterator()	
+        Returns an iterator over the elements in this deque in proper sequence.
+        
+        boolean	offer​(E e)	
+        Inserts the specified element into the queue represented by this deque (in other words, at the tail of this deque) if it is possible to do so immediately without violating capacity restrictions, returning true upon success and false if no space is currently available.
+        
+        boolean	offerFirst​(E e)	
+        Inserts the specified element at the front of this deque unless it would violate capacity restrictions.
+        
+        boolean	offerLast​(E e)	
+        Inserts the specified element at the end of this deque unless it would violate capacity restrictions.
+        
+        E	peek()	
+        Retrieves, but does not remove, the head of the queue represented by this deque (in other words, the first element of this deque), or returns null if this deque is empty.
+        
+        E	peekFirst()	
+        Retrieves, but does not remove, the first element of this deque, or returns null if this deque is empty.
+        
+        E	peekLast()	
+        Retrieves, but does not remove, the last element of this deque, or returns null if this deque is empty.
+        
+        E	poll()	
+        Retrieves and removes the head of the queue represented by this deque (in other words, the first element of this deque), or returns null if this deque is empty.
+        
+        E	pollFirst()	
+        Retrieves and removes the first element of this deque, or returns null if this deque is empty.
+        
+        E	pollLast()	
+        Retrieves and removes the last element of this deque, or returns null if this deque is empty.
+        
+        E	pop()	
+        Pops an element from the stack represented by this deque.
+        
+        void	push​(E e)	
+        Pushes an element onto the stack represented by this deque (in other words, at the head of this deque) if it is possible to do so immediately without violating capacity restrictions, throwing an IllegalStateException if no space is currently available.
+        
+        E	remove()	
+        Retrieves and removes the head of the queue represented by this deque (in other words, the first element of this deque).
+        
+        boolean	remove​(Object o)	
+        Removes the first occurrence of the specified element from this deque.
+        
+        E	removeFirst()	
+        Retrieves and removes the first element of this deque.
+        boolean	removeFirstOccurrence​(Object o)	
+        Removes the first occurrence of the specified element from this deque.
+        
+        E	removeLast()	
+        Retrieves and removes the last element of this deque.
+        boolean	removeLastOccurrence​(Object o)	
+        Removes the last occurrence of the specified element from this deque.
+        
+        int	size()	
+        Returns the number of elements in this deque. */
         
     }
     

@@ -1,6 +1,6 @@
 package com.java.learning.javase.interview;
 
-public class SimpleThreads {
+public class SimpleThreads extends Object {
     // Display a message, preceded by the name of the current thread
     static void threadMessage(String message) {
         String threadName =
@@ -68,5 +68,6 @@ public class SimpleThreads {
                 }
         }
         threadMessage("Finally!");
+
     }
 }

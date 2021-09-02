@@ -185,12 +185,12 @@ public class ThreadSE {
             join is dependent on the OS for timing, so you should not assume that join will wait exactly as long as you specify.
             Like sleep, join responds to an interrupt by exiting with an InterruptedException.
 
-        // join()
-        //Solutions using Join() do not answer the question - they ensure that the termination of the threads is ordered, not the running of them. 
-        //If the interviewr does not get that, you need to find another job anyway.
+        join()
+        Solutions using Join() do not answer the question - they ensure that the termination of the threads is ordered, not the running of them. 
+        If the interviewr does not get that, you need to find another job anyway.
 */
 
-         
+         // how to interrupt
         
     }
     

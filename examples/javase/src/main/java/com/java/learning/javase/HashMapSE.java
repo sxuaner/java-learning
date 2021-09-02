@@ -7,8 +7,6 @@ import java.util.Objects;
 /**
  * transient 
  */
-
-
  /**
   * Regarding the fetch order of pairs 
   
@@ -36,12 +34,25 @@ import java.util.Objects;
   * in.
   */
 public class HashMapSE {
-
-
     public static void main(String[] args) {
         Map<String, Integer> mp = new HashMap<>();
         mp.put(null, 123);
-            
+
+        /* public V put(K key, V value) {
+            return putVal(hash(key), key, value, false, true);
+            }
+        */    
+
+        /**
+        HashMap.Node.hashCode():
+
+        final K key;
+        V value;
         
+        public final int hashCode() {
+            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        }
+         */
+
     }
 }
