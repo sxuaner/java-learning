@@ -1,3 +1,4 @@
 #What is JNI
 In software design, the Java Native Interface (JNI) is a foreign function interface programming framework that 
-enables Java code running in a Java virtual machine (JVM) to call and be called by[1] native applications (programs specific to a hardware and operating system platform) and libraries written in other languages such as C, C++ and assembly.
+enables Java code running in a Java virtual machine (JVM) to call and be called by[1] native applications (programs specific 
+to a hardware and operating system platform) and libraries written in other languages such as C, C++ and assembly.

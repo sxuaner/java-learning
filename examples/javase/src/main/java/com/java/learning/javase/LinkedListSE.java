@@ -1,4 +1,6 @@
 package com.java.learning.javase;
+
+import java.util.LinkedList;
 /**
     public class LinkedList<E>
         extends AbstractSequentialList<E>

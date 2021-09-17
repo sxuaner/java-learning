@@ -14,11 +14,8 @@ import java.util.Collections;
     Characteristics of List:
     1. Index-based
     2. Allow duplicates( Set does not)
-    3. Generic programming with type infered later when an object of such class is instantiated.
-    4. AKA sequence
-    5. Iterable. An iterator can be obtained by calling .iterator();
-    6. Is an interface that extends Collection( which extends iterable)
-    7. Offers fine control over where in the list each element is inserted.
+    3. Offers fine control over where in the list each element is inserted.
+    5. Iterable.
 
     * An ordered collection 2. Index based methods to insert, update, delete and
     * search the elements. The index is zero based. 3. allow duplicate elements. 4.

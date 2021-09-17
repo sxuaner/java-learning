@@ -42,6 +42,14 @@ public class ReverseAString {
         while (iteratorOfListStringToReverse.hasNext()) {
             result += iteratorOfListStringToReverse.next();
         }
+        // why can String:valueOf be used here? It returns an String and conforms to definition of function( one to one)
+        /**
+         public static String valueOf(Object obj) {
+                return (obj == null) ? "null" : obj.toString();
+            }
+         */
+        result = listStringToReverse.stream().map(String::valueOf).collect(Collectors.joining());
+
         // Place what should be smaller on first operand
         // login behind  this
         class  ReverseOrderComparator implements Comparator<Character>{

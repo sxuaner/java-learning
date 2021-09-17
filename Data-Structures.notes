@@ -36,3 +36,170 @@ programming, records are known as plain old data structures to distinguish them 
 # What is  B-tree
 
 # What is balanced b-tree?
+
+
+# HashMap in java analysis
+
+Purpose of hashcod: The purpose of the hashCode() method is to provide a numeric representation of an object's contents 
+so as to provide an alternate mechanism to loosely identify it.
+
+By default the hashCode() returns an integer that represents the internal memory address of the object.
+
+Methods of HashMap: 
+[java]
+public V put(K key, V value) {
+        // onlyIfAbsent if true, don't change existing value
+        // evict if false, the table is in creation mode.???        
+        return putVal(hash(key), key, value, false, true);
+    }
+
+static final int hash(Object key) {
+    int h;
+    // The key could  be any type including null
+    // if key is null return 0, else right-bit-shift the hashcod of key 16 bits and XOR
+    return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16); 
+    }
+
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) 
+    {
+        // The hash table that actually stores all the elements
+        Node<K,V>[] tab;
+        Node<K,V> p; 
+        int n, i;
+        // if table is null or empty, resize
+        if ((tab = table) == null || (n = tab.length) == 0)
+            n = (tab = resize()).length;
+
+        // Next line is how hashcode is applied in finding the box
+        // With [0,n-1] & hash, try to locate in which node to put the value and assign the result pointing to the node to temp var p
+        // if this box doesn't exist, create a new node using hash, key and value and set the next pointer to null
+        if ((p = tab[i = (n - 1) & hash]) == null)
+            tab[i] = newNode(hash, key, value, null);
+        // If this box exists
+        else {
+            Node<K,V> e; 
+            K k;
+            // Confition: hash, key match, either in form of primitive type or reference type ( == and equals used here)
+            // !!!!! Here is the contract between hashCode and equals()
+            // Two elements are to be put in the same box if and only if(?) hashcodes are the same and they are the logically identical( == or equals).
+            // HashMap is designed like this
+
+            //  !!!!!!!!!!!!!!!!!!!  IMPORTANT !!!!!!!!!!!!!!!!!!!!!!!!
+            // What's this test?
+            // If the there is a node that has identical key and hash as the (key,value) pair to put in hashmap, replace the node.value. Else, link the new pair.
+
+            if (p.hash == hash && 
+                ( (k = p.key) == key                            /// test key is primitive type 
+                        || (key != null && key.equals(k)) )     // test when key is reference type
+                )
+            // Now assign the node from HashMap to e and try to do other actions.
+                e = p; 
+            // If previous circumstance is not met, test if p is an tree node. If node found turns out to be a tree node, key.equals(k) is false and 
+            // thus failure of the previous if-test. 
+            // Node that key refers to the key in paramter list, k is the key from found node p
+
+            // What does this test mean? Two conditions must be met simutanously: same hash, and equality.
+            else if (p instanceof TreeNode)
+                e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+            // if p is an instance of Node, link it
+            else {
+                for (int binCount = 0; ; ++binCount) {
+                    if ((e = p.next) == null) {
+                        p.next = newNode(hash, key, value, null);
+                        if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                            treeifyBin(tab, hash);
+                        break;
+                    }
+                    if (e.hash == hash &&
+                        ((k = e.key) == key || (key != null && key.equals(k))))
+                        break;
+                    p = e;
+                }
+            }
+            // Test again if e is null, because if a new node is found, e has only the intial state which is null(object reference)
+            if (e != null) { // existing mapping for key
+                V oldValue = e.value;
+                if (!onlyIfAbsent || oldValue == null)
+                    e.value = value;
+                afterNodeAccess(e);             // Callbacks to allow LinkedHashMap post-actions
+                return oldValue;
+            }
+        }
+        ++modCount;
+        if (++size > threshold)
+            resize();
+        afterNodeInsertion(evict);
+        return null;
+    }
+
+// The Node:
+static class Node<K,V> implements Map.Entry<K,V> {
+        final int hash;
+        final K key;
+        V value;
+        Node<K,V> next;
+
+        Node(int hash, K key, V value, Node<K,V> next) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+            this.next = next;
+        }
+
+        public final K getKey()        { return key; }
+        public final V getValue()      { return value; }
+        public final String toString() { return key + "=" + value; }
+
+        public final int hashCode() {
+            return Objects.hashCode(key) ^ Objects.hashCode(value);
+        }
+
+        public final V setValue(V newValue) {
+            V oldValue = value;
+            value = newValue;
+            return oldValue;
+        }
+
+        public final boolean equals(Object o) {
+            if (o == this)
+                return true;
+            if (o instanceof Map.Entry) {
+                Map.Entry<?,?> e = (Map.Entry<?,?>)o;
+                if (Objects.equals(key, e.getKey()) &&
+                    Objects.equals(value, e.getValue()))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+
+[end]
+
+What is creation mode?
+
+
+# Why should I override equals() and hashCode()?
+Joshua Bloch says on Effective Java
+You must override hashCode() in every class that overrides equals(). Failure to do so will result in a violation of the 
+general contract for Object.hashCode(), which will prevent your class from functioning properly in conjunction with 
+all hash-based collections, including HashMap, HashSet, and Hashtable.
+
+! What happens when overriding only equals() but hashCode()?
+Given two objects are equal according equals(), but they have different hashCode.As a result, HashMap will place them in 
+different buckets because when the keys are different, the hashes in putVal() method are different, resulting in two objects landing in distinct Nodes.
+This violates the rule : ! Two objects logically equal should be put in the same Node.
+
+Although they are equal, as they don't hash to the same bucket, the map can't realize it and both of them stay in the map.
+
+
+The general contract of hashCode is:
+Whenever it is invoked on the same object more than once during an execution of a Java application, the hashCode method must consistently return the same integer, 
+!provided no information used in equals comparisons on the object is modified.! This integer need not remain consistent from one execution of an application 
+to another execution of the same application.
+
+If two objects are equal according to the equals(Object) method, then calling the hashCode method on each of the two objects must produce the same integer result.
+
+It is not required that if two objects are unequal according to the equals(java.lang.Object) method, then calling the hashCode method on each of the two 
+objects must produce distinct integer results. However, the programmer should be aware that producing distinct integer results for unequal objects may improve the performance of hash tables.

@@ -1,13 +1,16 @@
 package com.java.learning.javase;
 
 /**
- * public interface Closeable extends AutoCloseable
-   A Closeable is a source or destination of data that can be closed. The close method is invoked to release resources that the object is holding
+ * public interface Closeable 
+ * extends AutoCloseable
+   
+ A Closeable is a source or destination of data that can be closed. The close method is invoked to release resources that the object is holding
    (such as open files).
  */
 public class ICloseableSE {
     public static void main(String[] args) {
         /**
+         * the only method defined in this interface
          *  void close() throws IOException
             Closes this stream and releases any system resources associated with it. If the stream is already closed then invoking this method has 
             no effect.

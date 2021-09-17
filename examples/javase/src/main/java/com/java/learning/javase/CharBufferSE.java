@@ -6,8 +6,9 @@ import java.util.stream.IntStream;
 
 
 /**
- * public abstract class CharBuffer extends Buffer implements
- * Comparable<CharBuffer>, Appendable, CharSequence, Readable
+ * public abstract class CharBuffer 
+ * extends Buffer 
+ * implements Comparable<CharBuffer>, Appendable, CharSequence, Readable
  */
 
 /*
