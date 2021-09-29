@@ -1,5 +1,9 @@
+
 package com.java.learning.javase.spring;
 // Compare with Hibernate and SPring JPA?
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.lang.Nullable;
 
 public class JDBCTemplateSpring {
 
@@ -24,6 +28,18 @@ public class JDBCTemplateSpring {
     jdbcTemplate.query("SELECT id, first_name, last_name FROM customers WHERE first_name = ?", new Object[] { "Josh" },
             (rs, rowNum) -> new Customer(rs.getLong("id"), rs.getString("first_name"), rs.getString("last_name")))
             .forEach(customer -> log.info(customer.toString())); */
+
+    JdbcTemplate jt = new JdbcTemplate();
+    // jt.queryForObject(sql, requiredType);
+        Nullable na ;
+        NullPointerException npe;
+	// @Override
+	// @Nullable
+	// public <T> T queryForObject(String sql, RowMapper<T> rowMapper, @Nullable Object... args) throws DataAccessException {
+	// 	List<T> results = query(sql, args, new RowMapperResultSetExtractor<>(rowMapper, 1));
+	// 	return DataAccessUtils.nullableSingleResult(results);
+	// }
+
     }
 }
 

@@ -1,0 +1,4 @@
+// TO solve sonarquebe bug report that a calling of a reference that could lead to NullPointerException.
+[java]
+null == var1 ? null: var1
+[end]
