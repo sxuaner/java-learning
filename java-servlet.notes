@@ -63,3 +63,5 @@ There are three ways to create the servlet.
 By implementing the Servlet interface
 By inheriting the GenericServlet class
 By inheriting the HttpServlet class
+
+# How is filterchain used in spring?

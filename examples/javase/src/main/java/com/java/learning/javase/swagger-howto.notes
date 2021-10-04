@@ -1,0 +1,18 @@
+WHat is 
+
+how to
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
+
+# how to config swagger as a bean?
+
+
+
+# modification: 
+pom.xml add spring-boot-web-start for @SpringbootApplicaiton
+change swaggerconfig.java
+!why must controllers changed to string return type? not done
+how to start with embeded tomcat?  might need to change maven-war-plugin
+
+
+

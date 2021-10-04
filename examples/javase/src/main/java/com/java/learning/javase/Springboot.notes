@@ -1,1 +1,4 @@
 # How to deploy to tomcat
+
+# package org.springframework.boot does not exist
+spring-bot-starter-web must also be specified in pom.xml in the submodules
