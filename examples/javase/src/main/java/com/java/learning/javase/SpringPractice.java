@@ -2,12 +2,20 @@ package com.java.learning.javase;
 
 import java.util.Properties;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecurityConfiguration;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.context.ApplicationContext;
 /**
  * The @RestController and @RequestMapping annotations are Spring MVC annotations.
  */
@@ -30,10 +38,13 @@ import org.springframework.web.bind.annotation.RestController;
    
   */
 
-@RestController
+// @RestController
 @Configuration
-@SpringBootApplication
+// @SpringBootApplication
 public class SpringPractice {
+    @Autowired
+    private ApplicationContext appcon;
+
     /**
     The “main” Method
     The final part of our application is the main method. This is a standard method that follows the Java convention for an application entry point. 
@@ -44,11 +55,18 @@ public class SpringPractice {
     public static void main(String[] args) {
         // Try to understand SpringApplication.run() and stopped at SpringApplication.class 270 line
 		// this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources)); learn this and continue
-        SpringApplication.run(SpringPractice.class, args);
+        // SpringApplication.run(SpringPractice.class, args);
 
         AnnotationConfigApplicationContext acfc = new AnnotationConfigApplicationContext(SpringPractice.class);
         
         String beanValue = acfc.getBean(String.class);
+
+        String[] names = acfc.getBeanDefinitionNames();
+
+        // SpringBootWebSecurityConfiguration
+        // DelegatingFilterProxy
+        // SecurityAutoConfiguration;
+        ServletContext sc;        
 
     }
         

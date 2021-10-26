@@ -9,7 +9,6 @@ HttpJspPage, JspPage
 All Known Implementing Classes:
 FacesServlet, GenericServlet, HttpServlet
 
-
 Defines methods that all servlets must implement.
 
 A servlet is a small Java program that runs within a Web server. Servlets receive and respond to requests from Web clients, usually across HTTP, 
@@ -33,12 +32,16 @@ public class IServletSE {
     /**
     void destroy()
     Called by the servlet container to indicate to a servlet that the servlet is being taken out of service.
+
     ServletConfig	getServletConfig()
     Returns a ServletConfig object, which contains initialization and startup parameters for this servlet.
+    
     String	getServletInfo()
     Returns information about the servlet, such as author, version, and copyright.
+    
     void	init(ServletConfig config)
     Called by the servlet container to indicate to a servlet that the servlet is being placed into service.
+    
     void	service(ServletRequest req, ServletResponse res)
     Called by the servlet container to allow the servlet to respond to a request.
      */

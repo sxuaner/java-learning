@@ -1,0 +1,19 @@
+// how to add application.properties to applicaitoncontext?
+
+// maven artifacts with test scope will not be copied to .war
+
+
+
+# How to clear the db after each test
+To create the database you have to do what the other answers say with the spring.jpa.hibernate.ddl-auto=create-drop, now if your intent is to pupulate 
+the database on each test then spring provides a very usefull anotation
+
+@Transactional(value=JpaConfiguration.TRANSACTION_MANAGER_NAME)
+@Sql(executionPhase=ExecutionPhase.BEFORE_TEST_METHOD,scripts="classpath:/test-sql/group2.sql")
+public class GroupServiceTest extends TimeoffApplicationTests {
+that is from this package org.springframework.test.context.jdbc.Sql; and you can run a before test method and a after test method. To populate the database.
+
+Regarding creating the database each time, Say you only want your Test to have the create-drop option you can configure your tests with a custom properties with this annotation
+
+@TestPropertySource(locations="classpath:application-test.properties")
+public class TimeoffApplicationTests extends AbstractTransactionalJUnit4SpringContextTests{

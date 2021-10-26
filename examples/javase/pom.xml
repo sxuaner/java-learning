@@ -18,19 +18,88 @@
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
+    <repositories>
+        <repository>
+          <id>jcenter-snapshots</id>
+          <name>jcenter</name>
+          <url>https://jcenter.bintray.com/</url>
+        </repository>
+        <repository>
+          <id>central</id>
+          <name>maven central</name>
+          <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.12.RELEASE</version>
+        <version>2.5.1</version>
     </parent>
 
+<dependencies>
+  <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-cache -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-cache</artifactId>
+    <version>2.5.6</version>
+</dependency>
 
-  <dependencies>
+
+  <!-- <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>5.5.2</version>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>5.5.2</version>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-test</artifactId>
+    <scope>test</scope>
+  </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency> -->
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-core -->
+    <!-- <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-core</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-boot-starter</artifactId>
+        <version>3.0.0</version>
+    </dependency> -->
+<!-- 
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>3.0.0</version>
+    </dependency>  -->
+
+    <!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+    <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>2.10.12</version>
+    </dependency>
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-petstore</artifactId>
+        <version>2.9.2</version>
     </dependency>
 
     <dependency>
@@ -145,4 +214,6 @@
     </plugins>
     
   </build>
+
+
 </project>

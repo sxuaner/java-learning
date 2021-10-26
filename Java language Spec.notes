@@ -272,3 +272,8 @@ Java and C uses 0x or 0X to represent hexadecimal numbers.
 v & 0x00
 ! Reset the last 8 digits to 1
 v | 0xff
+
+
+# Annotation type
+An annotation type declaration specifies a new annotation type, a special kind of interface type. To distinguish an annotation type declaration from 
+a normal interface declaration, the keyword interface is preceded by an at-sign (@).

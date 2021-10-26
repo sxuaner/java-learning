@@ -1,0 +1,27 @@
+https://docs.spring.io/spring-security/site/docs/current/guides/helloworld-xml.html
+
+
+https://spring.io/guides/gs/securing-web/
+
+# differences
+org.springframework.security.spring-security-web
+org.springframework.security.spring-security-config
+org.springframework.boot.spring-boot-starter-security
+
+You do that by configuring Spring Security in the application. If Spring Security is on the classpath, Spring Boot automatically secures all HTTP 
+endpoints with “basic” authentication. However, you can further customize the security settings. The first thing you need to do is add Spring Security 
+to the classpath.
+
+
+# Cannot resolve defaultSecurityFilterChain.class
+DefaultSecurityFilterChain is located in spring-security-web-x.y.z.RELEASE.jar. This error is most probably because this class cannot be found from 
+the class-path.
+
+So go to class path to check if this jar is really included .If not and you are using spring-boot , you can use spring-boot-starter-security starter 
+which will automatically include it.
+
+If you are not using spring-boot, make sure the following dependency is included. For Maven, pom.xml should include
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+</dependency>

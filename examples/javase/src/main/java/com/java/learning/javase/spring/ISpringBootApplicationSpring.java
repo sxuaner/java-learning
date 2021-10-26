@@ -18,6 +18,11 @@ Indicates a configuration class that declares one or more @Bean methods and also
 convenience annotation that is equivalent to declaring @Configuration, @EnableAutoConfiguration and @ComponentScan.
 
 ?? component scan
+
+
+In Spring configuration xml file, we can define a package for tag component-scan, which tells Spring framework to search all classes within this 
+specified package, to look for those classes which are annotated with @Named or @Component.
+
 */
 
 

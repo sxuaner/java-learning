@@ -1,3 +1,27 @@
+# What is architecture of servlet?
+
+
+
+# how to create a java servlet?
+There are three ways to create the servlet.
+By implementing the Servlet interface
+By inheriting the GenericServlet class
+By inheriting the HttpServlet class
+
+# How is filterchain used in spring?
+
+
+
+
+
+
+
+
+
+
+
+// #########################  Discussion #################################
+
 # Are java servlets and JSP considered outdated?
 
 # Answer1 
@@ -57,11 +81,3 @@ Servlets/JSP can never becomes obsolete. As said, they are backbone/hidden playe
 Not all Java web app frameworks use Servlets/JSP -- but most do. And regardless, the concepts are common enough that one should definitely 
 know Servlets and JSP for any Java web work.
 
-
-# how to create a java servlet?
-There are three ways to create the servlet.
-By implementing the Servlet interface
-By inheriting the GenericServlet class
-By inheriting the HttpServlet class
-
-# How is filterchain used in spring?

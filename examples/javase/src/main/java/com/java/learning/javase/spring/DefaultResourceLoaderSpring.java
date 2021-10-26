@@ -1,8 +1,11 @@
 package com.java.learning.javase.spring;
+
+
 /**
- public class DefaultResourceLoader
- extends Object 
- implements ResourceLoader
+    
+    public class DefaultResourceLoader
+    extends Object 
+    implements ResourceLoader
 
 Default implementation of the ResourceLoader interface. Used by ResourceEditor, and serves as base class for AbstractApplicationContext. Can also 
 be used standalone. Will return a UrlResource if the location value is a URL, and a ClassPathResource if it is a non-URL path or a "classpath:" 

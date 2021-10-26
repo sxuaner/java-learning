@@ -1,18 +1,117 @@
-WHat is 
+// WHat is 
 
-how to
-
-https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
+#  What is springfox
+The Springfox suite of java libraries are all about automating the generation of machine and human readable specifications for JSON APIs written 
+using the spring family of projects. Springfox works by examining an application, once, at runtime to infer API semantics based on spring 
+configurations, class structure and various compile time java Annotations.
 
 # how to config swagger as a bean?
 
 
 
-# modification: 
-pom.xml add spring-boot-web-start for @SpringbootApplicaiton
-change swaggerconfig.java
-!why must controllers changed to string return type? not done
-how to start with embeded tomcat?  might need to change maven-war-plugin
+# The Springfox libraries are hosted on bintray and jcenter. The artifacts can be viewed accessed at the following locations:
+Release:
+https://jcenter.bintray.com/io/springfox/
+http://jcenter.bintray.com/io/springfox/
+
+Snapshot:
+http://oss.jfrog.org/simple/oss-snapshot-local/io/springfox/
+http://oss.jfrog.org/oss-snapshot-local/io/springfox/
 
 
+// Maven dependencies
+[xml]
+<pom>
+    <repositories>
+        <repository>
+          <id>jcenter-snapshots</id>
+          <name>jcenter</name>
+          <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
 
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-boot-starter</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+<!--   Uncomment for regular spring mvc projects and commend above dependency
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-oas</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+-->
+</pom>
+
+<pom>
+    <repositories>
+        <repository>
+          <id>jcenter-snapshots</id>
+          <name>jcenter</name>
+          <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </repository>
+    </repositories>
+
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-boot-starter</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </dependency>
+<!--   Uncomment for regular spring mvc projects and commend above dependency
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-oas</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </dependency>
+-->
+</pom>
+
+[/xml]
+
+# Migrating from existing 2.x version  https://springfox.github.io/springfox/docs/current/
+// Spring Boot Applications
+Remove library inclusions of earlier releases. Specifically remove springfox-swagger2 and springfox-swagger-ui inclusions.
+Remove the @EnableSwagger2 annotations
+Add the springfox-boot-starter
+
+! Springfox 3.x removes dependencies on guava and other 3rd party libraries (depends on spring plugin and open api libraries for annotations and 
+! models) so if you used guava predicates/functions those will need to transition to java 8 function interfaces
+
+For non-boot applications springfox-swagger-ui is no longer automatically enabled by adding the dependency. It needs to be explicitly register
+using a resource handler configurer (WebFluxConfigurer or WebMvcConfigurer). Here is how it is configured in springfox-boot-starter
+
+swagger-ui location has moved from http://host/context-path/swagger-ui.html to http://host/context-path/swagger-ui/index.html OR 
+http://host/context-path/swagger-ui/ for short. This makes it work much better with pulling it as a web jar and turning it off using configuration 
+properties if not needed.
+
+!? what is a selector in springfox?
+
+! SPI: service provider interfaces
+
+//Springfox supports both version 1.2 and version 2.0 of the Swagger specification. Where possible, the Swagger 2.0 specification is preferable.
+
+# Getting the version of swagger
+in Chrome, ctl + shift + I and open console tab, input: #  JSON.stringify(versions)
+
+
+# Differences  between swagger and OpenAPI
+The easiest way to understand the difference is: OpenAPI = Specification. Swagger = Tools for implementing the specification
+
+# PropertySourcedRequestMappingHandlerMapping mapped URL path: /v2/api-docs onto method:
+is this swagger 2?
+The /v2/api-docs URL is the default that SpringFox uses for documentation. The v2 does not refer to your API's documentation version (which can be 
+changed in the Docket configuration), but the version of the Swagger specification being used. 
+springfox.documentation.swagger.v2.path=/my/docs
+
+This will change the default URL for the SpringFox Swagger documentation from /v2/api-docs to whatever you specify. To implement this, add the above 
+property to a new or existing properties file, and then add it as a property source in your Springfox configuration class
+@PropertySource("classpath:swagger.properties")
+@Configuration
+public class SwaggerConfig {...}
+
+# what does ApiListingReferenceScanner do ? 
+springfox.documentation.spring.web.scanners
+@Component
+public class ApiListingReferenceScanner
+extends java.lang.Object

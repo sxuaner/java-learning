@@ -2,3 +2,73 @@
 
 # package org.springframework.boot does not exist
 spring-bot-starter-web must also be specified in pom.xml in the submodules
+
+#application.properties
+https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
+
+Various properties can be specified inside your application.properties file, inside your application.yml file, or as command line switches. 
+!This appendix provides a list of common Spring Boot properties and references to the underlying classes that consume them.
+
+// how does springboot pass arguements to jvm?
+java -Dspring.profiles.active=development -jar yourApplication.jar 
+
+!? meaning of -Dxxxx arguement
+// How to pass application.properties as commandline arguement to springboot at runtime?
+mvn spring-boot:run -Dspring.config.location=classpath:/application-local.properties
+
+
+# How many ways are there to set active profile?
+
+1. env var
+SPRING_PROFILES_ACTIVE is the environment variable to override/pick Spring profile
+
+2. JVM System Parameter. The profile names passed as the parameter will be activated during application start-up:
+java -Dspring.profiles.active=development -jar yourApplication.jar 
+
+3. In Spring Boot you can also set the active profile in application.properties, e.g.
+spring.profiles.active=production
+
+4. 
+[java]
+// Programmatically via WebApplicationInitializer interface. In web applications, WebApplicationInitializer can be used to configure the 
+// ServletContext programmatically
+@Configuration
+public class MyWebApplicationInitializer implements WebApplicationInitializer {
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+            servletContext.setInitParameter("spring.profiles.active", "dev");
+    }
+}
+
+5. 
+// Programmatically via ConfigurableEnvironment. You can also set profiles directly on the environment:
+    @Autowired
+    private ConfigurableEnvironment env;
+    // ... 
+    env.setActiveProfiles("dev");
+[end]
+
+
+6. 
+// Context Parameter in web.xml. profiles can be activated in the web.xml of the web application as well, using a context parameter:
+[xml]
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/app-config.xml</param-value>
+    </context-param>
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>dev</param-value>
+    </context-param>
+[end]
+
+!? How does springboot find application.properties? By using profiles
+
+# deploy springboot application on tomcat
+https://codezup.com/deploy-spring-boot-war-to-external-tomcat/
+
+
+# how to quickly boot up a springboot application?
+initializer?
+

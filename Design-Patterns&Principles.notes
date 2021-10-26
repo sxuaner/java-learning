@@ -27,3 +27,11 @@ For the client, usage of a proxy object is similar to using the real object, bec
 Proxy is applicable whenever there is a need for a more versatile or sophisticated reference to an object than a simple pointer. 
 
 ! surrogate : replacing someone else or used instead of something else:
+
+
+# Adaptor pattern. Usecase: WebSecurityConfigurerAdapter
+https://en.wikipedia.org/wiki/Adapter_pattern
+
+A real life example could be a case of card reader which acts as an adapter between memory card and a laptop
+
+# Proxy patter: Usecase: FilterChainProxy

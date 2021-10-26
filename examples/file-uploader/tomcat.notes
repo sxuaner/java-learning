@@ -1,0 +1,51 @@
+// use catalina.sh run to start tomcat. Set proper JRE_HOME first.
+
+
+// tomcat startup failure
+log4j-slf4j-impl cannot be present with log4j-to-
+
+// tomcat-home/bin/catalina.sh run     to start the tomcat server
+
+// how to enable tomcat startup debug?
+
+// How are catalina_opts passed to jvm, if they are passed in any case.
+
+
+# 
+In talking about deployment of web applications, the concept of a Context is required to be understood. A Context is what Tomcat calls a web 
+application.
+
+In order to configure a Context within Tomcat a Context Descriptor is required. A Context Descriptor is simply an XML file that contains Tomcat 
+related configuration for a Context, e.g naming resources or session manager configuration. In earlier versions of Tomcat the content of a Context 
+Descriptor configuration was often stored within Tomcat's primary configuration file server.xml but this is now discouraged (although it currently 
+still works).
+
+Context Descriptors not only help Tomcat to know how to configure Contexts but other tools such as the Tomcat Manager and TCD often use these Context 
+Descriptors to perform their roles properly.
+
+The locations for Context Descriptors are:
+
+$CATALINA_BASE/conf/[enginename]/[hostname]/[webappname].xml
+$CATALINA_BASE/webapps/[webappname]/META-INF/context.xml
+Files in (1) are named [webappname].xml but files in (2) are named context.xml. If a Context Descriptor is not provided for a Context, Tomcat 
+configures the Context using default values.
+
+Deployment on Tomcat startup
+
+If you are not interested in using the Tomcat Manager, or TCD, then you'll need to deploy your web applications statically to Tomcat, followed by a 
+Tomcat startup. The location you deploy web applications to for this type of deployment is called the appBase which is specified per Host. You either 
+copy a so-called exploded web application, i.e non-compressed, to this location, or a compressed web application resource .WAR file.
+
+The web applications present in the location specified by the Host's (default Host is "localhost") appBase attribute (default appBase 
+is "$CATALINA_BASE/webapps") will be deployed on Tomcat startup only if the Host's deployOnStartup attribute is "true".
+
+The following deployment sequence will occur on Tomcat startup in that case:
+
+1. Any Context Descriptors will be deployed first.
+2. Exploded web applications not referenced by any Context Descriptor will then be deployed. If they have an associated .WAR file in the appBase and it 
+is newer than the exploded web application, the exploded directory will be removed and the webapp will be redeployed from the .WAR
+3. .WAR files will be deployed
+
+
+
+https://tomcat.apache.org/tomcat-8.5-doc/config/context.html#Defining_a_context
