@@ -280,5 +280,8 @@ formats. The equivalent in a web environment is !XmlWebApplicationContext!.
 # What is the difference between WebApplicationContext and WebServerApplicationContext?
 WebServerApplicationContext:
 
-
 # Meaning of proxyBeanMethods
+
+# What is SPI in spring?
+Service Provider Interface (SPI) is an API intended to be implemented or extended by a third party. It can be used to enable framework extension and 
+replaceable components.

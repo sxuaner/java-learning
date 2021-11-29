@@ -47,5 +47,7 @@ is newer than the exploded web application, the exploded directory will be remov
 3. .WAR files will be deployed
 
 
-
 https://tomcat.apache.org/tomcat-8.5-doc/config/context.html#Defining_a_context
+
+Apache tomcat is a web container you cannot deploy a jar in tomcat server. If you created a web application then export your application as war file 
+and put it in tomcat webapp directory, start the server and your war will be deployed.
