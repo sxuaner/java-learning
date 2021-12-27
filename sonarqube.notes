@@ -1,1 +1,2 @@
 # 1. Either re-interrupt this method or rethrow the "interruptedException" that can be caught here"
+check reference/how-to-handle-the-interruptedexception
