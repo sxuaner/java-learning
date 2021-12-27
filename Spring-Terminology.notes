@@ -285,3 +285,7 @@ WebServerApplicationContext:
 # What is SPI in spring?
 Service Provider Interface (SPI) is an API intended to be implemented or extended by a third party. It can be used to enable framework extension and 
 replaceable components.
+
+# ad hoc
+ad hoc is a Latin phrase meaning literally 'to this'. In English, it typically signifies a solution for a specific purpose, problem, or task rather 
+than a generalized solution adaptable to collateral instances.

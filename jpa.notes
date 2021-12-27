@@ -1,3 +1,7 @@
+https://docs.oracle.com/javaee/6/tutorial/doc/bnbqa.html
+
+# An entity class represents a table. An instance of which represents a row
+
 // dao: data access object
 
 // orm : object relation mapping

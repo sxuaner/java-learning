@@ -1,0 +1,10 @@
+# To convert maven pom to build.gradle
+$ gradle init
+
+# create alias for gd=gradle
+
+# add swagger
+
+# add a GET mapping
+
+# 

@@ -1,0 +1,30 @@
+What does -q do?
+Most of the examples in this user guide are run with the -q command-line option. This suppresses Gradle’s log messages, so that only the output of the 
+tasks is shown. This keeps the example output in this user guide a little clearer. You don’t need to use this option if you don’t want to. See Logging 
+for more details about the command-line options which affect Gradle’s output.
+
+
+//Difference between app dependencies and buildscript dependencies
+The repositories in the buildScript block are used to fetch the dependencies of your buildScript dependencies. These are the dependencies that are put 
+on the classpath of your build and that you can refer to from your build file. For instance extra plugins that exist on the internet.
+
+The repositories on the root level are used to fetch the dependencies that your project depends on. So all the dependencies you need to compile your project.
+
+
+//convert maven to gradle
+$gradle init
+
+// get source
+
+
+
+// 
+$gd help
+> Task :help
+Welcome to Gradle 7.3.
+To run a build, run gradle <task> ...
+To see a list of available tasks, run gradle tasks
+To see more detail about a task, run gradle help --task <task>
+To see a list of command-line options, run gradle --help
+For more detail on using Gradle, see https://docs.gradle.org/7.3/userguide/command_line_interface.html
+For troubleshooting, visit https://help.gradle.org
